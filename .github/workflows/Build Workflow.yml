@@ -3,5 +3,7 @@ on:
   workflow_dispatch
 
 jobs:
-  Call-workflow-in-local-repo:
+  Call-workflow-for-build:
     uses: ./.github/workflows/reusable-workflow.yml
+  Call-workflow-for-deploy:
+    uses: ./.github/workflows/Deploy Workflow.yml 
