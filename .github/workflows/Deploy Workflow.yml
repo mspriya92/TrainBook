@@ -1,6 +1,5 @@
 name: Deploy Workflow
 on:
-  workflow_call:
   release:
     types: [published]
   workflow_dispatch:
@@ -8,9 +7,7 @@ on:
       releaseType:
         description: 'Choose the env to deploy (Dev or Prod)?'
         required: true
-        options:
-          - 'Dev'
-          - 'Prod'
+  workflow_call:
         
 jobs:
   Deploy-Dev:
