@@ -4,13 +4,5 @@ on:
 
 jobs:
   Call-workflow-for-build:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Call Build Workflow
-        uses: ./.github/workflows/reusable-workflow.yml
-  Call-workflow-for-deploy:
-    runs-on: ubuntu-latest
-    needs: Call-workflow-for-build 
-    steps:
-      - name: Call Deploy Workflow
-        uses: ./.github/workflows/Deploy Workflow.yml
+    uses: ./.github/workflows/reusable-workflow.yml
+  
