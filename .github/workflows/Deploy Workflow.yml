@@ -8,6 +8,9 @@ on:
       releaseType:
         description: 'Choose the env to deploy (Dev or Prod)?'
         required: true
+        options:
+          - 'Dev'
+          - 'Prod'
         
 jobs:
   Deploy-Dev:
