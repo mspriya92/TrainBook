@@ -9,6 +9,7 @@ jobs:
   Call-Deploy-Dev:
     runs-on: self-hosted
     if: ${{ github.event.inputs.releaseType == 'Dev' }}
+    needs: [Call-workflow-for-build]
     steps:
       - name: Call Deploy-Dev Workflow
         uses: ./.github/workflows/Deploy-workflow.yml
