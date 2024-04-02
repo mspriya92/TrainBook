@@ -13,7 +13,7 @@ jobs:
   Deploy-Dev:
     runs-on: self-hosted
     environment: Dev
-    
+    if: ${{ github.event.inputs.releaseType == 'Dev' }}
     steps:
       - name: Download workflow artifact
         uses: dawidd6/action-download-artifact@v3
@@ -28,7 +28,7 @@ jobs:
   Deploy-Prod:
     runs-on: self-hosted
     environment: Prod
-    
+    if: ${{ github.event.inputs.releaseType == 'Prod' }}
     steps:
       - name: Printing mgs
         run: echo "Deployed in prod"
