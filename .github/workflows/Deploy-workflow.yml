@@ -1,7 +1,5 @@
 name: Deploy-workflow
 on:
-  release:
-    types: [published]
   workflow_dispatch:
     inputs:
       releaseType:
