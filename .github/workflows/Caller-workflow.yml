@@ -1,25 +1,16 @@
 name: Caller-workflow
 on:
-  workflow_dispatch:
-   
+  workflow_dispatch
+
 jobs:
   Call-workflow-for-build:
     uses: ./.github/workflows/Build-workflow.yml
     
-  Call-Deploy-Dev:
+  Call-workflow-for-Dev-deploy:
     needs: [Call-workflow-for-build]
-    environment: Dev
-    runs-on: self-hosted
-    steps:
-      - name: Call Deploy-Dev Workflow
-        uses: ./.github/workflows/Deploy-workflow.yml
-        
+    uses: ./.github/workflows/Deploy-workflow.yml 
+	
+  Call-workflow-for-Prod-deploy:
+    needs: Call-workflow-for-Dev-deploy
+    uses: ./.github/workflows/Deploy-workflow.yml 
 
-  Call-Deploy-Prod:
-    needs: [Call-workflow-for-build]
-    environment: Prod
-    runs-on: self-hosted
-    steps:
-      - name: Call Deploy-Prod Workflow
-        uses: ./.github/workflows/Deploy-workflow.yml
-        
