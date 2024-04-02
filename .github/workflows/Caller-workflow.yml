@@ -1,10 +1,10 @@
-name: Main Build Workflow
+name: Caller-workflow
 on:
   workflow_dispatch
 
 jobs:
   Call-workflow-for-build:
-    uses: ./.github/workflows/reusable-workflow.yml
+    uses: ./.github/workflows/Build-workflow.yml
 
   Call-workflow-for-deploy:
     needs: Call-workflow-for-build
