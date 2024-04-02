@@ -7,13 +7,13 @@ jobs:
     uses: ./.github/workflows/Build-workflow.yml
     
   Call-Dev-deploy-workflow:
-    needs: [Call-build-workflow]
+    
     uses: ./.github/workflows/Deploy-workflow.yml 
     with: 
       environment: Dev
       
   Call-Prod-deploy-workflow:
-    needs: [Call-build-workflow]
+    
     uses: ./.github/workflows/Deploy-workflow.yml 
     with: 
      environment: Prod
