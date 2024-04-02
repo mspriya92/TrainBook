@@ -14,9 +14,9 @@ on:
         type: string
 jobs:
   Deploy-Dev:
+    if: ${{ github.event.inputs.environment == 'Dev' }}
     runs-on: self-hosted
     environment: Dev
-    if: ${{ github.event.inputs.environment == 'Dev' }}
     steps:
       - name: Download workflow artifact
         uses: dawidd6/action-download-artifact@v3
@@ -29,9 +29,9 @@ jobs:
       - name: Deploy to Tomcat
         run: cp D:/github/*.war "C:/Program Files/Apache Software Foundation/Tomcat 10.1/webapps/"
   Deploy-Prod:
+    if: ${{ github.event.inputs.environment == 'Prod' }}
     runs-on: self-hosted
     environment: Prod
-    if: ${{ github.event.inputs.environment == 'Prod' }}
     steps:
       - name: Printing mgs
         run: echo "Deployed in prod"
