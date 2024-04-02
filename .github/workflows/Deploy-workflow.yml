@@ -12,7 +12,8 @@ on:
 jobs:
   Deploy-Dev:
     runs-on: self-hosted
-    if: ${{ github.event.inputs.releaseType == 'Dev' }}
+    
+    if: ${{ github.event.inputs.releaseType == 'Dev' && environment == 'Dev' }}
     steps:
       - name: Download workflow artifact
         uses: dawidd6/action-download-artifact@v3
