@@ -14,13 +14,13 @@ jobs:
       - name: Call Deploy-Dev Workflow
         uses: ./.github/workflows/Deploy-workflow.yml
         with:
-          releaseType: ${{ github.event.inputs.releaseType }}
+          environment: Dev
 
   Call-Deploy-Prod:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     if: ${{ github.event.inputs.releaseType == 'Prod' }}
     steps:
       - name: Call Deploy-Prod Workflow
         uses: ./.github/workflows/Deploy-workflow.yml
         with:
-          releaseType: ${{ github.event.inputs.releaseType }}
+          environment: Prod
