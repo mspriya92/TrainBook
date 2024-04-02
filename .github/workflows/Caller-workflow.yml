@@ -5,8 +5,7 @@ on:
 jobs:
   Call-workflow-for-build:
     uses: ./.github/workflows/Build-workflow.yml
-    with:
-          releaseType: ${{ github.event.inputs.releaseType }}
+    
   Call-workflow-for-deploy:
     needs: Call-workflow-for-build
     uses: ./.github/workflows/Deploy-workflow.yml 
