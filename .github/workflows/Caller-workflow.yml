@@ -5,22 +5,10 @@ on:
 jobs:
   Call-workflow-for-build:
     uses: ./.github/workflows/Build-workflow.yml
+
+  Call-workflow-for-deploy:
+    needs: Call-workflow-for-build
+    uses: ./.github/workflows/Deploy-workflow.yml
     
  
-  Call-workflow-for-deploy-Dev:
-    needs: [Call-workflow-for-build]
-    runs-on: ubuntu-latest
-    if: ${{ github.event.inputs.environment == 'Dev' }}
-    steps:
-      - uses: ./.github/workflows/Deploy-workflow.yml
-        with:
-          environment: 'Dev'
-
-  Call-workflow-for-deploy-Prod:
-    needs: [Call-workflow-for-build]
-    runs-on: ubuntu-latest
-    if: ${{ github.event.inputs.environment == 'Prod' }}
-    steps:
-      - uses: ./.github/workflows/Deploy-workflow.yml
-        with:
-          environment: 'Prod'
+  
