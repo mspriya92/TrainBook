@@ -8,19 +8,19 @@ jobs:
     
   Call-Deploy-Dev:
     runs-on: self-hosted
+    environment: Dev
     if: ${{ github.event.inputs.releaseType == 'Dev' }}
     needs: [Call-workflow-for-build]
     steps:
       - name: Call Deploy-Dev Workflow
         uses: ./.github/workflows/Deploy-workflow.yml
-        with:
-          environment: Dev
+        
 
   Call-Deploy-Prod:
     runs-on: self-hosted
+    environment: Prod
     if: ${{ github.event.inputs.releaseType == 'Prod' }}
     steps:
       - name: Call Deploy-Prod Workflow
         uses: ./.github/workflows/Deploy-workflow.yml
-        with:
-          environment: Prod
+        
