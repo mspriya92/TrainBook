@@ -1,24 +1,13 @@
 name: Caller-workflow
 on:
   workflow_dispatch:
-    inputs:
-      releaseType:
-        description: 'Choose the env to deploy (Dev or Prod)?'
-        required: true
+   
 jobs:
-  Call-Build-Workflow:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Call Build Workflow
-        uses: ./.github/workflows/Build-workflow.yml
+  Call-workflow-for-build:
+    uses: ./.github/workflows/Build-workflow.yml
     
-  Call-Deploy-Workflow:
-    runs-on: ubuntu-latest
-    needs: [Call-Build-Workflow]
-    steps:
-      - name: Call Deploy Workflow
-        uses: ./.github/workflows/Deploy-workflow.yml
-        with:
-          releaseType: ${{ github.event.inputs.releaseType }}   
+  Call-workflow-for-deploy:
+    needs: Call-workflow-for-build
+    uses: ./.github/workflows/Deploy-workflow.yml
 
  
