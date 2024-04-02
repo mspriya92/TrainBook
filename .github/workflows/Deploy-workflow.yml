@@ -25,6 +25,7 @@ jobs:
       - name: Deploy to Tomcat
         run: cp D:/github/*.war "C:/Program Files/Apache Software Foundation/Tomcat 10.1/webapps/"
   Deploy-Prod:
+    needs: Deploy-Dev
     runs-on: self-hosted
     environment: Prod
     if: ${{ github.event.inputs.releaseType == 'Prod' }}
