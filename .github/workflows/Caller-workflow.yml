@@ -1,6 +1,11 @@
 name: Caller-workflow
 on:
-  workflow_dispatch
+  workflow_dispatch:
+   inputs:
+      environment:
+        description: 'Choose the env to deploy (Dev or Prod)?'
+        required: true
+        
 
 jobs:
   Call-workflow-for-build:
@@ -11,7 +16,7 @@ jobs:
     needs: Call-workflow-for-build
     uses: ./.github/workflows/Deploy-workflow.yml
     with:
-      environment: 
+      environment: ${{ inputs.environment}}
     
  
   
