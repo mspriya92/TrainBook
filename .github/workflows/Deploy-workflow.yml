@@ -1,18 +1,10 @@
 name: Deploy-workflow
 on:
-  
-  workflow_dispatch:
-    inputs:
-      environment:
-        description: 'Choose the env to deploy (Dev or Prod)?'
-        required: true
-        type: environment
   workflow_call:
         
 jobs:
   Deploy-Dev:
     runs-on: self-hosted
-   
     if: ${{ github.event.inputs.environment == 'Dev' }}
     steps:
       - name: Download workflow artifact
@@ -27,7 +19,6 @@ jobs:
         run: cp D:/github/*.war "C:/Program Files/Apache Software Foundation/Tomcat 10.1/webapps/"
   Deploy-Prod:
     runs-on: self-hosted
-   
     if: ${{ github.event.inputs.environment == 'Prod' }}
     steps:
       - name: Printing mgs
