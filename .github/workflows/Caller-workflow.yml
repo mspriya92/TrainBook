@@ -16,7 +16,7 @@ jobs:
     needs: Call-workflow-for-build
     uses: ./.github/workflows/Deploy-workflow.yml
     with:
-      environment: ${{ inputs.environment}}
+      environment: ${{ inputs.environment }}
     
  
   
