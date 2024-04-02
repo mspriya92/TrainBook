@@ -11,6 +11,7 @@ on:
 jobs:
   Deploy-Dev:
     runs-on: self-hosted
+    environment: Dev
     if: ${{ github.event.inputs.environment == 'Dev' }}
     steps:
       - name: Download workflow artifact
@@ -25,6 +26,7 @@ jobs:
         run: cp D:/github/*.war "C:/Program Files/Apache Software Foundation/Tomcat 10.1/webapps/"
   Deploy-Prod:
     runs-on: self-hosted
+    environment: Prod
     if: ${{ github.event.inputs.environment == 'Prod' }}
     steps:
       - name: Printing mgs
