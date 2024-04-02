@@ -7,7 +7,11 @@ on:
         required: true
         type: environment
   workflow_call:
-        
+    inputs:
+      environment:
+        description: 'Choose the env to deploy (Dev or Prod)?'
+        required: true
+        type: string
 jobs:
   Deploy-Dev:
     runs-on: self-hosted
