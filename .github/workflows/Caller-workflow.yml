@@ -9,14 +9,20 @@ on:
 
 jobs:
   Call-workflow-for-build:
-    uses: ./.github/workflows/Build-workflow.yml  
+     runs-on: ubuntu-latest
+     steps:
+      - name: Call Build Workflow
+        uses: ./.github/workflows/Build-workflow.yml  
     
 
   Call-workflow-for-deploy:
-    needs: Call-workflow-for-build
-    uses: ./.github/workflows/Deploy-workflow.yml
-    with:
-      environment: ${{inputs.environment}}
+    runs-on: self-hosted
+    steps:
+      - name: Call Deploy Workflow
+        uses: ./.github/workflows/Deploy-workflow.yml
+        with:
+          environment: ${{ github.event.inputs.environment }}
+   
     
  
   
