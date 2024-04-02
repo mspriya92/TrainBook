@@ -8,7 +8,7 @@ jobs:
     
   Call-Deploy-Dev:
     needs: [Call-workflow-for-build]
-    if: ${{ github.event.inputs.releaseType == 'Dev' }}
+    environment: Dev
     runs-on: self-hosted
     steps:
       - name: Call Deploy-Dev Workflow
@@ -17,7 +17,7 @@ jobs:
 
   Call-Deploy-Prod:
     needs: [Call-workflow-for-build]
-    if: ${{ github.event.inputs.releaseType == 'Prod' }}
+    environment: Prod
     runs-on: self-hosted
     steps:
       - name: Call Deploy-Prod Workflow
