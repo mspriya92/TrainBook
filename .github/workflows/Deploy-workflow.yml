@@ -1,5 +1,11 @@
 name: Deploy-workflow
 on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Choose the env to deploy (Dev or Prod)?'
+        required: true
+        type: environment
   workflow_call:
         
 jobs:
