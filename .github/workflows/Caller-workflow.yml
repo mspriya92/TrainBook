@@ -1,6 +1,6 @@
 name: Caller-workflow
 on:
-  workflow_dispatch
+  workflow_dispatch:
 
 jobs:
   Call-workflow-for-build:
