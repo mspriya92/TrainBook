@@ -26,6 +26,7 @@ jobs:
     if: ${{ github.event.inputs.environment == 'Prod' || github.event.inputs.environment == 'Prod1' }}
     environment: Prod
     runs-on: self-hosted
+    needs: [Deploy-Dev]
     steps:
       - name: Printing mgs
         run: echo "Deployed in prod"
