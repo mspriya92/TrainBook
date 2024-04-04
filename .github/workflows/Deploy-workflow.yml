@@ -34,3 +34,17 @@ jobs:
     steps:
       - name: Printing mgs
         run: echo "Deployed in prod"
+
+ 
+  Deploy-Prod1:
+   
+    if: ${{ github.event.inputs.environment == 'Prod1' }}
+    environment: Prod1
+    needs:  [Deploy-Prod]
+    runs-on: self-hosted
+    
+    steps:
+      - name: Printing mgs
+        run: echo "Deployed in prod1"
+   
+
