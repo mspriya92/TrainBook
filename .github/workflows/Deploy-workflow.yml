@@ -29,12 +29,21 @@ jobs:
       - name: Deploy to Tomcat
         run: cp D:/github/*.war "C:/Program Files/Apache Software Foundation/Tomcat 10.1/webapps/"
 
-            
+  DevStatus-check:
+    runs-on: self-hosted
+    needs: Deploy-Dev
+    outputs:
+      success: ${{ steps.pre-check.outputs.success }}  
+    steps:
+      - name: Dev Status
+        id: pre-check
+        run: |
+             echo "success=true"           
   
   Deploy-Prod:
     needs:  Deploy-Dev
     runs-on: self-hosted
-    if: ${{ github.event.inputs.environment == 'Prod' }}
+    if: ${{ github.event.inputs.environment == 'Prod' && steps.pre-check.outputs.success == 'true'}}
     environment: Prod
     steps:
       - name: Printing mgs
