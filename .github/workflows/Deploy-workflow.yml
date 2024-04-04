@@ -15,7 +15,7 @@ on:
         type: string
 jobs:
   Deploy-Dev:
-    
+    if: ${{ github.event.inputs.environment == 'Dev' || github.event.inputs.environment == 'Prod' }}
     environment: Dev
     runs-on: self-hosted
     steps:
@@ -23,7 +23,7 @@ jobs:
         run: echo "Deployed in Dev"
 
   Deploy-Prod:
-   
+    if: ${{ github.event.inputs.environment == 'Prod' }}
     environment: Prod
     runs-on: self-hosted
     needs: [Deploy-Dev]
@@ -32,10 +32,9 @@ jobs:
         run: echo "Deployed in prod"
 
   Deploy-Prod1:
-    if: ${{ always() }}
+    if: ${{ github.event.inputs.environment == 'Prod1' }}
     environment: Prod1
     runs-on: self-hosted
-    needs: [Deploy-Prod]
     steps:
       - name: Printing mgs
         run: echo "Deployed in prod1"
