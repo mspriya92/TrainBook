@@ -32,10 +32,10 @@ jobs:
         run: echo "Deployed in prod"
 
   Deploy-Prod1:
-    if: ${{ github.event.inputs.environment == 'Prod1' }}
+    if: ${{ github.event.inputs.environment == 'Prod' || github.event.inputs.environment == 'Prod1' }}
     environment: Prod1
     runs-on: self-hosted
-    needs: [Deploy-Dev, Deploy-Prod]
+    needs: [Deploy-Prod]
     steps:
       - name: Printing mgs
         run: echo "Deployed in prod1"
