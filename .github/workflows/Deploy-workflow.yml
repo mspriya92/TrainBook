@@ -5,6 +5,7 @@ on:
       environment:
         description: 'Choose the env to deploy (Dev or Prod)?'
         required: true
+        default: Dev
         type: environment
   workflow_call:
     inputs:
@@ -14,19 +15,21 @@ on:
         type: string
 jobs:
   Deploy-Dev:
-    if: ${{ github.event.inputs.environment == 'Dev' }}
-    runs-on: self-hosted
     environment: Dev
+    runs-on: self-hosted
+    
     steps:
       - name: Printing mgs
         run: echo "Deployed in Dev"
 
         
   Deploy-Prod:
-    runs-on: self-hosted
+   
     if: ${{ github.event.inputs.environment == 'Prod' }}
     environment: Prod
     needs:  [Deploy-Dev]
+    runs-on: self-hosted
+    
     steps:
       - name: Printing mgs
         run: echo "Deployed in prod"
