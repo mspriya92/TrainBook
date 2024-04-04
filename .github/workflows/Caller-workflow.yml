@@ -18,7 +18,7 @@ jobs:
     uses: ./.github/workflows/Deploy-workflow.yml
     with:
           environment: ${{ github.event.inputs.environment }}
-   
+    if: ${{ github.event.inputs.environment == 'dev' || github.event.inputs.environment == 'prod' }}
     
  
   
