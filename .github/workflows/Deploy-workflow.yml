@@ -28,21 +28,13 @@ jobs:
           path: D:/github/
       - name: Deploy to Tomcat
         run: cp D:/github/*.war "C:/Program Files/Apache Software Foundation/Tomcat 10.1/webapps/"
-  DevStatus-check:
-    runs-on: ubuntu-latest
-    needs: Deploy-Dev
-    outputs:
-      success: ${{ steps.pre-check.outputs.success }}  
-    steps:
-      - name: Dev Status
-        id: pre-check
-        run: |
-           echo "success=true"  
+
+            
   
   Deploy-Prod:
-    needs: DevStatus-check
+    needs:  Deploy-Dev
     runs-on: self-hosted
-    if: ${{ github.event.inputs.environment == 'Prod' && needs.DevStatus-check.outputs.success == 'true' }}
+    if: ${{ github.event.inputs.environment == 'Prod' }}
     environment: Prod
     steps:
       - name: Printing mgs
