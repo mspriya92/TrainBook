@@ -26,7 +26,7 @@ jobs:
         
   Deploy-Prod:
    
-    if: ${{ github.event.inputs.environment == 'Prod' & && needs.Deploy-Dev.result == 'success' }}
+    if: ${{ github.event.inputs.environment == 'Prod' && needs.Deploy-Dev.result == 'success' }}
     environment: Prod
     #needs:  [Deploy-Dev]
     runs-on: self-hosted
