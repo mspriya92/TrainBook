@@ -18,33 +18,15 @@ jobs:
     runs-on: self-hosted
     environment: Dev
     steps:
-      - name: Download workflow artifact
-        uses: dawidd6/action-download-artifact@v3
-        with:
-          github_token: ${{secrets.GITHUB_TOKEN}}
-          workflow: Build Workflow.yml
-          repo: mspriya92/TrainBook
-          name: web-app
-          path: D:/github/
-      - name: Deploy to Tomcat
-        run: cp D:/github/*.war "C:/Program Files/Apache Software Foundation/Tomcat 10.1/webapps/"
+      - name: Printing mgs
+        run: echo "Deployed in Dev"
 
-  DevStatus-check:
-    runs-on: self-hosted
-    needs: Deploy-Dev
-    outputs:
-      success: ${{ steps.pre-check.outputs.success }}  
-    steps:
-      - name: Dev Status
-        id: pre-check
-        run: |
-             echo "success=true"           
-  
+        
   Deploy-Prod:
-    needs:  Deploy-Dev
     runs-on: self-hosted
-    if: ${{ github.event.inputs.environment == 'Prod' && steps.pre-check.outputs.success == 'true'}}
+    if: ${{ github.event.inputs.environment == 'Prod' }}
     environment: Prod
+    needs:  [Deploy-Dev]
     steps:
       - name: Printing mgs
         run: echo "Deployed in prod"
