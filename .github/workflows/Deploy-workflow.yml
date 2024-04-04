@@ -32,7 +32,7 @@ jobs:
         run: echo "Deployed in prod"
 
   Deploy-Prod1:
-    
+    if: ${{ always() }}
     environment: Prod1
     runs-on: self-hosted
     needs: [Deploy-Prod]
