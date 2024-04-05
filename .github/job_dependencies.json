@@ -1,4 +1,12 @@
 {
-  "needs-dev": ["Deploy-Dev"],
-  "needs-prod": ["Deploy-Prod"]
+  "variables": [
+    {
+      "name": "needs-dev",
+      "value": "Deploy-Dev"
+    },
+    {
+      "name": "needs-prod",
+      "value": "Deploy-Prod"
+    }
+  ]
 }
