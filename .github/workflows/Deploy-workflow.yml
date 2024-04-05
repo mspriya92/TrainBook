@@ -12,27 +12,27 @@ jobs:
     environment: Dev
     runs-on: self-hosted
     steps:
-      - name: Printing message
+      - name: Printing mgs
         run: echo "Deployed in Dev"
 
   Deploy-Prod:
-    runs-on: ubuntu-latest
-    needs: ${{fromJson(file('./needs.json')).needs_dev}}
+    runs-on: self-hosted
+    needs: ${{ matrix.needs }}
+    strategy:
+      matrix:
+        environment: ['Prod']
+        needs: ['Deploy-Dev']
     steps:
-      - name: Set Variable
-        uses: deep-mm/set-variables@v1.0
-        with:
-           job_dependencies: 'variables' # Don't write .json here
-      - name: Prod Deployment
-        run: echo "Deploying to Prod environment"
-        
+      - name: Printing mgs
+        run: echo "Deployed in prod"
+
   Deploy-Prod1:
-    runs-on: ubuntu-latest
-    needs: ${{fromJson(file('./needs.json')).needs_prod}}
+    runs-on: self-hosted
+    needs: ${{ matrix.needs }}
+    strategy:
+      matrix:
+        environment: ['Prod1']
+        needs: ['Deploy-Prod']
     steps:
-      - name: Set Variable
-        uses: deep-mm/set-variables@v1.0
-        with:
-           job_dependencies: 'variables' # Don't write .json here
-      - name: Prod1 Deployment
-        run: echo "Deploying to Prod1 environment"
+      - name: Printing mgs
+        run: echo "Deployed in prod1"
