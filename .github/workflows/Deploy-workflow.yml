@@ -10,6 +10,12 @@ on:
         type: string
 
 jobs:
+  Echo-event-name:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Printing mgs
+        run: echo github.event_name
+             echo ${{ github.event_name }}
   Deploy-Call-Dev:
     if: github.event_name == 'workflow_call' 
     environment: Dev
