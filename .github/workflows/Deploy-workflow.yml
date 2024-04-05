@@ -1,7 +1,6 @@
 name: Deploy-workflow
 on:
   workflow_dispatch:
-    
   workflow_call:
     inputs:
       environment:
@@ -10,27 +9,31 @@ on:
         type: string
 jobs:
   Deploy-Dev:
-    
-    environment: Dev
     runs-on: self-hosted
+    environment:
+      name: Dev
     steps:
       - name: Printing mgs
         run: echo "Deployed in Dev"
 
   Deploy-Prod:
-    
-    environment: Prod
     runs-on: self-hosted
-    needs: [Deploy-Dev]
+    needs: ${{ needs_dev }}
+    environment:
+      name: Prod
     steps:
       - name: Printing mgs
         run: echo "Deployed in prod"
 
   Deploy-Prod1:
-    
-    environment: Prod1
     runs-on: self-hosted
-    needs: [Deploy-Prod]
+    needs: ${{ needs_prod }}
+    environment:
+      name: Prod1
     steps:
       - name: Printing mgs
         run: echo "Deployed in prod1"
+
+env:
+  needs_dev: Deploy-Dev
+  needs_prod: Deploy-Prod
