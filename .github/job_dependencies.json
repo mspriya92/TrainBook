@@ -1,1 +1,4 @@
-
+{
+  "needs-dev": ["Deploy-Dev"],
+  "needs-prod": ["Deploy-Prod"]
+}
