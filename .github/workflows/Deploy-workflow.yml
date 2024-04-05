@@ -9,31 +9,30 @@ on:
         type: string
 jobs:
   Deploy-Dev:
-    
     environment: Dev
     runs-on: self-hosted
     steps:
-      - name: Printing mgs
+      - name: Printing message
         run: echo "Deployed in Dev"
 
   Deploy-Prod:
     runs-on: ubuntu-latest
-    needs: ${{ fromJson(needs.json).needs_dev }}
+    needs: ${{fromJson(file('./needs.json')).needs_dev}}
     steps:
       - name: Set Variable
         uses: deep-mm/set-variables@v1.0
         with:
-           job_dependencies: 'variables' #Dont write .json here
+           job_dependencies: 'variables' # Don't write .json here
       - name: Prod Deployment
         run: echo "Deploying to Prod environment"
         
   Deploy-Prod1:
     runs-on: ubuntu-latest
-    needs: ${{ fromJson(needs.json).needs_prod }}
+    needs: ${{fromJson(file('./needs.json')).needs_prod}}
     steps:
       - name: Set Variable
         uses: deep-mm/set-variables@v1.0
         with:
-           job_dependencies: 'variables' #Dont write .json here
+           job_dependencies: 'variables' # Don't write .json here
       - name: Prod1 Deployment
         run: echo "Deploying to Prod1 environment"
