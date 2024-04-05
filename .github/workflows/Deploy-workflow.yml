@@ -12,8 +12,8 @@ on:
 jobs:
   Deploy-Call-Dev:
     if: github.event_name == 'workflow_call' 
-    runs-on: self-hosted
     environment: Dev
+    runs-on: self-hosted
     steps:
       - name: Printing mgs
         run: echo "Deployed in workflowcall Dev"
