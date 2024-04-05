@@ -35,7 +35,7 @@ jobs:
       - name: Printing mgs in prod1 Branch
         run: echo "Deployed in workflowcall prod1 env"
   Deploy-Dev:
-    #if: ${{ github.event_name == 'workflow_dispatch' }}
+    if: ${{ github.event_name == 'workflow_dispatch' }}
     environment: Dev
     runs-on: self-hosted
     steps:
@@ -43,7 +43,7 @@ jobs:
         run: echo "Deployed in Dev"
 
   Deploy-Prod:
-    #if: ${{ github.event_name == 'workflow_dispatch' }}
+    if: ${{ github.event_name == 'workflow_dispatch' }}
     environment: Prod
     runs-on: self-hosted
     needs: Deploy-Dev
@@ -52,7 +52,7 @@ jobs:
         run: echo "Deployed in prod"
 
   Deploy-Prod1:
-    #if: ${{ github.event_name == 'workflow_dispatch' }}
+    if: ${{ github.event_name == 'workflow_dispatch' }}
     environment: Prod1
     runs-on: self-hosted
     needs: Deploy-Prod
