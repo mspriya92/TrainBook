@@ -8,6 +8,9 @@ on:
         description: 'Choose the env to deploy (Dev or Prod)?'
         required: true
         type: string
+      target:
+        required: true
+        type: string
 
 jobs:
   Deploy-Call-Dev:
