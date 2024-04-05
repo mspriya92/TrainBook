@@ -11,7 +11,7 @@ on:
 
 jobs:
   Deploy-Dev:
-    if: ${{ !github.event_name == 'workflow_call' }}
+    #if: ${{ github.event_name == 'workflow_dispatch' }}
     environment: Dev
     runs-on: self-hosted
     steps:
@@ -19,7 +19,7 @@ jobs:
         run: echo "Deployed in Dev"
 
   Deploy-Prod:
-    if: ${{ !github.event_name == 'workflow_call' }}
+    #if: ${{ github.event_name == 'workflow_dispatch' }}
     environment: Prod
     runs-on: self-hosted
     needs: Deploy-Dev
@@ -28,7 +28,7 @@ jobs:
         run: echo "Deployed in prod"
 
   Deploy-Prod1:
-    if: ${{ !github.event_name == 'workflow_call' }}
+    #if: ${{ github.event_name == 'workflow_dispatch' }}
     environment: Prod1
     runs-on: self-hosted
     needs: Deploy-Prod
