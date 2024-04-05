@@ -2,10 +2,10 @@ name: Caller-workflow
 on:
   workflow_dispatch:
    inputs:
-      environment:
-        description: 'Choose the env to deploy (Dev or Prod)?'
+      deploy_target:
+        description: 'Specify the deployment environment (Call-Dev or call-prod or call-prod1)?'
         required: true
-        type: environment
+        type: string
         
 
 jobs:
