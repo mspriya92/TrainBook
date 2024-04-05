@@ -18,25 +18,22 @@ jobs:
 
   Deploy-Prod:
     runs-on: ubuntu-latest
-    needs: ${{ fromJson(needs_dev) }}
+    needs: ${{ env.Deploy-Dev }}
     steps:
+      - name: Set Variable
+        uses: deep-mm/set-variables@v1.0
+        with:
+           job_dependencies: 'variables' #Dont write .json here
       - name: Prod Deployment
         run: echo "Deploying to Prod environment"
-
+        
   Deploy-Prod1:
     runs-on: ubuntu-latest
-    needs: ${{ fromJson(needs_prod) }}
+    needs: ${{ env.Deploy-Prod }}
     steps:
+      - name: Set Variable
+        uses: deep-mm/set-variables@v1.0
+        with:
+           job_dependencies: 'variables' #Dont write .json here
       - name: Prod1 Deployment
         run: echo "Deploying to Prod1 environment"
-
-  read_json:
-    runs-on: ubuntu-latest
-    outputs:
-      needs_dev: ${{ steps.parse.outputs.needs_dev }}
-      needs_prod: ${{ steps.parse.outputs.needs_prod }}
-    steps:
-      - name: Read JSON file
-        run: |
-          echo "::set-output name=needs_dev::$(cat job_dependencies.json | jq -r '.needs_dev')"
-          echo "::set-output name=needs_prod::$(cat job_dependencies.json | jq -r '.needs_prod')"
