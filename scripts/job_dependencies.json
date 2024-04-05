@@ -1,5 +1,4 @@
 {
-  "Deploy-Dev": [],
-  "Deploy-Prod": [],
-  "Deploy-Prod1": []
+  "needs-dev": ["Deploy-Dev"],
+  "needs-prod": ["Deploy-Prod"]
 }
