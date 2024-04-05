@@ -1,33 +1,25 @@
 name: Deploy-workflow
 on:
   workflow_call:
+    
      inputs:
       environment:
         description: 'Choose the env to deploy (Dev or Prod)?'
         required: true
         type: string
+  workflow_dispatch:
 
 jobs:
-  Echo-event-name:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Printing mgs
-        run: 
-            # echo github.event_name
-             echo ${{ github.event_name }}
   Deploy-Call-Dev:
-    if: github.event_name == 'workflow_call' 
+    if: ${{ github.event.inputs.environment }} == 'Dev' 
     environment: Dev
     runs-on: self-hosted
     steps:
       - name: Printing mgs
         run: echo "Deployed in workflowcall Dev"
-
-  
-
   
   Deploy-Dev:
-    if: github.event_name == 'workflow_dispatch'
+    if: github.event.name == 'workflow_dispatch'
     environment: Dev
     runs-on: self-hosted
     steps:
