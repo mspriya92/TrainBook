@@ -3,15 +3,16 @@ on:
   workflow_dispatch:
     
   workflow_call:
-    inputs:
-      environment:
-        description: 'Choose the env to deploy (Dev or Prod)?'
+     inputs:
+      # New input to control job selection
+      deploy_target:
+        description: 'Specify the deployment environment (Call-Dev or call-prod or call-prod1)?'
         required: true
         type: string
 
 jobs:
   Deploy-Call-Dev:
-    if: ${{ github.event_name == 'workflow_call' && github.event.inputs.environment == 'Dev' }}
+    if: ${{ github.event_name == 'workflow_call' && github.event.inputs.deploy_target == 'Call-Dev' }} }}
     runs-on: self-hosted
     environment: Dev
     steps:
@@ -19,7 +20,7 @@ jobs:
         run: echo "Deployed in workflowcall Dev"
 
   Deploy-Call-Prod:
-    if: ${{ github.event_name == 'workflow_call' && github.event.inputs.environment == 'Prod' }}
+    if: ${{ github.event_name == 'workflow_call' && github.event.inputs.deploy_target == 'call-prod' }} }}
     runs-on: self-hosted
     needs: Deploy-Call-Dev
     environment: Prod
@@ -28,7 +29,7 @@ jobs:
         run: echo "Deployed in workflowcall prod"
 
   Deploy-Call-Prod1:
-    if: ${{ github.event_name == 'workflow_call' && github.event.inputs.environment == 'Prod1' }}
+    if: ${{ github.event_name == 'workflow_call' && github.event.inputs.deploy_target == 'call-prod1' }} }}
     runs-on: self-hosted
     needs: Deploy-Call-Prod
     steps:
