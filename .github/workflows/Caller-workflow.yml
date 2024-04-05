@@ -14,7 +14,7 @@ jobs:
     
 
   Call-workflow-for-deploy:
-    if: ${{ github.event_name == 'workflow_call' }}
+    
     needs: Call-workflow-for-build
     uses: ./.github/workflows/Deploy-workflow.yml
     with:
