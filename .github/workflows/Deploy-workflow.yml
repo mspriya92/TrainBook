@@ -17,6 +17,7 @@ jobs:
         run: echo "Deployed in Dev"
 
   Deploy-Prod:
+    environment: Prod
     runs-on: ubuntu-latest
     needs: ${{ fromJson(needs-prod) }}
     steps:
@@ -24,6 +25,7 @@ jobs:
         run: echo "Deploying to Prod environment"
 
   Deploy-Prod1:
+    environment: Prod1
     runs-on: ubuntu-latest
     needs: ${{ fromJson(needs-prod1) }}
     steps:
