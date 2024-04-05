@@ -47,7 +47,7 @@ jobs:
   Deploy-Call-Prod:
     if: ${{ github.event_name == 'workflow_call' && github.event.inputs.environment == 'Prod' }}
     runs-on: self-hosted
-    #needs: Deploy-Call-Dev
+    needs: Deploy-Call-Dev
     environment: Prod
     steps:
       - name: Printing mgs
@@ -56,7 +56,7 @@ jobs:
   Deploy-Call-Prod1:
     if: ${{ github.event_name == 'workflow_call' && github.event.inputs.environment == 'Prod1' }}
     runs-on: self-hosted
-    #needs: Deploy-Call-Prod
+    needs: Deploy-Call-Prod
     steps:
       - name: Printing mgs in prod1 Branch
         run: echo "Deployed in workflowcall prod1 env"
