@@ -8,13 +8,10 @@ on:
         description: 'Choose the env to deploy (Dev or Prod)?'
         required: true
         type: string
-      target:
-        required: true
-        type: string
 
 jobs:
   Deploy-Call-Dev:
-    if: ${{ github.event_name == 'workflow_call' && github.event.inputs.environment == 'Dev' }}
+    if: ${{ github.event_name == 'workflow_call' }} && ${{ github.event.inputs.environment == 'Dev' }}
     runs-on: self-hosted
     environment: Dev
     steps:
@@ -37,30 +34,6 @@ jobs:
     steps:
       - name: Printing mgs in prod1 Branch
         run: echo "Deployed in workflowcall prod1 env"
-  Deploy-Dev:
-    if: ${{ github.event_name == 'workflow_dispatch' }}
-    environment: Dev
-    runs-on: self-hosted
-    steps:
-      - name: Printing mgs
-        run: echo "Deployed in Dev"
-
-  Deploy-Prod:
-    if: ${{ github.event_name == 'workflow_dispatch' }}
-    environment: Prod
-    runs-on: self-hosted
-    needs: Deploy-Dev
-    steps:
-      - name: Printing mgs
-        run: echo "Deployed in prod"
-
-  Deploy-Prod1:
-    if: ${{ github.event_name == 'workflow_dispatch' }}
-    environment: Prod1
-    runs-on: self-hosted
-    needs: Deploy-Prod
-    steps:
-      - name: Printing mgs
-        run: echo "Deployed in prod1"
+  
 
   
