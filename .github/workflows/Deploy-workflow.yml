@@ -1,63 +1,25 @@
-name: Deploy-workflow
+name: Deploy Workflow
+ 
 on:
   workflow_dispatch:
-   
-  workflow_call:
     inputs:
-      environment:
-        description: 'Choose the env to deploy (Dev or Prod)?'
-        required: true
-        type: string
-
+      trigger_job1:
+        description: 'Trigger Job 1'
+        default: true
+ 
 jobs:
   Deploy-Dev:
-    if: ${{ github.event_name == 'workflow_dispatch' }}
-    runs-on: self-hosted
-    #environment: Dev
-    steps:
-      - name: Printing mgs
-        run: echo "Deployed in Dev"
-
-  Deploy-Prod:
-    if: ${{ github.event_name == 'workflow_dispatch' }}
-    runs-on: self-hosted
-    needs: Deploy-Dev
-    #environment: Prod
-    steps:
-      - name: Printing mgs
-        run: echo "Deployed in prod"
-
-  Deploy-Prod1:
-    if: ${{ github.event_name == 'workflow_dispatch' }}
-    runs-on: self-hosted
-    needs: Deploy-Prod
-    #environment: Prod1
-    steps:
-      - name: Printing mgs
-        run: echo "Deployed in prod1"
-
-  Deploy-Call-Dev:
-    if: ${{ github.event_name == 'workflow_call' && github.event.inputs.environment == 'Dev' }}
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     environment: Dev
+    if: ${{ github.event.inputs.trigger_job1 == 'true' }}
     steps:
-      - name: Printing mgs
-        run: echo "Deployed in workflowcall Dev"
-
-  Deploy-Call-Prod:
-    if: ${{ github.event_name == 'workflow_call' && github.event.inputs.environment == 'Prod' }}
-    runs-on: self-hosted
-    needs: Deploy-Call-Dev
-    environment: Prod
+      - name: Job 1
+        run: echo "Running Job 1 for dev environment"
+ 
+  Deploy-Caller-Dev:
+    runs-on: ubuntu-latest
+    environment: Dev
+    if: ${{ github.event.inputs.trigger_job1 !='true' }}
     steps:
-      - name: Printing mgs
-        run: echo "Deployed in workflowcall prod"
-
-  Deploy-Call-Prod1:
-    if: ${{ github.event_name == 'workflow_call' && github.event.inputs.environment == 'Prod1' }}
-    runs-on: self-hosted
-    needs: Deploy-Call-Prod
-    environment: Prod1
-    steps:
-      - name: Printing mgs in prod1 Branch
-        run: echo "Deployed in workflowcall prod1 env"
+      - name: Job 2
+        run: echo "Running Job 2 for caller-dev environment"
