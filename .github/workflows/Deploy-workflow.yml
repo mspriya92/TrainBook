@@ -11,6 +11,11 @@ on:
       trigger_job1:
         default: false
         type: boolean
+    
+      environment:
+        description: 'Choose the env to deploy (Dev or Prod)?'
+        required: true
+        type: string
        
 jobs:
   Deploy-Dev:
