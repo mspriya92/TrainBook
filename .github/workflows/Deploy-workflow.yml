@@ -1,7 +1,7 @@
 name: Deploy-workflow
 on:
   workflow_dispatch:
-    
+   
   workflow_call:
     inputs:
       environment:
@@ -11,27 +11,27 @@ on:
 
 jobs:
   Deploy-Dev:
-    if: ${{ github.event_name == 'workflow_dispatch' }}
-    environment: Dev
+    if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.environment == 'Dev' }}
     runs-on: self-hosted
+    environment: Dev
     steps:
       - name: Printing mgs
         run: echo "Deployed in Dev"
 
   Deploy-Prod:
-    if: ${{ github.event_name == 'workflow_dispatch' }}
-    environment: Prod
+    if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.environment == 'Prod' }}
     runs-on: self-hosted
     needs: Deploy-Dev
+    environment: Prod
     steps:
       - name: Printing mgs
         run: echo "Deployed in prod"
 
   Deploy-Prod1:
-    if: ${{ github.event_name == 'workflow_dispatch' }}
-    environment: Prod1
+    if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.environment == 'Prod1' }}
     runs-on: self-hosted
     needs: Deploy-Prod
+    environment: Prod1
     steps:
       - name: Printing mgs
         run: echo "Deployed in prod1"
@@ -57,6 +57,7 @@ jobs:
     if: ${{ github.event_name == 'workflow_call' && github.event.inputs.environment == 'Prod1' }}
     runs-on: self-hosted
     needs: Deploy-Call-Prod
+    environment: Prod1
     steps:
       - name: Printing mgs in prod1 Branch
         run: echo "Deployed in workflowcall prod1 env"
