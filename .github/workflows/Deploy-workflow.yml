@@ -37,7 +37,7 @@ jobs:
   Deploy-Caller-Dev:
     runs-on: ubuntu-latest
     environment: Dev
-    if: ${{ github.event.inputs.trigger_job1 !='true' }}
+    if: ${{ github.event.inputs.trigger_job1 !='true'  && github.event.inputs.environment == 'Dev' }}
     steps:
       - name: Job 2
         run: echo "Running Job 2 for caller-dev environment"
@@ -45,7 +45,7 @@ jobs:
   Deploy-Caller-Prod:
     runs-on: ubuntu-latest
     environment: Prod
-    if: ${{ github.event.inputs.trigger_job1 !='true' }}
+    if: ${{ github.event.inputs.trigger_job1 !='true' && github.event.inputs.environment == 'Prod' }}
     steps:
       - name: Job 2
         run: echo "Running Job 2 for caller-Prod environment"
