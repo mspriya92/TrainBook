@@ -6,7 +6,12 @@ on:
       trigger_job1:
         description: 'Trigger Job 1'
         default: true
- 
+  workflow_call:
+    inputs:
+      trigger_job1:
+        default: false
+        type: boolean
+       
 jobs:
   Deploy-Dev:
     runs-on: ubuntu-latest
