@@ -11,27 +11,27 @@ on:
 
 jobs:
   Deploy-Dev:
-    if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.environment == 'Dev' }}
+    if: ${{ github.event_name == 'workflow_dispatch' }}
     runs-on: self-hosted
-    environment: Dev
+    #environment: Dev
     steps:
       - name: Printing mgs
         run: echo "Deployed in Dev"
 
   Deploy-Prod:
-    if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.environment == 'Prod' }}
+    if: ${{ github.event_name == 'workflow_dispatch' }}
     runs-on: self-hosted
     needs: Deploy-Dev
-    environment: Prod
+    #environment: Prod
     steps:
       - name: Printing mgs
         run: echo "Deployed in prod"
 
   Deploy-Prod1:
-    if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.environment == 'Prod1' }}
+    if: ${{ github.event_name == 'workflow_dispatch' }}
     runs-on: self-hosted
     needs: Deploy-Prod
-    environment: Prod1
+    #environment: Prod1
     steps:
       - name: Printing mgs
         run: echo "Deployed in prod1"
