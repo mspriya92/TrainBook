@@ -4,14 +4,15 @@ on:
   workflow_dispatch:
     inputs:
       trigger_job1:
-        description: 'Trigger Job 1'
+     #   description: 'Trigger Job 1'
         default: true
+        
   workflow_call:
     inputs:
       trigger_job1:
         default: false
         type: boolean
-    
+   
       environment:
         description: 'Choose the env to deploy (Dev or Prod)?'
         required: true
