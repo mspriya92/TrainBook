@@ -1,43 +1,62 @@
 name: Deploy-workflow
 on:
-  workflow_call:
+  workflow_dispatch:
     
-     inputs:
+  workflow_call:
+    inputs:
       environment:
         description: 'Choose the env to deploy (Dev or Prod)?'
         required: true
         type: string
-  workflow_dispatch:
 
 jobs:
-  Deploy-Call-Dev:
-    if: ${{ github.event.inputs.environment }} == 'Dev' 
-    environment: Dev
-    runs-on: self-hosted
-    steps:
-      - name: Printing mgs
-        run: echo "Deployed in workflowcall Dev"
-  Deploy-Call-Prod:
-    if: ${{ github.event.inputs.environment }} == 'Prod' 
-    environment: Prod
-    runs-on: self-hosted
-    steps:
-      - name: Printing mgs
-        run: echo "Deployed in workflowcall Prod"
-  
   Deploy-Dev:
-    if: github.event.name == 'workflow_dispatch'
+    if: ${{ github.event_name == 'workflow_dispatch' }}
     environment: Dev
     runs-on: self-hosted
     steps:
       - name: Printing mgs
         run: echo "Deployed in Dev"
+
   Deploy-Prod:
-    if: github.event.name == 'workflow_dispatch'
+    if: ${{ github.event_name == 'workflow_dispatch' }}
     environment: Prod
     runs-on: self-hosted
+    needs: Deploy-Dev
     steps:
       - name: Printing mgs
-        run: echo "Deployed in Prod"
+        run: echo "Deployed in prod"
 
-  
+  Deploy-Prod1:
+    if: ${{ github.event_name == 'workflow_dispatch' }}
+    environment: Prod1
+    runs-on: self-hosted
+    needs: Deploy-Prod
+    steps:
+      - name: Printing mgs
+        run: echo "Deployed in prod1"
+
+  Deploy-Call-Dev:
+    if: ${{ github.event_name == 'workflow_call' && github.event.inputs.environment == 'Dev' }}
+    runs-on: self-hosted
+    environment: Dev
+    steps:
+      - name: Printing mgs
+        run: echo "Deployed in workflowcall Dev"
+
+  Deploy-Call-Prod:
+    if: ${{ github.event_name == 'workflow_call' && github.event.inputs.environment == 'Prod' }}
+    runs-on: self-hosted
+    needs: Deploy-Call-Dev
+    environment: Prod
+    steps:
+      - name: Printing mgs
+        run: echo "Deployed in workflowcall prod"
+
+  Deploy-Call-Prod1:
+    if: ${{ github.event_name == 'workflow_call' && github.event.inputs.environment == 'Prod1' }}
+    runs-on: self-hosted
+    needs: Deploy-Call-Prod
+    steps:
+      - name: Printing mgs in prod1 Branch
+        run: echo "Deployed in workflowcall prod1 env"
