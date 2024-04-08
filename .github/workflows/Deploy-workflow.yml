@@ -6,6 +6,8 @@ on:
      trigger_job1:
        description: 'Trigger Job 1'
        default: true
+       type: boolean
+       required: true
         
   workflow_call:
     inputs:
