@@ -19,6 +19,11 @@ on:
         description: 'Choose the env to deploy (Dev or Prod)?'
         required: true
         type: string
+      
+      skip_needs:
+        description: 'Skip Step 2'
+        required: false
+        type: string
 
 jobs:
   Deploy-Dev:
