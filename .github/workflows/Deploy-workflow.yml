@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest  
     steps:
       - name: Select Environment (required)
-        uses: actions/input@v3
+        #uses: actions/input@v3
         with:
           required: true
           default: 'dev'  # Default environment if not provided
