@@ -11,44 +11,11 @@ on:
         type: string
 
 jobs:
-  Deploy-Dev:
+  Deploy:
     runs-on: ubuntu-latest
     environment: Dev
     if: ${{ github.event.inputs.environment == '' }}
     steps:
       - name: Job 1
-        run: echo "Running Job 1 for dev environment"
-  Deploy-Prod:
-    runs-on: ubuntu-latest
-    needs: Deploy-Dev
-    environment: Prod
-    #if: ${{ github.event.inputs.trigger_job1 == 'true' }}
-    steps:
-      - name: Job 1
-        run: echo "Running Job 1 for Prod environment"
- 
-  Deploy-Caller-Dev:
-    runs-on: ubuntu-latest
-    environment: Dev
-    if: ${{ github.event.inputs.environment == 'Dev' }}
-    steps:
-      - name: Job 2
-        run: echo "Running Job 2 for caller-dev environment"
-
-  Deploy-Caller-Prod:
-    runs-on: ubuntu-latest
-    environment: Prod
-    if: ${{ github.event.inputs.environment == 'Prod' }}
-    steps:
-      - name: Job 2
-        run: echo "Running Job 2 for caller-Prod environment"
-  Deploy-Caller-Prod1:
-    runs-on: ubuntu-latest
-    needs: Deploy-Caller-Prod
-    environment: Prod
-   # if: ${{ github.event.inputs.trigger_job1 != 'true' }}
-    steps:
-      - name: Job 2
-        run: echo "Running Job 2 for caller-Prod environment"
+        run: echo "Running Job 1 for ${{ github.event.inputs.environment }} environment"
   
-    
