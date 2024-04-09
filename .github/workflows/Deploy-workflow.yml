@@ -23,7 +23,7 @@ jobs:
           cp .github/job_dependencies.json job_dependencies/  # Copy the job_dependencies.json file to the created directory
       - name: Listing the directory
         run: ls -R 
-        working-directory: job_dependencies/
+
   Deploy:
     runs-on: ubuntu-latest
     environment: ${{ github.event.inputs.environment }}
