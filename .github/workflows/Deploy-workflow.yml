@@ -19,6 +19,9 @@ jobs:
     steps:
       - name: Job 1
         run: echo "Running Job 1 for dev environment"
+      - name: Modified Job 1
+        if: ${{ github.event.inputs.trigger_job1 != 'true' }}
+        run: echo "Running modified Job 1 for dev environment"
         
   Deploy_Prod:
     #if: ${{ success() && github.event.inputs.environment == 'Prod' }}
