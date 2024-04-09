@@ -8,6 +8,7 @@ on:
        default: true
        type: boolean
        required: true
+     
         
   workflow_call:
     inputs:
@@ -30,7 +31,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Job 1
-        run: echo ${{ github.event.environment }}
+        run: echo ${{ github.event.inputs.environment }}
   Deploy-Dev:
     runs-on: ubuntu-latest
     environment: Dev
