@@ -13,7 +13,7 @@ on:
 
 jobs:
   Deploy_Dev:
-    if: ${{ github.event.inputs.environment == 'Dev' }}
+    #if: ${{ github.event.inputs.environment == 'Dev' }}
     runs-on: ubuntu-latest
     environment: Dev
     steps:
@@ -21,7 +21,7 @@ jobs:
         run: echo "Running Job 1 for dev environment"
 
   Deploy_Prod:
-    if: ${{ success() && github.event.inputs.environment == 'Prod' }}
+    #if: ${{ success() && github.event.inputs.environment == 'Prod' }}
     needs: Deploy_Dev
     runs-on: ubuntu-latest
     environment: Prod
@@ -30,7 +30,7 @@ jobs:
         run: echo "Running Job 1 for Prod environment"
 
   Deploy_Prod1:
-    if: ${{ success() && github.event.inputs.environment == 'Prod' }}
+    #if: ${{ success() && github.event.inputs.environment == 'Prod' }}
     needs: Deploy_Prod
     runs-on: ubuntu-latest
     environment: Prod1
