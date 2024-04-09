@@ -17,16 +17,18 @@ jobs:
       - name: Job 1
         run: echo ${{ github.event.inputs.environment }}
   Environment-Deploy:
-    if: ${{ github.event.inputs.environment == '' }}
+    
     runs-on: ubuntu-latest
+    if: ${{ github.event.inputs.environment == '' }}
   #  environment: ${{ github.event.inputs.environment }}
    
     steps:
       - name: Job 1
         run: echo "Running Job 1 for null environment"
   Environment-Deploy-new:
-    if: ${{ github.event.inputs.environment == '' }}
+    
     runs-on: ubuntu-latest
+    if: ${{ github.event.inputs.environment == '' }}
     needs: Environment-Deploy
   #  environment: ${{ github.event.inputs.environment }}
    
