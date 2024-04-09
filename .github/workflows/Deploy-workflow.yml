@@ -18,16 +18,8 @@ jobs:
     environment: Dev
     steps:
       - name: Job 1
-        run: |
-        if [ ${{ github.event_name }} == 'pull_request' ]; then
-          echo "This is a pull request event"
-        elif [ ${{ github.event_name }} == 'push' ]; then
-          echo "This is a push event"
-        else
-          echo "This is an unknown event"
-        fi
         run: echo "Running Job 1 for dev environment"
-
+        
   Deploy_Prod:
     #if: ${{ success() && github.event.inputs.environment == 'Prod' }}
     needs: Deploy_Dev
