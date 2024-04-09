@@ -11,6 +11,19 @@ on:
         type: string
 
 jobs:
+  copy_files:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2  # This step checks out your repository, including the .github folder
+
+      - name: Copy Job Dependencies
+        run: |
+          mkdir -p job_dependencies  # Create a directory to store the copied file
+          cp .github/job_dependencies.json job_dependencies/  # Copy the job_dependencies.json file to the created directory
+      #- name: Listing the directory
+        #run : ls -R 
+        #working-directory: /home/runner/work/TicketReservation/TicketReservation/staging
   Deploy:
     runs-on: ubuntu-latest
     environment: ${{ github.event.inputs.environment }}
