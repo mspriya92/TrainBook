@@ -17,6 +17,7 @@ jobs:
     uses: ./.github/workflows/Deploy-workflow.yml
     with:
           environment: ${{ github.event.inputs.environment }}
+          skip_needs: 'true'
     
  
   
