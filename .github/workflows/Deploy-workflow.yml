@@ -26,6 +26,11 @@ on:
         type: string
 
 jobs:
+  Environment-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Job 1
+        run: echo ${{ github.event.environment }}
   Deploy-Dev:
     runs-on: ubuntu-latest
     environment: Dev
