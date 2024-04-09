@@ -23,6 +23,6 @@ jobs:
  
       - name: Deploy to QA environment (waits for DEV completion)
         if: ${{ github.event.inputs.environment == 'qa' }}
-        needs: Deploy to DEV environment  # Job dependency to ensure DEV completes first
+    #needs: Deploy to DEV environment  # Job dependency to ensure DEV completes first
         run: echo "Deploying to QA..."  # Replace with actual deployment commands
         shell: bash
