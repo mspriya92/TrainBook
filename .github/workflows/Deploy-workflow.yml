@@ -12,25 +12,28 @@ on:
         type: string
 
 jobs:
-  deploy_Dev:
+  Deploy_Dev:
     if: ${{ github.event.inputs.environment == 'Dev' }}
     runs-on: ubuntu-latest
+    environment: Dev
     steps:
       - name: Job 1
         run: echo "Running Job 1 for dev environment"
 
-  Deploy_prod:
+  Deploy_Prod:
     if: ${{ success() && github.event.inputs.environment == 'Prod' }}
-    needs: deploy_Dev
+    needs: Deploy_Dev
     runs-on: ubuntu-latest
+    environment: Prod
     steps:
       - name: Job 1
         run: echo "Running Job 1 for Prod environment"
 
-  deploy_Prod1:
+  Deploy_Prod1:
     if: ${{ success() && github.event.inputs.environment == 'Prod' }}
-    needs: Deploy_prod
+    needs: Deploy_Prod
     runs-on: ubuntu-latest
+    environment: Prod1
     steps:
       - name: Job 1
         run: echo "Running Job 1 for Prod1 environment"
