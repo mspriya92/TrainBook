@@ -1,64 +1,38 @@
-name: Deploy Workflow
- 
+
+name: Conditional Workflow Execution
+
 on:
   workflow_dispatch:
-    inputs:
-     trigger_job1:
-       description: 'Trigger Job 1'
-       default: true
-       type: boolean
-       required: true
-        
+    
   workflow_call:
     inputs:
-  #    trigger_job1:
-  #      default: false
-  #      type: boolean
-   
       environment:
         description: 'Choose the env to deploy (Dev or Prod)?'
         required: true
         type: string
 
 jobs:
-  Deploy-Dev:
+  deploy_Dev:
+    if: ${{ github.event.inputs.environment == 'Dev' }}
     runs-on: ubuntu-latest
-    environment: Dev
-    if: ${{ github.event.inputs.trigger_job1 == 'true' }}
     steps:
       - name: Job 1
         run: echo "Running Job 1 for dev environment"
-  Deploy-Prod:
+
+  Deploy_prod:
+    if: ${{ success() && github.event.inputs.environment == 'Prod' }}
+    needs: deploy_Dev
     runs-on: ubuntu-latest
-    needs: Deploy-Dev
-    environment: Prod
-    #if: ${{ github.event.inputs.trigger_job1 == 'true' }}
     steps:
       - name: Job 1
         run: echo "Running Job 1 for Prod environment"
- 
-  Deploy-Caller-Dev:
-    runs-on: ubuntu-latest
-    environment: Dev
-    if: ${{ github.event.inputs.trigger_job1 != 'true' && github.event.inputs.environment == 'Dev' }}
-    steps:
-      - name: Job 2
-        run: echo "Running Job 2 for caller-dev environment"
 
-  Deploy-Caller-Prod:
+  deploy_Prod1:
+    if: ${{ success() && github.event.inputs.environment == 'Prod' }}
+    needs: Deploy_prod
     runs-on: ubuntu-latest
-    environment: Prod
-    if: ${{ github.event.inputs.trigger_job1 != 'true' && github.event.inputs.environment == 'Prod' }}
     steps:
-      - name: Job 2
-        run: echo "Running Job 2 for caller-Prod environment"
-  Deploy-Caller-Prod1:
-    runs-on: ubuntu-latest
-    needs: Deploy-Caller-Prod
-    environment: Prod
-    if: ${{ github.event.inputs.trigger_job1 != 'true' }}
-    steps:
-      - name: Job 2
-        run: echo "Running Job 2 for caller-Prod environment"
-  
-    
+      - name: Job 1
+        run: echo "Running Job 1 for Prod1 environment"
+
+
