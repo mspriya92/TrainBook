@@ -8,12 +8,12 @@ on:
         type: environment
         
 jobs:
-  Call-workflow-for-build:
-    uses: ./.github/workflows/Build-workflow.yml
+  #Call-workflow-for-build:
+    #uses: ./.github/workflows/Build-workflow.yml
     
   Call-workflow-for-deploy:
     
-    needs: Call-workflow-for-build
+    #needs: Call-workflow-for-build
     uses: ./.github/workflows/Deploy-workflow.yml
     with:
           environment: ${{ github.event.inputs.environment }}
