@@ -36,7 +36,7 @@ jobs:
           # set -eux
           # DATA=$(jq -c '. | map(split("/")[0]) | unique' < ./job_dependencies.json)
           # echo "matrix=$DATA" >> "$GITHUB_OUTPUT"
-          echo "env=$(perl -pe 's/\s+//g' 'job_dependencies/job_dependencies.json')" >> "$GITHUB_OUTPUT"
+          echo "env=$(perl -pe 's/\s+//g' './job_dependencies/job_dependencies.json')" >> "$GITHUB_OUTPUT"
           echo "$GITHUB_OUTPUT"
 
   
