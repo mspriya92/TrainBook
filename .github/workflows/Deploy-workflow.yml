@@ -5,27 +5,38 @@ on:
     
 
 jobs:
-  builder:
+  copy_files:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2  
+ 
+      - name: Copy Job Dependencies
+        run: |
+          mkdir -p job_dependencies  
+          cp .github/job_dependencies.json job_dependencies/  
+      - name: Listing the directory
+        run: ls -R 
+      - name: List Job Dependencies
+        run: |
+           cat job_dependencies/job_dependencies.json
+  configure:
     runs-on: ubuntu-latest
     outputs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
     steps:
+      - name: Checkout to repository
+        uses: actions/checkout@v3
       - name: Set matrix data
         id: set-matrix
         run: |
-          echo "::set-output name=matrix::$(echo '${{ toJson(matrix.cfg) }}' | tr -d ' ')"
-   
-  runner:
-    needs: builder
+          echo "::set-output name=matrix::$(jq -c '.include' < ./job_dependencies.json)"
+
+  print:
     runs-on: ubuntu-latest
+    needs: configure
     strategy:
       matrix:
-        server: ${{fromJson(needs.builder.outputs.matrix)}}
-        client: ${{fromJson(needs.builder.outputs.matrix)}}
+        name: ${{fromJson(needs.configure.outputs.matrix)}}
     steps:
-      - name: Download Binary
-        run: |
-          # Add the command to download the binary
-      - name: Run Server Against Client
-        run: |
-          # Add the command to run the server against the client
+      - run: echo ${{ matrix.name }}
