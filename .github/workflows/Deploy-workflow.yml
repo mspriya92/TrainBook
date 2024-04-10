@@ -23,7 +23,7 @@ jobs:
       - name: Set matrix data
         id: set-matrix
         run: |
-          DATA=$(jq -c '.[] | .env' < job_dependencies/job_dependencies.json)
+          DATA=$(jq -r '.[] | .env' < job_dependencies/job_dependencies.json)
           echo "env=$DATA" >> $GITHUB_ENV
 
   print:
