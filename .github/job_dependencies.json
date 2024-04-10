@@ -1,4 +1,10 @@
 {
-  "needs-prod": ["Deploy-Dev"],
-  "needs-prod1": ["Deploy-Prod"]
+    "include": [
+    {
+        "name": "Mario"
+    },
+    {
+        "name": "Luigi"
+    }
+    ]
 }
