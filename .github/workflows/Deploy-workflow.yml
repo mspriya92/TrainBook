@@ -39,15 +39,11 @@ jobs:
        run: |
      - name: List Job Dependencies from configure
        run: |
-           environment=$(jq -r '.environment' config.json)
-           apiUrl=$(jq -r '.apiUrl' config.json)
-           #echo "matrix=$(jq -c . < ./job_dependencies/job_dependencies.json)" >> $GITHUB_OUTPUT
-           #cat job_dependencies/job_dependencies.json
-           #echo "$GITHUB_OUTPUT"
-            env:
-              ENVIRONMENT: ${{ fromJson(environment) }}
-              API_URL: ${{ fromJson(apiUrl) }}
-              echo "ENVIRONMENT (using single fromJson): ${{ fromJson(environment) }}"
+           
+           echo "matrix=$(jq -c . < ./job_dependencies/job_dependencies.json)" >> $GITHUB_OUTPUT
+           cat job_dependencies/job_dependencies.json
+           echo "$GITHUB_OUTPUT"
+            
               
   print:
     runs-on: ubuntu-latest
