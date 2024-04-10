@@ -22,19 +22,21 @@ jobs:
            cat job_dependencies/job_dependencies.json
   configure:
     runs-on: ubuntu-latest
+    env:
+      clientfile: "./job_dependencies/job_dependencies.json"
     outputs:
-      matrix: ${{ steps.set-matrix.outputs.matrix }}
+      env: ${{ steps.set-matrix.outputs.matrix }}
     steps:
-      - name: Checkout to repository
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3  
       - name: Set matrix data
         id: set-matrix
         run: |
-          #echo "MATRIX=$(jq -c '.include' < ./job_dependencies.json)" >> $GITHUB_ENV
-          set -eux
-          DATA=$(jq -c '. | map(split("/")[0]) | unique' < ./job_dependencies.json)
-          echo "matrix=$DATA" >> "$GITHUB_OUTPUT"
-
+          # echo "MATRIX=$(jq -c '.include' < ./job_dependencies.json)" >> $GITHUB_ENV
+          # set -eux
+          # DATA=$(jq -c '. | map(split("/")[0]) | unique' < ./job_dependencies.json)
+          # echo "matrix=$DATA" >> "$GITHUB_OUTPUT"
+          echo "env=$(perl -pe 's/\s+//g' './job_dependencies/job_dependencies.json')" >> "$GITHUB_OUTPUT"
+          echo "$GITHUB_OUTPUT"
 
   
 
@@ -43,6 +45,6 @@ jobs:
     needs: configure
     strategy:
       matrix:
-        name: ${{fromJson(needs.configure.outputs.matrix)}}
+        env: ${{fromJson(needs.configure.outputs.env)}}
     steps:
-      - run: echo ${{ matrix.name }}
+      - run: echo ${{ matrix.env.env }}
