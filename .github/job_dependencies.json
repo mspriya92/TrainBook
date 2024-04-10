@@ -2,8 +2,7 @@
     "include": [
     {
         "name": "Mario"
-        "environment": "staging",
-        "apiUrl": "https://api.example.com/v1"
+       
     },
     {
         "name": "Luigi"
