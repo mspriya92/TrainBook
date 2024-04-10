@@ -39,7 +39,7 @@ jobs:
      - name: List Job Dependencies from configure
        run: |
            cat job_dependencies/job_dependencies.json
-           echo "matrix=$(jq -c . < ./job_dependencies.json)" >> $GITHUB_OUTPUT
+           echo "matrix=$(jq -c . < ./job_dependencies/job_dependencies.json)" >> $GITHUB_OUTPUT
            echo "$GITHUB_OUTPUT"
               
   print:
