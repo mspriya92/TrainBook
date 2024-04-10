@@ -1,9 +1,7 @@
 name: Deploy Workflow
- 
+
 on:
   workflow_dispatch:
-        
-  workflow_call:
     inputs:
       environment:
         description: 'Choose the env to deploy (Dev or Prod)?'
@@ -11,50 +9,27 @@ on:
         type: string
 
 jobs:
-  copy_files:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v2  # This step checks out your repository, including the .github folder
- 
-      - name: Copy Job Dependencies
-        run: |
-          mkdir -p job_dependencies  # Create a directory to store the copied file
-          cp .github/job_dependencies.json job_dependencies/  # Copy the job_dependencies.json file to the created directory
-      - name: Listing the directory
-        run: ls -R 
-      - name: List Job Dependencies
-        run: |
-           cat job_dependencies/job_dependencies.json
-  configure:
+  builder:
     runs-on: ubuntu-latest
     outputs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
     steps:
-     - name: Checkout to repository
-       uses: actions/checkout@v3
-     - name: Set matrix data
-       id: set-matrix
-       run: |
-         echo "matrix=$(jq -c . < job_dependencies/job_dependencies.json)" >> ${{ github.action_workspace }}/GITHUB_OUTPUT
-         cat ${{ github.action_workspace }}/GITHUB_OUTPUT
-  print:
+      - name: Set matrix data
+        id: set-matrix
+        run: |
+          echo "::set-output name=matrix::$(echo '${{ toJson(matrix.cfg) }}' | tr -d ' ')"
+   
+  runner:
+    needs: builder
     runs-on: ubuntu-latest
-    needs: configure
     strategy:
-      matrix: ${{ fromJson(needs.configure.outputs.matrix) }}
+      matrix:
+        server: ${{fromJson(needs.builder.outputs.matrix)}}
+        client: ${{fromJson(needs.builder.outputs.matrix)}}
     steps:
-     - run: echo ${{ matrix.name }}
-  Deploy:
-    runs-on: ubuntu-latest
-    environment: ${{ github.event.inputs.environment }}
-    if: ${{ github.event.inputs.environment == ' ' }}
-    steps:
-      - name: Job 1
-        run: echo "Running Job 1 for ${{ github.event.inputs.environment }} environment"
-      
- 
-  
-      
-  
- 
+      - name: Download Binary
+        run: |
+          # Add the command to download the binary
+      - name: Run Server Against Client
+        run: |
+          # Add the command to run the server against the client
