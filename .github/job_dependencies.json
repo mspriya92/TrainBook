@@ -1,3 +1,8 @@
-{
-        "env": Mario
-}
+[
+        {
+                "env":"Mario"
+        },
+        {
+                "env":"Divya"
+        }
+]
