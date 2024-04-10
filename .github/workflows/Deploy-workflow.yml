@@ -22,6 +22,7 @@ jobs:
            cat job_dependencies/job_dependencies.json
   configure:
     runs-on: ubuntu-latest
+    needs: copy_files
     env:
       clientfile: "./job_dependencies/job_dependencies.json"
     outputs:
