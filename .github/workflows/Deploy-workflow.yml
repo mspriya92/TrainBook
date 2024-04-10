@@ -30,7 +30,7 @@ jobs:
       - name: Set matrix data
         id: set-matrix
         run: |
-          echo "::set-output name=matrix::$(jq -c '.include' < ./job_dependencies.json)"
+          echo "MATRIX=$(jq -c '.include' < ./job_dependencies.json)" >> $GITHUB_ENV
 
   print:
     runs-on: ubuntu-latest
