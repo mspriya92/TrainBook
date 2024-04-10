@@ -27,7 +27,7 @@ jobs:
   Deploy:
     runs-on: ubuntu-latest
     environment: ${{ github.event.inputs.environment }}
-    if: ${{ github.event.inputs.environment == '' }}
+    if: ${{ github.event.inputs.environment == '${{ github.event.inputs.environment }}' }}
     steps:
       - name: Job 1
         run: echo "Running Job 1 for environment"
