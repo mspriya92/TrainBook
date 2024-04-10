@@ -15,19 +15,19 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3  
  
-      - name: Copy Job Dependencies
-        run: |
-          mkdir -p job_dependencies  
-          cp .github/job_dependencies.json job_dependencies/  
-      - name: Listing the directory
-        run: ls -R 
-      - name: List Job Dependencies
-        run: |
-           cat job_dependencies/job_dependencies.json
+      #- name: Copy Job Dependencies
+        #run: |
+          #mkdir -p job_dependencies  
+          #cp .github/job_dependencies.json job_dependencies/  
+      #- name: Listing the directory
+       # run: ls -R 
+     # - name: List Job Dependencies
+      #  run: |
+       #    cat job_dependencies/job_dependencies.json
       - name: Set matrix data
         id: set-matrix
         run: |
-          echo "env=$(perl -pe 's/\s+//g' './job_dependencies/job_dependencies.json')" >> "$GITHUB_OUTPUT"
+          echo "env=$(perl -pe 's/\s+//g' './job_dependencies.json')" >> "$GITHUB_OUTPUT"
           echo "$GITHUB_OUTPUT"
   
   print:
