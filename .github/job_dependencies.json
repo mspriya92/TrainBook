@@ -1,3 +1,10 @@
 {
-  "build_version": "v1.0.0"
+    "include": [
+    {
+        "name": "Mario"
+    },
+    {
+        "name": "Luigi"
+    }
+    ]
 }
