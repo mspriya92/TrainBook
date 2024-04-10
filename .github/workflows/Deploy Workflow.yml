@@ -1,25 +1,43 @@
 name: Deploy Workflow
 on:
-  release:
-    types: [published]
+  
   workflow_dispatch:
     inputs:
-      releaseType:
+      environment:
         description: 'Choose the env to deploy (Dev or Prod)?'
         required: true
         
 jobs:
-  Deploy-Dev:
-    runs-on: self-hosted
-    environment: dev
+  matrix:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
     steps:
-      - name: Download workflow artifact
-        uses: dawidd6/action-download-artifact@v3
-        with:
-          github_token: ${{secrets.GITHUB_TOKEN}}
-          workflow: Build Workflow.yml
-          repo: mspriya92/TrainBook
-          name: web-app
-          path: D:/github/
-      - name: Deploy to Tomcat
-        run: cp D:/github/*.war "C:/Program Files/Apache Software Foundation/Tomcat 10.1/webapps/"
+      - name: Checkout to repository
+        uses: actions/checkout@v3
+      - name: Set matrix data
+        id: set-matrix
+        run: |
+          TASKS=$(echo $(cat .github/workflows/matrix.json) | sed 's/ //g' )
+          echo "::set-output name=matrix::$TASKS"
+  builder:
+    needs: matrix
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        cfg: ${{fromJson(needs.matrix.outputs.matrix)}}
+    steps:
+      - name: Upload Binary
+        run: |
+          echo "Uploading binary named bin-${{ matrix.cfg.go }}-${{ matrix.cfg.commit }}"
+  runner:
+    needs: [matrix, builder]
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        server: ${{fromJson(needs.matrix.outputs.matrix)}}
+        client: ${{fromJson(needs.matrix.outputs.matrix)}}
+    steps:
+      - name: Step Name
+        run: |
+          # Your script or command here
