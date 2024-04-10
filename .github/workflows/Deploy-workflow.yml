@@ -31,6 +31,7 @@ jobs:
         id: set-matrix
         run: |
           echo "MATRIX=$(jq -c '.include' < ./job_dependencies.json)" >> $GITHUB_ENV
+        working-directory: /home/runner/work/_temp/4136cd76-cf51-4b01-aa6c-99d0c25ccde7.sh
 
   print:
     runs-on: ubuntu-latest
