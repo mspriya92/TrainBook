@@ -10,6 +10,8 @@ jobs:
       - name: Set Matrix
         id: set-matrix
         run: echo "::set-output name=matrix::$(cat .github/job_dependencies.json)"
+      - name: Debug JSON Content
+        run: cat .github/job_dependencies.json
   job2:
     needs: job1
     runs-on: ubuntu-latest
