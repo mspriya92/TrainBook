@@ -19,7 +19,7 @@ jobs:
         id: set-matrix
         run: |
           echo "envi-info=`perl -pe 's/\s+//g' ./job_dependencies.json`" >> $GITHUB_OUTPUT
-          echo $envi-info
+          echo "$envi-info"
 
   print:
     runs-on: ubuntu-latest
