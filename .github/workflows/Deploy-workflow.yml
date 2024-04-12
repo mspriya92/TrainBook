@@ -35,7 +35,11 @@ jobs:
     needs: copy_files
     strategy:
       matrix:
-        component: ${{fromJson(needs.copy_files.outputs.env)}}
+        component: [ubuntu-latest, macos-latest, windows-latest]
+      fail-fast: false
+    env:
+      ttile: ${{ matrix.component }}
+      
     steps:
       - name: Check env value from print
         run: echo $component
