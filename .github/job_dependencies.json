@@ -1,5 +1,5 @@
 {
-  "include": [
+   [
     {"name": "env", "config": "Dev"},
     {"name": "env", "config": "Prod"}
   ]
