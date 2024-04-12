@@ -14,11 +14,17 @@ jobs:
   job2:
     needs: job1
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        json-file: matrix.json
     steps:
       - name: Use Matrix Values
+        id: matrix-setup
         run: |
-          matrix=$(cat ${{ matrix.json-file }})
-          echo $matrix
+          matrix=$(cat matrix.json)
+          echo "::set-output name=matrix::${matrix}"
+      - name: Set up Matrix JSON
+        run: echo "Matrix JSON file has been set up"
+      - name: Use Matrix in Strategy
+        run: echo "Using matrix in strategy"
+        env:
+          MATRIX: ${{ steps.matrix-setup.outputs.matrix }}
+      - name: Final Step
+        run: echo "Final step using the matrix"
