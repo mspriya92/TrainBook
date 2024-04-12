@@ -1,8 +1,4 @@
-[
-        {
-                "env":"Mario"
-        },
-        {
-                "env":"Divya"
-        }
-]
+{
+"env":"Mario"
+}
+     
