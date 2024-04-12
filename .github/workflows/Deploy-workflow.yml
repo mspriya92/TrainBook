@@ -18,8 +18,8 @@ jobs:
 
   Deploy-Prod:
     runs-on: ubuntu-latest
-    if: ${{ github.event_name.inputs.environment == 'Dev' }}
-    environment: ${{ github.event_name.inputs.environment }}
+    if: ${{ github.event.inputs.environment == 'Dev' }}
+    environment: ${{ github.event.inputs.environment }}
     #needs: Deploy
     steps:
       - name: Job 1
