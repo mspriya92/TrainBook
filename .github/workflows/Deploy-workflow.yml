@@ -27,19 +27,6 @@ jobs:
       - name: Set matrix data
         id: set-matrix
         run: |
-          echo "env=$(perl -pe 's/\s+//g' './job_dependencies/job_dependencies.json')" >> "$GITHUB_OUTPUT"
-          echo "$GITHUB_OUTPUT"
+          echo "env=$(cat job_dependencies/job_dependencies.json)" >> $GITHUB_ENV
   
-  Print:
-    runs-on: ubuntu-latest
-    needs: copy_files
-    steps:
-      - name: Debug Copy Files Output
-        run: |
-          echo "Copy Files Output: ${{ needs.copy_files.outputs.env }}"
-      - name: Debug JSON Data
-        run: |
-          cat ${{ needs.copy_files.outputs.env }}
-      - name: Print JSON Data
-        run: |
-          echo "Parsed JSON: ${{ fromJson(needs.copy_files.outputs.env) }}"
+  
