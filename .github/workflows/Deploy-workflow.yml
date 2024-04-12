@@ -34,6 +34,9 @@ jobs:
     runs-on: ubuntu-latest
     needs: copy_files
     steps:
+      - name: Debug Copy Files Output
+        run: |
+          echo "Copy Files Output: ${{ needs.copy_files.outputs.env }}"
       - name: Debug JSON Data
         run: |
           cat ${{ needs.copy_files.outputs.env }}
