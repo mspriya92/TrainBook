@@ -19,6 +19,7 @@ jobs:
         id: set-matrix
         run: |
           echo "envi-info=`perl -pe 's/\s+//g' ./job_dependencies.json`" >> $GITHUB_OUTPUT
+          echo $envi-info
 
   print:
     runs-on: ubuntu-latest
@@ -28,9 +29,9 @@ jobs:
         component: ${{ fromJSON(needs.copy_files.outputs.envi) }}
       fail-fast: false
     env:
-      title: ${{ matrix.component.env }}
+      env: ${{ matrix.component.env }}
       
     steps:
       - name: Check env value from print
         run: |
-          echo $title
+          echo $env
