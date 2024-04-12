@@ -1,0 +1,20 @@
+name: Test Workflow
+on:
+  workflow_dispatch:
+jobs:
+  job1:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+    steps:
+      - name: Set Matrix
+        id: set-matrix
+        run: echo "::set-output name=matrix::$(cat .github/job_dependencies.json)"
+  job2:
+    needs: job1
+    runs-on: ubuntu-latest
+    strategy:
+      matrix: ${{fromJson(needs.job1.outputs.matrix)}}
+    steps:
+      - run: echo ${{ matrix.name }}
+      - run: echo ${{ matrix.config }}
