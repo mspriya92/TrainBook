@@ -26,7 +26,7 @@ jobs:
 
   Deploy-call:
     runs-on: ubuntu-latest
-    if: ${{ github.event.inputs.environment == 'Dev' }}
+    if: ${{ github.event.inputs.environment == ' ${{ github.event.inputs.environment }}' }}
     environment: ${{ github.event.inputs.environment }}
     #needs: Deploy
     steps:
