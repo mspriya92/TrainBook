@@ -44,8 +44,8 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        env: ${{ needs.copy_files.outputs.env }}
-    steps:
-      - name: Print Job Using Strategy Matrix
-        run: |
-          echo "Printing job using strategy matrix with env: ${{ matrix.env }}"
+        components: ${{ needs.copy_files.outputs.env }}
+    #steps:
+      #- name: Print Job Using Strategy Matrix
+        #run: |
+          #echo "Printing job using strategy matrix with env: ${{ matrix.env }}"
