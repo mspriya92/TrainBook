@@ -1,39 +1,23 @@
-name: Deploy Workflow
 on:
   workflow_dispatch:
-    
-        
+  workflow_call:
+    inputs:
+      environment:
+        description: 'Choose the env to deploy (Dev or Prod)?'
+        required: true
+        type: string 
 jobs:
-  matrix:
+  Deploy-Dev:
     runs-on: ubuntu-latest
-    outputs:
-      matrix: ${{ steps.set-matrix.outputs.matrix }}
+    if: ${{ github.event_name.inputs.environment == ' ' }}
     steps:
-      - name: Checkout to repository
-        uses: actions/checkout@v3
-      - name: Set matrix data
-        id: set-matrix
-        run: |
-          TASKS=$(echo $(cat .github/workflows/matrix.json) | sed 's/ //g' )
-          echo "::set-output name=matrix::$TASKS"
-  builder:
-    needs: matrix
+      - name: Job 1
+        run: echo "Running Job 1 for Dev environment"
+
+  Deploy-Prod:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        cfg: ${{fromJson(needs.matrix.outputs.matrix)}}
+    environment: Prod
+    needs: Deploy-Dev
     steps:
-      - name: Upload Binary
-        run: |
-          echo "Uploading binary named bin-${{ matrix.cfg.go }}-${{ matrix.cfg.commit }}"
-  runner:
-    needs: [matrix, builder]
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        server: ${{fromJson(needs.matrix.outputs.matrix)}}
-        client: ${{fromJson(needs.matrix.outputs.matrix)}}
-    steps:
-      - name: Step Name
-        run: |
-          # Your script or command here
+      - name: Job 1
+        run: echo "Running Job 1 for Prod environment"
