@@ -8,15 +8,23 @@ on:
         required: true
         type: string 
 jobs:
-  Deploy:
+  Deploy-Dev:
     runs-on: ubuntu-latest
     if:  ${{ github.event.inputs.environment == ' ' }}
     environment: Dev
     steps:
       - name: Job 1
         run: echo "Running Job 1 for Dev environment"
+  Deploy-prod:
+    runs-on: ubuntu-latest
+    if:  ${{ github.event.inputs.environment == ' ' }}
+    environment: Dev
+    needs: Deploy-Dev
+    steps:
+      - name: Job 1
+        run: echo "Running Job 1 for Dev environment"
 
-  Deploy-Prod:
+  Deploy-call:
     runs-on: ubuntu-latest
     if: ${{ github.event.inputs.environment == 'Dev' }}
     environment: ${{ github.event.inputs.environment }}
