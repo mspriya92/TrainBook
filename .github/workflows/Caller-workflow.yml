@@ -14,7 +14,8 @@ jobs:
   Call-workflow-for-deploy:
     
     #needs: Call-workflow-for-build
-    uses: ./.github/workflows/Deploy-workflow.yml
+    #uses: ./.github/workflows/Deploy-workflow.yml
+    uses: ./.github/workflows/Test1.yml
     with:
           environment: ${{ github.event.inputs.environment }}
     
