@@ -11,7 +11,7 @@ jobs:
     steps:
     - name: set-matrix
       id: set-matrix
-      run: echo "::set-output name=matrix::{\"include\":[{\"name\":\"Dev\",\"config\":\"Prod\"},{\"name\":\"Qa\",\"config\":\"prod1\"}]}"
+      run: echo "::set-output name=matrix::{\"include\":[{\"name\":\"env\",\"config\":\"Dev\"},{\"name\":\"env\",\"config\":\"prod\"}]}"
        
   job2:
     needs: job1
