@@ -20,4 +20,4 @@ jobs:
       - name: Read JSON
         run: |
           data=$(cat matrix.json)
-          echo "The version is ${{ fromJson(data).version }}"
+          echo "The version is ${{fromJson(data)['version']}}"
