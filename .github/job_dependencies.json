@@ -1,4 +1,6 @@
 {
-"env":"Mario"
+  "include": [
+    {"name": "Qa", "config": "Debug"},
+    {"name": "Dev", "config": "release"}
+  ]
 }
-     
