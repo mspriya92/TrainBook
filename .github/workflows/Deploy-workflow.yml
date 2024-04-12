@@ -10,7 +10,7 @@ jobs:
     #env:
       #clientfile: "./job_dependencies/job_dependencies.json"
     outputs:
-      env: ${{ steps.set-matrix.outputs.env }}
+      env: ${{ steps.set-matrix.outputs.envi }}
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3  
@@ -27,7 +27,7 @@ jobs:
       - name: Set matrix data
         id: set-matrix
         run: |
-          echo "env=$(jq -r .env job_dependencies/job_dependencies.json)" >> $GITHUB_ENV
+          echo "envi=$(jq -r .env job_dependencies/job_dependencies.json)" >> $GITHUB_OUTPUT
       - name: Check env value
         run: echo $env
   print:
@@ -35,7 +35,7 @@ jobs:
     needs: copy_files
     strategy:
       matrix:
-        component: ${{ fromJSON(needs.copy_files.outputs.env) }}
+        component: ${{ fromJSON(needs.copy_files.outputs.envi) }}
       fail-fast: false
     env:
       title: ${{ matrix.component.env }}
