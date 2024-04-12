@@ -2,10 +2,16 @@ name: Test1 workflow
 
 on:
   workflow_dispatch:
-
+  workflow_call:
+    inputs:
+      environment:
+        description: 'Choose the env to deploy (Dev or Prod)?'
+        required: true
+        type: string
 jobs:
   job1:
     runs-on: ubuntu-latest
+     if: !${{contains(github.event.inputs.environment)}}
     outputs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
     steps:
