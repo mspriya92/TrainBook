@@ -35,6 +35,6 @@ jobs:
     needs: copy_files
     strategy:
       matrix:
-        env: ${{ fromJson(needs.configure.outputs.env) }}
+        env: ${{ fromJson(needs.copy_files.outputs.env) }}
     steps:
       - run: echo ${{ matrix.env.env }}
