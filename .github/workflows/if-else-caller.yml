@@ -1,7 +1,7 @@
 
 name: If-else-caller
 on:
-  push:
+  workflow_call:
    
        
 jobs:
