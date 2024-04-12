@@ -21,4 +21,4 @@ jobs:
     steps:
     - run: echo ${{ matrix.name }}
     - run: echo ${{ matrix.config }}
-    - run: echo ${{fromJson(needs.job1.outputs.matrix)}}
+   
