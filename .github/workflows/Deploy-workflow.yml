@@ -45,6 +45,8 @@ jobs:
     strategy:
       matrix:
         components: ${{ needs.copy_files.outputs.env }}
+    steps:
+      - run: echo ${{ matrix.components }}
     #steps:
       #- name: Print Job Using Strategy Matrix
         #run: |
