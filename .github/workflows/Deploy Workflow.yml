@@ -1,3 +1,4 @@
+name: Deploy Branch1
 on:
   workflow_dispatch:
   workflow_call:
