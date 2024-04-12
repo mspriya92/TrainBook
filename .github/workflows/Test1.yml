@@ -11,7 +11,7 @@ on:
 jobs:
   job1:
     runs-on: ubuntu-latest
-    if: ${{ contains(github.event.inputs.environment) }}
+    if: ${{ !contains(github.event.inputs.environment, ' ') }}
     outputs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
     steps:
