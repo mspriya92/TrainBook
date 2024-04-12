@@ -1,4 +1,4 @@
-name: Deploy Branch1
+name: Deploy Branch2
 on:
   workflow_dispatch:
   workflow_call:
