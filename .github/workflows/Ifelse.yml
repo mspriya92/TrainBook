@@ -1,0 +1,23 @@
+name: Basic workflow
+ 
+on: 
+  workflow_dispatch:
+  workflow_call:
+ 
+jobs:
+  build:
+    runs-on: ubuntu-latest
+ 
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+ 
+    - name: What is the event?
+      run: |
+        if [ ${{ github.event_name }} == 'workflow_dispatch' ]; then
+          echo "This is triggered by workflow_dispatch"
+        elif [ ${{ github.event_name }} == 'workflow_call' ]; then
+          echo "This is triggered by workflow_call"
+        else
+          echo "This is an unknown event"
+        fi
