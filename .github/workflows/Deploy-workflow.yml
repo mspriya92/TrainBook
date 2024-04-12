@@ -10,7 +10,7 @@ on:
 jobs:
   Deploy:
     runs-on: ubuntu-latest
-    if: ${{ github.event_name.inputs.environment == ' ' }}
+    if:  ${{ github.event.inputs.environment == ' ' }}
     environment: Dev
     steps:
       - name: Job 1
