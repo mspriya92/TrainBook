@@ -26,9 +26,9 @@ jobs:
 
   Deploy-call:
     runs-on: ubuntu-latest
-    if: ${{ github.event.inputs.environment == ' ${{ github.event.inputs.environment }}' }}
+    if: ${{ github.event.inputs.environment == '${{ github.event.inputs.environment }}' }}
     environment: ${{ github.event.inputs.environment }}
     #needs: Deploy
     steps:
       - name: Job 1
-        run: echo "Running Job 1 for Prod environment"
+        run: echo "Running Job 1 for ${{ github.event.inputs.environment}} environment"
