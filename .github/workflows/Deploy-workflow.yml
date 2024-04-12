@@ -27,6 +27,6 @@ jobs:
       - name: Set matrix data
         id: set-matrix
         run: |
-          echo "env=$(cat job_dependencies/job_dependencies.json)" >> $GITHUB_ENV
+          echo "env=$(jq -r .env job_dependencies/job_dependencies.json)" >> $GITHUB_ENV
   
   
