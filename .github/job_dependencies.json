@@ -1,6 +1,6 @@
 {
   "include": [
-    {"name": "Qa", "config": "Debug"},
-    {"name": "Dev", "config": "release"}
+    {"name": "env", "config": "Dev"},
+    {"name": "env", "config": "Prod"}
   ]
 }
