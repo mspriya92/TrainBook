@@ -10,7 +10,7 @@ jobs:
     env:
       clientfile: "./job_dependencies/job_dependencies.json"
     outputs:
-      env: ${{ steps.set-matrix.outputs.matrix }}
+      env: ${{ steps.set-matrix.outputs.env }}
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3  
