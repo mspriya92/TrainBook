@@ -1,0 +1,24 @@
+name: Deploy Workflow
+on:
+  workflow_dispatch:
+
+jobs:
+  job1:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set Matrix
+        id: set-matrix
+        run: |
+          echo '{"include":[{"name":"Dev","config":"Prod"},{"name":"Qa","config":"prod1"}]}' > matrix.json
+       
+  job2:
+    needs: job1
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        json-file: matrix.json
+    steps:
+      - name: Use Matrix Values
+        run: |
+          matrix=$(cat ${{ matrix.json-file }})
+          echo $matrix
