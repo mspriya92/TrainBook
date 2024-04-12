@@ -8,7 +8,7 @@ on:
         required: true
         type: string 
 jobs:
-  Deploy-Dev:
+  Deploy:
     runs-on: ubuntu-latest
     if: ${{ github.event_name.inputs.environment == ' ' }}
     environment: Dev
@@ -18,8 +18,8 @@ jobs:
 
   Deploy-Prod:
     runs-on: ubuntu-latest
-    environment: Prod
-    needs: Deploy-Dev
+    environment: ${{ github.event_name.inputs.environment }}
+    needs: Deploy
     steps:
       - name: Job 1
         run: echo "Running Job 1 for Prod environment"
