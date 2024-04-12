@@ -1,8 +1,7 @@
-	name: Deploy Workflow
+name: Test1 workflow
 
 on:
   workflow_dispatch:
-    
 
 jobs:
   job1:
@@ -10,8 +9,8 @@ jobs:
     outputs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
     steps:
-	  steps:
-    - id: set-matrix
+    - name: set-matrix
+      id: set-matrix
       run: echo "::set-output name=matrix::{\"include\":[{\"name\":\"Dev\",\"config\":\"Prod\"},{\"name\":\"Qa\",\"config\":\"prod1\"}]}"
        
   job2:
@@ -22,3 +21,4 @@ jobs:
     steps:
     - run: echo ${{ matrix.name }}
     - run: echo ${{ matrix.config }}
+    - run: echo ${{fromJson(needs.job1.outputs.matrix)}}
