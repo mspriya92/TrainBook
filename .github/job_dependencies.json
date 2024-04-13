@@ -1,5 +1,6 @@
 {
-  "environment": "production",
-  "version": "1.0.0",
-  "target": "server"
+  "include": [
+    {"name": "env", "config": "Dev"},
+    {"name": "env", "config": "Prod"}
+  ]
 }
