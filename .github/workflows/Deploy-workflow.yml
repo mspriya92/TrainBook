@@ -34,4 +34,10 @@ jobs:
     steps:
       - name: Check env value from print
         run: |
+          
           echo $env
+          - name: Debug fromJSON output
+          
+          echo "fromJSON output: ${{ fromJSON(needs.copy_files.outputs.envi) }}"
+
+ 
