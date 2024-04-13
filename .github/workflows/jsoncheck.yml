@@ -1,0 +1,42 @@
+name: my Workflow
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        environment: [production, staging]
+        version: [1.0.0, 2.0.0]
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+
+      - name: Display matrix values
+        run: |
+          echo "Environment: ${{ matrix.environment }}"
+          echo "Version: ${{ matrix.version }}"
+
+      - name: Read JSON file
+        id: read-json
+        run: |
+          echo "::set-output name=environment::$(jq -r .environment job_dependencies.json)"
+          echo "::set-output name=version::$(jq -r .version job_dependencies.json)"
+
+      - name: Use JSON values
+        run: |
+          echo "Environment from JSON: ${{ steps.read-json.outputs.environment }}"
+          echo "Version from JSON: ${{ steps.read-json.outputs.version }}"
+
+      # Add your deployment steps here using the environment and version values.
