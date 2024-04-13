@@ -1,40 +1,66 @@
-name: Test Workflow
+
+name: Deploy Branch 2
 
 on:
+
   workflow_dispatch:
 
+  workflow_call:
+
+    inputs:
+
+      environment:
+
+        description: 'Choose the env to deploy (Dev or Prod)?'
+
+        required: true
+
+        type: string 
+
 jobs:
-  deploy:
+
+  Deploy-Dev:
+
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        environment: [production, staging]
-        version: [1.0.0, 2.0.0]
+    if:  ${{ github.event.inputs.environment == ' ' }}
+
+    environment: Dev
 
     steps:
-      - name: Check out code
-        uses: actions/checkout@v2
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: '14'
+      - name: Job 1
 
-      - name: Display matrix values
-        run: |
-          echo "Environment: ${{ matrix.environment }}"
-          echo "Version: ${{ matrix.version }}"
+        run: echo "Running Job 1 for Dev environment"
 
-      - name: Read JSON file
-        id: read-json
-        run: |
-          echo "::set-output name=environment::$(jq -r .environment job_dependencies.json)"
-          echo "::set-output name=version::$(jq -r .version job_dependencies.json)"
+  Deploy-prod:
 
-      - name: Use JSON values
-        run: |
-          echo "Environment from JSON: ${{ steps.read-json.outputs.environment }}"
-          echo "Version from JSON: ${{ steps.read-json.outputs.version }}"
+    runs-on: ubuntu-latest
 
-      # Add your deployment steps here using the environment and version values.
+    if:  ${{ github.event.inputs.environment == ' ' }}
+
+    environment: Dev
+
+    needs: Deploy-Dev
+
+    steps:
+
+      - name: Job 1
+
+        run: echo "Running Job 1 for Dev environment"
+ 
+  Deploy-call:
+
+    runs-on: ubuntu-latest
+
+    if: ${{ github.event.inputs.environment != ' ' }}
+
+    environment: ${{ github.event.inputs.environment }}
+
+    #needs: Deploy
+
+    steps:
+
+      - name: Job 1
+
+        run: echo "Running Job 1 for ${{ github.event.inputs.environment}} environment"
