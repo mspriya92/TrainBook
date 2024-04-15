@@ -30,7 +30,7 @@ jobs:
          
       - name: Check env value
         run: | 
-          echo "FILTERED_JSON=$filteredJson" 
+          echo "$filteredJson" 
         
     
   Comparison:
