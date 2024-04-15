@@ -27,10 +27,9 @@ jobs:
 
           # Filter the JSON based on the input environment
           filteredJson=$(jq --arg inputEnv "$inputEnv" '.items | map(select(.name == $inputEnv))' job_dependencies.json)
+          echo "$filteredJson"
          
-      - name: Check env value
-        run: | 
-          echo "$filteredJson" 
+      
         
     
   Comparison:
