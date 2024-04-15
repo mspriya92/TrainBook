@@ -29,6 +29,6 @@ jobs:
           echo "env=$(jq -r .env job_dependencies/job_dependencies.json)" >> $GITHUB_ENV
       - name: Check env value
         run: echo $env
-      - name: Check test value
-      - run: |
-          echo  "test: ${{ steps.set-matrix.outputs.env }}"
+      #- name: Check test value
+      #- run: |
+        #  echo  "test: ${{ steps.set-matrix.outputs.env }}"
