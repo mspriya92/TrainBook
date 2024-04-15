@@ -3,9 +3,36 @@ name: Filter JSON Values
 on:
   workflow_dispatch:
  
+
 jobs:
+  copy_files:
+    runs-on: ubuntu-latest
+    #env:
+      #clientfile: "./job_dependencies/job_dependencies.json"
+    outputs:
+      env: ${{ steps.set-matrix.outputs.env }}
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3  
+      - name: Copy Job Dependencies
+        run: |
+          mkdir -p job_dependencies  
+          cp .github/job_dependencies.json job_dependencies/  
+      - name: Listing the directory
+        run: ls -R 
+      - name: List Job Dependencies
+        run: |
+           cat job_dependencies/job_dependencies.json
+      - name: Set matrix data
+        id: set-matrix
+        run: |
+          echo "env=$(jq -r .env job_dependencies/job_dependencies.json)" >> $GITHUB_ENV
+          FILTERED_VALUE=$(jq -r '.age' job_dependencies/job_dependencies.json)
+          echo "Filtered value: $FILTERED_VALUE"
+     
   filter-json:
     runs-on: ubuntu-latest
+    needs: copy_files
     
     steps:
     - name: Checkout code
@@ -19,4 +46,4 @@ jobs:
         # Filter JSON using jq
         FILTERED_VALUE=$(jq -r '.age' data.json)
         
-        echo "Filtered value: $FILTERED_VALUE"
+        
