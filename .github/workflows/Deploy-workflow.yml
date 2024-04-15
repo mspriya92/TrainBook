@@ -38,6 +38,6 @@ jobs:
        
     steps:
       - name: Check env value from print
-        #run: echo $env
+        run: echo $env
         env: 
           title: ${{ matrix.os }}
