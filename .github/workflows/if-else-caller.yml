@@ -1,7 +1,7 @@
 
 name: If-else-caller
-on:
-  workflow_run:
+#on:
+ # workflow_run:
    
        
 jobs:
