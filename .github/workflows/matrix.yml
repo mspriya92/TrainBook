@@ -9,42 +9,29 @@ on:
         type: string
  
 jobs:
-  filter_json:
+  
+  copy_files:
     runs-on: ubuntu-latest
+    outputs:
+      components-info: ${{ steps.set-matrix.outputs.filteredJson }}
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v2  # This step checks out the repository, including the job_dependencies.json file
-
-      - name: Filter JSON based on input environment
-        id: filter-json
+        uses: actions/checkout@v3  
+   
+      - name: Set matrix data
+        id: set-matrix
+        working-directory: ./job_dependencies
         run: |
           # Read the input environment value
           inputEnv=${{ github.event.inputs.environment }}
 
           # Filter the JSON based on the input environment
           filteredJson=$(jq --arg inputEnv "$inputEnv" '.items | map(select(.name == $inputEnv))' job_dependencies/job_dependencies.json)
-
-          # Set the filtered JSON as an environment variable for further use
+         
+      - name: Check env value
+        run: | 
           echo "FILTERED_JSON=$filteredJson" 
-
-  
-  copy_files:
-    runs-on: ubuntu-latest
-    #needs: filter_json
-    outputs:
-      components-info: ${{ steps.set-matrix.outputs.backend-components }}
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v3  
         
-     
-      - name: Set matrix data
-        id: set-matrix
-        working-directory: ./job_dependencies
-        run: |
-          echo "backend-components=`perl -pe 's/\s+//g' job_dependencies.json`" >> $GITHUB_OUTPUT
-      #- name: Check env value
-        #run: echo $component
     
   Comparison:
     runs-on: self-hosted
@@ -55,8 +42,8 @@ jobs:
          components: ${{ fromJSON(needs.copy_files.outputs.components-info) }}
       fail-fast: false
     env:
-      name: ${{ matrix.components.name }}
-      version: ${{ matrix.components.version }}
+      name: ${{ matrix.components.items.name }}
+      version: ${{ matrix.components.items.version }}
     steps:
       - name: checking matrix value
         run: |
