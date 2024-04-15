@@ -24,12 +24,22 @@ jobs:
   ConditionalJob:
     runs-on: ubuntu-latest
     needs: copy_files
-    if: ${{ contains(needs.copy_files.outputs.components-info, 'Dev') }}
     steps:
-      - name: Run Dev Workflow
+      - name: Check Name and Run Workflow
         run: |
-          echo "Running the Dev workflow"
-          # Add steps for the Dev workflow here      
+          # Read the JSON file and extract the value of the "name" field
+          name=$(jq -r '.name' job_dependencies.json)
+          if [ "$name" = "Dev" ]; then
+            # Run the Dev workflow
+            echo "Running the Dev workflow"
+            # Add steps for the Dev workflow here
+          else
+            # Run the Prod workflow
+            echo "Running the Prod workflow"
+            # Add steps for the Prod workflow here
+          fi
+        env:
+          INPUT_JSON: job_dependencies.json      
   Comparison:
     runs-on: self-hosted
     needs: copy_files
