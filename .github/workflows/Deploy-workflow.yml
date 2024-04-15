@@ -1,43 +1,43 @@
 name: Deploy Workflow
-
+ 
 on:
   workflow_dispatch:
-    
 
+ 
 jobs:
   copy_files:
     runs-on: ubuntu-latest
-   
+    #env:
+      #clientfile: "./job_dependencies/job_dependencies.json"
     outputs:
-      envi: ${{ steps.set-matrix.outputs.envi }}
+      env: ${{ steps.set-matrix.outputs.env }}
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3  
- 
-      
+      - name: Copy Job Dependencies
+        run: |
+          mkdir -p job_dependencies  
+          cp .github/job_dependencies.json job_dependencies/  
+      - name: Listing the directory
+        run: ls -R 
+      - name: List Job Dependencies
+        run: |
+           cat job_dependencies/job_dependencies.json
       - name: Set matrix data
         id: set-matrix
         run: |
-          echo "envi-info=`perl -pe 's/\s+//g' ./job_dependencies.json`" >> $GITHUB_OUTPUT
-          echo "$envi-info"
-
+          echo "env=$(jq -r .env job_dependencies/job_dependencies.json)" >> $GITHUB_ENV
+      - name: Check env value
+        run: echo $env
   print:
     runs-on: ubuntu-latest
     needs: copy_files
     strategy:
       matrix:
-        component: ${{ fromJSON(needs.copy_files.outputs.envi) }}
-      fail-fast: false
-    env:
-      env: ${{ matrix.component.env }}
-      
+        os: [ubuntu-latest, macos-latest, windows-latest]
+       
     steps:
       - name: Check env value from print
-        run: |
-          
-          echo $env
-          - name: Debug fromJSON output
-          
-          echo "fromJSON output: ${{ fromJSON(needs.copy_files.outputs.envi) }}"
-
- 
+        #run: echo $env
+        env: 
+          title: ${{ matrix.os }}
