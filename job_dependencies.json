@@ -1,8 +1,1 @@
-[
- {
-  "env": "Dev"
- },
- {
-  "env": "Prod"
- }
-]
+["Dev", "Prod"]
