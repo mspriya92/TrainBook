@@ -2,25 +2,19 @@ name: Deploy Workflow
 
 on:
   workflow_dispatch:
-    
 
 jobs:
   test_job:
     runs-on: ubuntu-latest
-   
     outputs:
-      JSON_CONTENT: ${{ steps.get-json-content.outputs.new_content }} # Correct output variable name
-       
+      JSON_CONTENT: ${{ steps.get-json-content.outputs.new_content }}
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3  
- 
       - name: Get JSON content
         id: get-json-content
         run: |
-          echo 'JSON_CONTENT<<EOF' >> $GITHUB_ENV
-          cat job_dependencies.json >> $GITHUB_ENV
-          echo 'EOF' >> $GITHUB_ENV
+          echo '::set-output name=new_content::$(cat job_dependencies.json)'
 
   matrix_job_test:
     name: Matrix job test
@@ -28,10 +22,10 @@ jobs:
     needs: test_job
     strategy:
       matrix:
-        include: ${{ fromJSON(needs.test_job.outputs.JSON_CONTENT) }} # Access correct output variable
+        include: ${{fromJson(needs.test_job.outputs.JSON_CONTENT)}}
     steps:
       - run: |
           echo $ENV_NAME
-          
+          echo "The necessary output is: $ENV_NAME"  # Print the necessary output
         env:
           ENV_NAME: ${{ matrix.env }}
