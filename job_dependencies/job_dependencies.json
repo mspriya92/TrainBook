@@ -1,12 +1,12 @@
 {
-  "items": [
+ "items": [
     {
      "name": "Dev",
      "version": "10"
     },
     {
-    "name": "Prod",
-    "version": "11"
+     "name": "Prod",
+     "version": "11"
     }
   ]
 }
