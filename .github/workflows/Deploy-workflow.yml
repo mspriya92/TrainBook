@@ -23,3 +23,13 @@ jobs:
           echo "::set-output name=env::$env_value"  # Set the 'env' output variable for downstream jobs
       - name: Check env value (using job outputs)
         run: echo ${{ steps.set-matrix.outputs.env }}
+
+  print:
+    runs-on: ubuntu-latest
+    needs: copy_files
+    strategy:
+      matrix:
+        devops: ${{fromJson(steps.set-matrix.outputs.env)}}
+    steps:
+      - name: Check devops value from print
+        run: echo $devops
