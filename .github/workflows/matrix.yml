@@ -21,6 +21,15 @@ jobs:
           echo "backend-components=`perl -pe 's/\s+//g' job_dependencies.json`" >> $GITHUB_OUTPUT
       #- name: Check env value
         #run: echo $component
+  ConditionalJob:
+    runs-on: ubuntu-latest
+    needs: copy_files
+    if: ${{ contains(needs.copy_files.outputs.components-info, 'Dev') }}
+    steps:
+      - name: Run Dev Workflow
+        run: |
+          echo "Running the Dev workflow"
+          # Add steps for the Dev workflow here      
   Comparison:
     runs-on: self-hosted
     needs: copy_files
