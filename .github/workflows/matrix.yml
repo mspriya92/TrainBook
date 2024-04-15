@@ -27,7 +27,7 @@ jobs:
     continue-on-error: true
     strategy:
       matrix:
-         components: ${{ fromJSON(needs.copy_files.outputs.components-info }}
+         components: ${{ fromJSON(needs.copy_files.outputs.components-info) }}
       fail-fast: false
     env:
       name: ${{ matrix.components.name }}
