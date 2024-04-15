@@ -27,7 +27,7 @@ jobs:
         id: set-matrix
         run: |
           echo "env=$(jq -r .name job_dependencies/job_dependencies.json)" >> $GITHUB_ENV
-          echo "$component"
+          echo "$env"
           FILTERED_VALUE=$(jq -r .age job_dependencies/job_dependencies.json)
           echo "Filtered value: $FILTERED_VALUE"
      
