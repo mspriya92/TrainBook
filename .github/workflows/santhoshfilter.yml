@@ -1,0 +1,31 @@
+name: santhoshfilter Workflow
+ 
+on:
+  workflow_dispatch:
+
+ 
+jobs:
+  copy_files:
+    runs-on: ubuntu-latest
+    #env:
+      #clientfile: "./job_dependencies/job_dependencies.json"
+    outputs:
+      env: ${{ steps.set-matrix.outputs.env }}
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3  
+      - name: Copy Job Dependencies
+        run: |
+          mkdir -p job_dependencies  
+          cp .github/job_dependencies.json job_dependencies/  
+      - name: Listing the directory
+        run: ls -R 
+      - name: List Job Dependencies
+        run: |
+           cat job_dependencies/job_dependencies.json
+      - name: Set matrix data
+        id: set-matrix
+        run: |
+          echo "env=$(jq -r .env job_dependencies/job_dependencies.json)" >> $GITHUB_ENV
+      - name: Check env value
+        run: echo $env
