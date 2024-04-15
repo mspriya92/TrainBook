@@ -26,7 +26,7 @@ jobs:
           inputEnv=${{ github.event.inputs.environment }}
 
           # Filter the JSON based on the input environment
-          filteredJson=$(jq --arg inputEnv "$inputEnv" '.items | map(select(.name == $inputEnv))' job_dependencies/job_dependencies.json)
+          filteredJson=$(jq --arg inputEnv "$inputEnv" '.items | map(select(.name == $inputEnv))' job_dependencies.json)
          
       - name: Check env value
         run: | 
