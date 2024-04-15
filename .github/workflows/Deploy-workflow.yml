@@ -1,34 +1,25 @@
 name: Deploy-test Workflow
- 
-on:
-  workflow_dispatch:
 
- 
+on:
+  workflow_dispatch:  # Triggered manually using the "Run workflow" button
+
 jobs:
   copy_files:
     runs-on: ubuntu-latest
-    #env:
-      #clientfile: "./job_dependencies/job_dependencies.json"
-    outputs:
-      test: ${{ steps.set-matrix.outputs.env }}
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v3  
-      - name: Copy Job Dependencies
+      - uses: actions/checkout@v3  # Checkout the repository code
+      - name: Copy Job Dependencies (if they exist)
         run: |
-          mkdir -p job_dependencies  
-          cp .github/job_dependencies.json job_dependencies/  
+          mkdir -p job_dependencies  # Create the directory if it doesn't exist
+          cp .github/job_dependencies.json job_dependencies/ || true  # Copy the file, ignoring errors if it's missing
       - name: Listing the directory
-        run: ls -R 
-      - name: List Job Dependencies
-        run: |
-           cat job_dependencies/job_dependencies.json
-      - name: Set matrix data
+        run: ls -R  # List directory contents
+      - name: Show Job Dependencies (if present)
+        run: cat job_dependencies/job_dependencies.json || true  # Display the file contents, ignoring errors if it's missing
+      - name: Set matrix data (using job outputs)
         id: set-matrix
         run: |
-          echo "env=$(jq -r .env job_dependencies/job_dependencies.json)" >> $GITHUB_ENV
-      - name: Check env value
-        run: echo $env
-      - name: Check test value
-      - run: |
-          echo  "test: ${{ steps.set-matrix.outputs.env }}"
+          env_value=$(jq -r .env job_dependencies/job_dependencies.json || true)  # Capture env value, handle potential missing file
+          echo "::set-output name=env::$env_value"  # Set the 'env' output variable for downstream jobs
+      - name: Check env value (using job outputs)
+        run: echo ${{ steps.set-matrix.outputs.env }}
