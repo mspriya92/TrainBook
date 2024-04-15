@@ -1,0 +1,22 @@
+name: Filter JSON Values
+ 
+on:
+  workflow_dispatch:
+ 
+jobs:
+  filter-json:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+      
+    - name: Filter JSON
+      run: |
+        # Example JSON file
+        echo '{"name": "John", "age": 30, "city": "New York"}' > data.json
+        
+        # Filter JSON using jq
+        FILTERED_VALUE=$(jq -r '.age' data.json)
+        
+        echo "Filtered value: $FILTERED_VALUE"
