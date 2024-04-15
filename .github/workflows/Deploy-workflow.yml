@@ -29,14 +29,4 @@ jobs:
           echo "env=$(jq -r .env job_dependencies/job_dependencies.json)" >> $GITHUB_ENV
       - name: Check env value
         run: echo $env
-  print:
-    runs-on: ubuntu-latest
-    needs: copy_files
-    strategy:
-      matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest]
-       
-    steps:
-      - name: Check env value from print
-        #run: echo $env
-      - run: echo Run ${{ matrix.os }}
+  
