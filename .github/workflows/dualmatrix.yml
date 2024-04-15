@@ -1,0 +1,14 @@
+on:
+ workflow_dispatch:
+jobs:
+   my_matrix:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        service: ['Azure','GitHub','Bamboo']
+        version: [10, 12, 14]
+    steps:
+      - name: Matrix => (${{ matrix.service }} ${{ matrix.version}})
+        run: |
+          echo ${{ matrix.service }}
+          echo ${{ matrix.version }}
