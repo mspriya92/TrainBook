@@ -1,0 +1,37 @@
+name: Outer Matrix Workflow
+ 
+on:
+  push:
+    branches:
+      - main
+ 
+jobs:
+  outer_matrix_job:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        outer_variable:
+          - Dev
+          - prod
+    steps:
+      - name: Outer Matrix Step
+        run: |
+          echo "Outer Variable: ${{ matrix.outer_variable }}"
+          # Inner Matrix Job
+          # Define the inner matrix here and use the outer variable
+          # ...
+ 
+  # Inner Matrix Job
+  inner_matrix_job:
+    runs-on: ubuntu-latest
+    needs: outer_matrix_job
+    strategy:
+      matrix:
+        inner_variable:
+          - ${{ matrix.outer_variable }}-inner1
+          - ${{ matrix.outer_variable }}-inner2
+    steps:
+      - name: Inner Matrix Step
+        run: |
+          echo "Inner Variable: ${{ matrix.inner_variable }}"
+          # Additional steps for the inner matrix job
