@@ -7,10 +7,10 @@ jobs:
     strategy:
       matrix:
         service: ['Azure','GitHub','Bamboo']
-        version: [10, 12, 14]
+       # version: [10, 12, 14]
       fail-fast: true
     steps:
       - name: Matrix => (${{ matrix.service }} ${{ matrix.version}})
         run: |
           echo ${{ matrix.service }}
-          echo ${{ matrix.version }}
+     #     echo ${{ matrix.version }}
