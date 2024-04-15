@@ -5,39 +5,33 @@ on:
     
 
 jobs:
-  copy_files:
+  test_job:
     runs-on: ubuntu-latest
    
     outputs:
-      envi: ${{ steps.set-matrix.outputs.envi }}
+      JSON_CONTENT: ${{ steps.get-json-content.outputs.new_content }} # Correct output variable name
+       
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3  
  
-      
-      - name: Set matrix data
-        id: set-matrix
+      - name: Get JSON content
+        id: get-json-content
         run: |
-          echo "envi-info=`perl -pe 's/\s+//g' ./job_dependencies.json`" >> $GITHUB_OUTPUT
-          echo "$envi-info"
+          echo 'JSON_CONTENT<<EOF' >> $GITHUB_ENV
+          cat job_dependencies.json >> $GITHUB_ENV
+          echo 'EOF' >> $GITHUB_ENV
 
-  print:
+  matrix_job_test:
+    name: Matrix job test
     runs-on: ubuntu-latest
-    needs: copy_files
+    needs: test_job
     strategy:
       matrix:
-        component: ${{ fromJSON(needs.copy_files.outputs.envi) }}
-      fail-fast: false
-    env:
-      env: ${{ matrix.component.env }}
-      
+        include: ${{ fromJSON(needs.test_job.outputs.JSON_CONTENT) }} # Access correct output variable
     steps:
-      - name: Check env value from print
-        run: |
+      - run: |
+          echo $ENV_NAME
           
-          echo $env
-          - name: Debug fromJSON output
-          
-          echo "fromJSON output: ${{ fromJSON(needs.copy_files.outputs.envi) }}"
-
- 
+        env:
+          ENV_NAME: ${{ matrix.env }}
