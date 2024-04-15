@@ -10,7 +10,7 @@ jobs:
     #env:
       #clientfile: "./job_dependencies/job_dependencies.json"
     outputs:
-      env: ${{ steps.set-matrix.outputs.env }}
+      test: ${{ steps.set-matrix.outputs.env }}
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3  
@@ -29,3 +29,5 @@ jobs:
           echo "env=$(jq -r .env job_dependencies/job_dependencies.json)" >> $GITHUB_ENV
       - name: Check env value
         run: echo $env
+      - name: Check test value
+        run: echo $test
