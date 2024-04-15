@@ -1,1 +1,25 @@
+name: Deploy Workflow
+ 
+on:
+  workflow_dispatch:
 
+ 
+jobs:
+  copy_files:
+    runs-on: ubuntu-latest
+    #env:
+      #clientfile: "./job_dependencies/job_dependencies.json"
+    outputs:
+      components-info: ${{ steps.set-matrix.outputs.env }}
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3  
+        
+     
+      - name: Set matrix data
+        id: set-matrix
+        working-directory: ./job_dependencies
+        run: |
+          echo "env=$(jq -r .env job_dependencies/job_dependencies.json)" >> $GITHUB_ENV
+      - name: Check env value
+        run: echo $component
