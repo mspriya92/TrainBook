@@ -7,6 +7,9 @@
   },
   {
     "city": "New York"
+  },
+  {
+    "env": "Dev"
   }
 ]
 
