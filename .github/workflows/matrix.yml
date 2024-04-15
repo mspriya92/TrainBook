@@ -22,7 +22,7 @@ jobs:
       #- name: Check env value
         #run: echo $component
   Comparison:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     needs: copy_files
     continue-on-error: true
     strategy:
