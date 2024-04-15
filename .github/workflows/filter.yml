@@ -10,7 +10,7 @@ jobs:
     #env:
       #clientfile: "./job_dependencies/job_dependencies.json"
     outputs:
-      component: ${{ steps.set-matrix.outputs.env }}
+      component: ${{ steps.set-matrix.outputs.FILTERED_VALUE }}
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3  
@@ -26,10 +26,12 @@ jobs:
       - name: Set matrix data
         id: set-matrix
         run: |
-          echo "env=$(jq -r .name job_dependencies/job_dependencies.json)" >> $GITHUB_ENV
-          echo "$env"
-          FILTERED_VALUE=$(jq -r .age job_dependencies/job_dependencies.json)
+          FILTERED_VALUE=$(jq -r .name job_dependencies/job_dependencies.json)
           echo "Filtered value: $FILTERED_VALUE"
+     
+          FILTERED_VALUE1=$(jq -r .age job_dependencies/job_dependencies.json)
+          echo "Filtered value: $FILTERED_VALUE1"
+          echo "$component"
      
   
         
