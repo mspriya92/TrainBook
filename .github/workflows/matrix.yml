@@ -1,9 +1,7 @@
 name: Outer Matrix Workflow
  
 on:
-  push:
-    branches:
-      - main
+ workflow_dispatch:
  
 jobs:
   outer_matrix_job:
