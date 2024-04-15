@@ -22,14 +22,18 @@ jobs:
           env_value=$(jq -r .env job_dependencies/job_dependencies.json || true)  # Capture env value, handle potential missing file
           echo "::set-output name=env::$env_value"  # Set the 'env' output variable for downstream jobs
       - name: Check env value (using job outputs)
-        run: echo ${{ steps.set-matrix.outputs.env }}
+       
+        run: |
+          echo ${{ steps.set-matrix.outputs.env }}
+          deploy_value= ${{ steps.set-matrix.outputs.env }}
+          echo $deploy_value
 
   print:
     runs-on: ubuntu-latest
     needs: copy_files
     strategy:
       matrix:
-        devops: ${{fromJson(steps.set-matrix.outputs.env)}}
+        devops: ${{fromJson(needs.copy_files.outputs.deploy_value)}}
     steps:
       - name: Check devops value from print
         run: echo $devops
