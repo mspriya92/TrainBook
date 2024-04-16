@@ -1,5 +1,5 @@
 name: matrixcheck Workflow
- 
+
 on:
   workflow_dispatch:
     inputs:
@@ -7,31 +7,23 @@ on:
         description: 'Choose the env to deploy (Dev or Prod)?'
         required: true
         type: string
- 
+
 jobs:
-  
+
   copy_files:
     runs-on: ubuntu-latest
     outputs:
-      components-info: ${{ steps.set-matrix.outputs.filteredJson }}
+      components-info: ${{ steps.set-matrix.outputs.backend-components }}
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3  
-   
+        
       - name: Set matrix data
         id: set-matrix
         working-directory: ./job_dependencies
         run: |
-          # Read the input environment value
-          inputEnv=${{ github.event.inputs.environment }}
+          echo "backend-components=$(jq --arg env ${{ github.event.inputs.environment }} '.[] | select(.environment == $env)' job_dependencies.json)" >> $GITHUB_ENV
 
-          # Filter the JSON based on the input environment
-          filteredJson=$(jq --arg inputEnv "$inputEnv" '.items | map(select(.name == $inputEnv))' job_dependencies.json)
-          echo "$filteredJson"
-         
-      
-        
-    
   Comparison:
     runs-on: self-hosted
     needs: copy_files
@@ -41,11 +33,10 @@ jobs:
          components: ${{ fromJSON(needs.copy_files.outputs.components-info) }}
       fail-fast: false
     env:
-      name: ${{ matrix.components.items.name }}
-      version: ${{ matrix.components.items.version }}
+      name: ${{ matrix.components.name }}
+      version: ${{ matrix.components.version }}
     steps:
       - name: checking matrix value
         run: |
           echo "$name"
           echo "$version"
-          
