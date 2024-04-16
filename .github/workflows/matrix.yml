@@ -30,6 +30,7 @@ jobs:
     continue-on-error: true
     steps:
       - name: Loop through environments
+        working-directory: ./job_dependencies
         run: |
           $jsonData = Get-Content job_dependencies/job_dependencies.json -Raw | ConvertFrom-Json
           foreach ($env in "Dev", "Prod") {
