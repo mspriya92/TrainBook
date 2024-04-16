@@ -1,12 +1,10 @@
 [
-{
- "environment": "Dev",
- "name": "Component1",
- "version": "1.0.0"
-},
-{
- "environment": "Prod",
- "name": "Component2",
- "version": "2.0.0"
-}
+  {
+   "name": "Dev",
+   "version": "10"
+  },
+  {
+   "name": "prod",
+   "version": "11"
+  }
 ]
