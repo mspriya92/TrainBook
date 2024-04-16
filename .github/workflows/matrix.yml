@@ -22,7 +22,7 @@ jobs:
         id: set-matrix
         working-directory: ./job_dependencies
         run: |
-          echo "backend-components=`perl -pe 's/\s+//g' job_dependencies.json`" >> $GITHUB_OUTPUT
+          echo "backend-components=$(perl -pe 's/\s+//g' job_dependencies.json)" >> $GITHUB_OUTPUT
 
   Comparison:
     runs-on: ubuntu-latest
@@ -31,11 +31,12 @@ jobs:
     steps:
       - name: Process environments sequentially
         run: |
-          $jsonData = Get-Content ./job_dependencies/job_dependencies.json -Raw | ConvertFrom-Json
-          function ProcessEnvironment($env) {
-            Write-Host "Processing environment: $env"
-            $filteredData = $jsonData | Where-Object { $_.name -eq $env }
-            Write-Host "Filtered data: $filteredData"
+          jsonData=$(<./job_dependencies/job_dependencies.json)
+          function ProcessEnvironment() {
+            local env=$1
+            echo "Processing environment: $env"
+            filteredData=$(echo "$jsonData" | jq --arg env "$env" '.[] | select(.name == $env)')
+            echo "Filtered data: $filteredData"
             # Perform actions specific to the environment based on the filtered data
             # For example, run a command or call another action based on the filtered data
           }
