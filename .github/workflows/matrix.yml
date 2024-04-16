@@ -25,7 +25,7 @@ jobs:
           echo "backend-components=`perl -pe 's/\s+//g' job_dependencies.json`" >> $GITHUB_OUTPUT
 
   Comparison:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     needs: copy_files
     continue-on-error: true
     steps:
