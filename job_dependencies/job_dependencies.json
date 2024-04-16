@@ -1,5 +1,14 @@
-[
-  { "environment": "Dev", "Version": [] },
-  { "environment": "Prod", "Version": "11" },
-  { "environment": "Prod1", "Version": "12" }
-]
+{
+    "Dev": {
+        "name": "Divya",
+        "age": "20"
+    },
+    "Prod": {
+        "name": "Priya",
+        "age": "31"
+    },
+    "Prod1": {
+        "name": "Santhosh",
+        "age": "32"
+    }
+}
