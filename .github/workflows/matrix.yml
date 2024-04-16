@@ -23,6 +23,7 @@ jobs:
           environment_var=${{ github.event.inputs.environment }}
           filtered_data=$(jq -r ".[] | select(.name == \"$environment_var\")" job_dependencies.json)
           echo "backend-components=${filtered_data}" >> $GITHUB_OUTPUT
+          filteredJson=$(jq --arg inputEnv "$inputEnv" '.items | map(select(.name == $inputEnv))' job_dependencies/job_dependencies.json)
 
       
   Comparison:
