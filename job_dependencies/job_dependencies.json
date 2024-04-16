@@ -1,10 +1,10 @@
 [
   {
-   "name": "Dev",
+   "name": "Prod",
    "version": "10"
   },
   {
-   "name": "Prod",
+   "name": "Dev",
    "version": "11"
   }
 ]
