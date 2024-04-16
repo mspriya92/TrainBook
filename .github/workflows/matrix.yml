@@ -31,11 +31,11 @@ jobs:
     steps:
       - name: Loop through environments
         run: |
-          jsonData=$(cat job_dependencies/job_dependencies.json)
-          for env in Dev Prod; do
-            filteredData=$(echo "$jsonData" | jq -r --arg chosenEnv "$env" '.[] | select(.name == $chosenEnv)')
-            echo "Processing environment: $env"
-            echo "Filtered data: $filteredData"
+          $jsonData = Get-Content job_dependencies/job_dependencies.json -Raw | ConvertFrom-Json
+          foreach ($env in "Dev", "Prod") {
+            $filteredData = $jsonData | Where-Object { $_.name -eq $env }
+            Write-Host "Processing environment: $env"
+            Write-Host "Filtered data: $filteredData"
             # Perform actions specific to each environment based on the filtered data
             # For example, run a command or call another action based on the filtered data
-          done
+          }
