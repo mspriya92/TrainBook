@@ -20,7 +20,7 @@ jobs:
           # Use the input provided in workflow_dispatch for the environment
           chosenEnvironment="${{ github.event.inputs.environment }}"
           # Read and filter the JSON data from job_dependencies.json based on the chosen environment
-          filteredData=$(jq -r --arg chosenEnv "$chosenEnvironment" '.[] | select(.environment == $chosenEnv)' job_dependencies.json)
+          filteredData=$(jq -r --arg chosenEnv "$chosenEnvironment" '.[] | select(.environment == $chosenEnv)' job_dependencies/job_dependencies.json)
 
           # Iterate over the filtered JSON data
           for item in $filteredData; do
