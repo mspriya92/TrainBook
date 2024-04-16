@@ -4,37 +4,27 @@ on:
   workflow_dispatch:
     inputs:
       environment:
-        description: 'Choose the env to deploy (Dev or Prod)?'
+        description: 'Choose the env to deploy (Dev, Prod, or Prod1)?'
         required: true
         type: string
 
 jobs:
-  iterate-over-list:
+  iterate-over-json-file:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
 
-      - name: Set up environment and iterate
+      - name: Set up environment and filter JSON data
         run: |
-          # Use the input provided in workflow_dispatch for iteration
-          if [ "${{ github.event.inputs.environment }}" == "Dev" ]; then
-            items=("item1" "item2" "item3")
-            echo "Dev environment specified"
-          elif [ "${{ github.event.inputs.environment }}" == "Prod" ]; then
-            items=("item4" "item5" "item6")
-            echo "Prod environment specified"
-          elif [ "${{ github.event.inputs.environment }}" == "Prod1" ]; then
-            items=("item7" "item8" "item9")
-            echo "Prod1 environment specified"
-          else
-            echo "Invalid environment specified"
-            exit 1
-          fi
+          # Use the input provided in workflow_dispatch for the environment
+          chosenEnvironment="${{ github.event.inputs.environment }}"
+          # Read and filter the JSON data from job_dependencies.json based on the chosen environment
+          filteredData=$(jq -r --arg chosenEnv "$chosenEnvironment" '.[] | select(.environment == $chosenEnv)' job_dependencies.json)
 
-          # Iterate over the list of items based on the input
-          for item in "${items[@]}"; do
+          # Iterate over the filtered JSON data
+          for item in $filteredData; do
             echo "Processing item: $item"
-            # Perform actions specific to each item
+            # Perform actions specific to each item based on the filtered data
             # For example, run a command or call another action based on the item
           done
