@@ -3,8 +3,16 @@ name: Iteration Example
 on:
   workflow_dispatch:
     inputs:
-      environment:
-        description: 'Choose the env to deploy (Dev, Prod, or Prod1)?'
+      dev_value:
+        description: 'Value for Dev environment'
+        required: true
+        type: string
+      prod_value:
+        description: 'Value for Prod environment'
+        required: true
+        type: string
+      prod1_value:
+        description: 'Value for Prod1 environment'
         required: true
         type: string
 
@@ -17,11 +25,20 @@ jobs:
 
       - name: Set up environment and loop through JSON keys
         run: |
-          jsonData=$(cat job_dependencies/job_dependencies.json)
           for chosenEnv in Dev Prod Prod1; do
-            filteredData=$(echo "$jsonData" | jq -r --arg chosenEnv "$chosenEnv" '.[$chosenEnv]')
+            case $chosenEnv in
+              Dev)
+                chosenValue=${{ github.event.inputs.dev_value }}
+                ;;
+              Prod)
+                chosenValue=${{ github.event.inputs.prod_value }}
+                ;;
+              Prod1)
+                chosenValue=${{ github.event.inputs.prod1_value }}
+                ;;
+            esac
             echo "Processing environment: $chosenEnv"
-            echo "Filtered data: $filteredData"
-            # Perform actions specific to each environment based on the filtered data
-            # For example, run a command or call another action based on the filtered data
+            echo "Chosen value: $chosenValue"
+            # Perform actions specific to each environment based on the chosen value
+            # For example, run a command or call another action based on the chosen value
           done
