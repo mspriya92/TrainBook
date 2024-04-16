@@ -25,13 +25,13 @@ jobs:
           echo "backend-components=`perl -pe 's/\s+//g' job_dependencies.json`" >> $GITHUB_OUTPUT
 
   Comparison:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     needs: copy_files
     continue-on-error: true
     steps:
       - name: Process environments sequentially
         run: |
-          $jsonData = Get-Content ./Trainbook/job_dependencies/job_dependencies.json -Raw | ConvertFrom-Json
+          $jsonData = Get-Content ./job_dependencies.json -Raw | ConvertFrom-Json
           function ProcessEnvironment($env) {
             Write-Host "Processing environment: $env"
             $filteredData = $jsonData | Where-Object { $_.name -eq $env }
