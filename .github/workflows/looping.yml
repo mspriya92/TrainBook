@@ -1,18 +1,35 @@
-name:  Mendax Example
+name: Iteration Example
 
 on:
- workflow_dispatch:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Choose the env to deploy (Dev or Prod)?'
+        required: true
+        type: string
 
 jobs:
-  loop_job:
+  iterate-over-list:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Mendax Loop through numbers
-        id: loop
-        run: |
-          for i in 1 2 3 4 5
-          do
-            echo "Mendax Current number: $i"
-          done
+      - name: Checkout Repository
+        uses: actions/checkout@v2
 
+      - name: Set up environment and iterate
+        run: |
+          # Use the input provided in workflow_dispatch for iteration
+          if [ "${{ github.event.inputs.environment }}" == "Dev" ]; then
+            items=("item1" "item2" "item3")
+          elif [ "${{ github.event.inputs.environment }}" == "Prod" ]; then
+            items=("item4" "item5" "item6")
+          else
+            echo "Invalid environment specified"
+            exit 1
+          fi
+
+          # Iterate over the list of items based on the input
+          for item in "${items[@]}"; do
+            echo "Processing item: $item"
+            # Perform actions specific to each item
+            # For example, run a command or call another action based on the item
+          done
