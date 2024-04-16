@@ -21,8 +21,9 @@ jobs:
         working-directory: ./job_dependencies
         run: |
           environment_var=${{ github.event.inputs.environment }}
-          filtered_data=$(jq -r ".[] | select(.name == "\($environment_var\)")" job_dependencies.json)
-          echo "backend-components=${filtered_data}" >> $GITHUB_OUTPUT
+          echo "backend-components=$(jq --arg env ${{ github.event.inputs.environment }} '.[] | select(.name == $env)' job_dependencies.json)" >> $GITHUB_ENV
+          #filtered_data=$(jq -r ".[] | select(.name == "\($environment_var\)")" job_dependencies.json)
+          #echo "backend-components=${filtered_data}" >> $GITHUB_OUTPUT
           #filteredJson=$(jq --arg inputEnv "$inputEnv" '.items | map(select(.name == $inputEnv))' job_dependencies/job_dependencies.json)
 
       
