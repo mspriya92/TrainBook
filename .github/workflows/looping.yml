@@ -1,29 +1,41 @@
-name: Iteration Example
+name: matrixcheck Workflow
 
 on:
   workflow_dispatch:
     inputs:
       environment:
-        description: 'Choose the env to deploy (Dev, Prod, or Prod1)?'
+        description: 'Choose the env to deploy (Dev or Prod)?'
         required: true
         type: string
 
 jobs:
-  iterate-over-json-file:
+
+  copy_files:
     runs-on: ubuntu-latest
+    outputs:
+      components-info: ${{ steps.set-matrix.outputs.backend-components }}
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
-      - name: Set up environment and loop through JSON keys
+      - name: Set matrix data
+        id: set-matrix
+        working-directory: ./job_dependencies
+        run: |
+          echo "backend-components=`perl -pe 's/\s+//g' job_dependencies.json`" >> $GITHUB_OUTPUT
+
+  Comparison:
+    runs-on: self-hosted
+    needs: copy_files
+    continue-on-error: true
+    steps:
+      - name: Loop through environments
         run: |
           jsonData=$(cat job_dependencies/job_dependencies.json)
-          for chosenEnv in Dev Prod Prod1; do
-            data=$(echo "$jsonData" | jq -r --arg chosenEnv "$chosenEnv" '.[$chosenEnv]')
-            echo "Processing environment: $chosenEnv"
-            echo "Output data: $data"
-            echo "##[set-env name=chosenEnv]${chosenEnv}"
-            echo "##[set-env name=data]$data"
+          for env in Dev Prod; do
+            filteredData=$(echo "$jsonData" | jq -r --arg chosenEnv "$env" '.[] | select(.name == $chosenEnv)')
+            echo "Processing environment: $env"
+            echo "Filtered data: $filteredData"
             # Perform actions specific to each environment based on the filtered data
             # For example, run a command or call another action based on the filtered data
           done
