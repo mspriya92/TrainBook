@@ -24,9 +24,11 @@ jobs:
           elif [ "${{ github.event.inputs.environment }}" == "Prod" ]; then
             items=("item4" "item5" "item6")
             echo "Prod environment specified"
-          else [ "${{ github.event.inputs.environment }}" == "Prod1" ]; then
+          elif [ "${{ github.event.inputs.environment }}" == "Prod1" ]; then
             items=("item7" "item8" "item9")
             echo "Prod1 environment specified"
+          else
+            echo "Invalid environment specified"
             exit 1
           fi
 
