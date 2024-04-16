@@ -15,17 +15,13 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v2
 
-      - name: Set up environment and filter JSON data
+      - name: Set up environment and loop through JSON keys
         run: |
-          
-          chosenEnvironment="${{ github.event.inputs.environment }}"
-          # Read the JSON data from the file
           jsonData=$(cat job_dependencies/job_dependencies.json)
-          
-          filteredData=$(echo "$jsonData" | jq -r --arg chosenEnv "$chosenEnvironment" '.[$chosenEnv]')
-
-          # Iterate over the filtered JSON data
-          echo "$filteredData" | jq -c '.[]' | while IFS= read -r item; do
-            echo "Processing item: $item"
-           
+          for chosenEnv in Dev Prod Prod1; do
+            filteredData=$(echo "$jsonData" | jq -r --arg chosenEnv "$chosenEnv" '.[$chosenEnv]')
+            echo "Processing environment: $chosenEnv"
+            echo "Filtered data: $filteredData"
+            # Perform actions specific to each environment based on the filtered data
+            # For example, run a command or call another action based on the filtered data
           done
