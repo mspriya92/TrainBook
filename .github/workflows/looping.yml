@@ -33,9 +33,7 @@ jobs:
         run: |
           jsonData=$(cat job_dependencies/job_dependencies.json)
           for env in Dev Prod; do
-            filteredData=$(echo "$jsonData" | jq -r --arg chosenEnv "$env" '.[] | select(.name == $chosenEnv)')
+            filteredData=$(echo "$jsonData" | jq -r --argjson chosenEnv "$env" '.[] | select(.name == $chosenEnv)')
             echo "Processing environment: $env"
             echo "Filtered data: $filteredData"
-            # Perform actions specific to each environment based on the filtered data
-            # For example, run a command or call another action based on the filtered data
           done
