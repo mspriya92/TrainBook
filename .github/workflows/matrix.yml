@@ -1,5 +1,3 @@
-name: matrixcheck Workflow
-
 on:
   workflow_dispatch:
     inputs:
@@ -16,31 +14,30 @@ jobs:
       components-info: ${{ steps.set-matrix.outputs.backend-components }}
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v3
-
+        uses: actions/checkout@v3  
+        
       - name: Set matrix data
         id: set-matrix
         working-directory: ./job_dependencies
         run: |
-          echo "backend-components=$(perl -pe 's/\s+//g' job_dependencies.json)" >> $GITHUB_OUTPUT
+          echo "backend-components=`perl -pe 's/\s+//g' job_dependencies.json`" >> $GITHUB_OUTPUT
 
   Comparison:
     runs-on: ubuntu-latest
     needs: copy_files
     continue-on-error: true
+    env:
+      name: ${{ github.event.inputs.environment }}
+    strategy:
+      matrix:
+        environment: [Dev, Prod]
     steps:
-      - name: Process environments sequentially
+      - name: Process Environment
         run: |
-          cd ./job_dependencies  # Change working directory to where the JSON file is located
-          jsonData=$(<job_dependencies.json)
-          #jsonData=$(<./job_dependencies/job_dependencies.json)
-          function ProcessEnvironment() {
-            local env=$1
-            echo "Processing environment: $env"
-            filteredData=$(echo "$jsonData" | jq --arg env "$env" '.[] | select(.name == $env)')
-            echo "Filtered data: $filteredData"
-            # Perform actions specific to the environment based on the filtered data
-            # For example, run a command or call another action based on the filtered data
-          }
-          ProcessEnvironment "Dev"
-          ProcessEnvironment "Prod"
+          if [ "${{ matrix.environment }}" == "Dev" ]; then
+            # Add the steps to process the Dev environment
+            echo "Processing Dev environment"
+          elif [ "${{ matrix.environment }}" == "Prod" ]; then
+            # Add the steps to process the Prod environment
+            echo "Processing Prod environment"
+          fi
