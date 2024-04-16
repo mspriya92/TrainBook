@@ -16,15 +16,15 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
-
       - name: Set matrix data
         id: set-matrix
         working-directory: ./job_dependencies
         run: |
           environment_var=${{ github.event.inputs.environment }}
           filtered_data=$(jq -r ".[] | select(.name == \"$environment_var\")" job_dependencies.json)
-          echo "backend-components=$filtered_data" >> $GITHUB_OUTPUT
+          echo "backend-components=${filtered_data}" >> $GITHUB_OUTPUT
 
+      
   Comparison:
     runs-on: self-hosted
     needs: copy_files
