@@ -25,18 +25,19 @@ jobs:
           echo "backend-components=`perl -pe 's/\s+//g' job_dependencies.json`" >> $GITHUB_OUTPUT
 
   Comparison:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     needs: copy_files
     continue-on-error: true
     steps:
-      - name: Loop through environments
-        working-directory: ./job_dependencies
+      - name: Process environments sequentially
         run: |
-          $jsonData = Get-Content job_dependencies/job_dependencies.json -Raw | ConvertFrom-Json
-          foreach ($env in "Dev", "Prod") {
-            $filteredData = $jsonData | Where-Object { $_.name -eq $env }
+          $jsonData = Get-Content ./Trainbook/job_dependencies/job_dependencies.json -Raw | ConvertFrom-Json
+          function ProcessEnvironment($env) {
             Write-Host "Processing environment: $env"
+            $filteredData = $jsonData | Where-Object { $_.name -eq $env }
             Write-Host "Filtered data: $filteredData"
-            # Perform actions specific to each environment based on the filtered data
+            # Perform actions specific to the environment based on the filtered data
             # For example, run a command or call another action based on the filtered data
           }
+          ProcessEnvironment "Dev"
+          ProcessEnvironment "Prod"
