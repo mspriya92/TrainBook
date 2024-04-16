@@ -1,4 +1,5 @@
 name: matrixcheck Workflow
+ 
 on:
   workflow_dispatch:
     inputs:
@@ -6,9 +7,9 @@ on:
         description: 'Choose the env to deploy (Dev or Prod)?'
         required: true
         type: string
-
+ 
 jobs:
-
+ 
   copy_files:
     runs-on: ubuntu-latest
     outputs:
@@ -17,28 +18,30 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3  
         
+     
       - name: Set matrix data
         id: set-matrix
         working-directory: ./job_dependencies
         run: |
           echo "backend-components=`perl -pe 's/\s+//g' job_dependencies.json`" >> $GITHUB_OUTPUT
-
+      #- name: Check env value
+        #run: echo $component
+    
   Comparison:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     needs: copy_files
     continue-on-error: true
-    env:
-      name: ${{ github.event.inputs.environment }}
     strategy:
       matrix:
-        environment: [Dev, Prod]
+         components: ${{ fromJSON(needs.copy_files.outputs.components-info) }}
+      fail-fast: false
+      max-parallel: 1
+    env:
+      name: ${{ matrix.components.name }}
+      version: ${{ matrix.components.version }}
     steps:
-      - name: Process Environment
+      - name: checking matrix value
         run: |
-          if [ "${{ matrix.environment }}" == "Dev" ]; then
-            # Add the steps to process the Dev environment
-            echo "Processing Dev environment"
-          elif [ "${{ matrix.environment }}" == "Prod" ]; then
-            # Add the steps to process the Prod environment
-            echo "Processing Prod environment"
-          fi
+          echo "$name"
+          echo "$version"
+          
