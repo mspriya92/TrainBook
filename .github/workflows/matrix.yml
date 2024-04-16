@@ -22,7 +22,7 @@ jobs:
         id: set-matrix
         run: |
           echo "backend-components=$(jq --arg env ${{ github.event.inputs.environment }} '.[] | select(.environment == $env)' job_dependencies.json)" >> $GITHUB_ENV
-
+          echo "$backend-components"
   Comparison:
     runs-on: self-hosted
     needs: copy_files
