@@ -20,10 +20,13 @@ jobs:
           # Use the input provided in workflow_dispatch for iteration
           if [ "${{ github.event.inputs.environment }}" == "Dev" ]; then
             items=("item1" "item2" "item3")
+            echo "Dev environment specified"
           elif [ "${{ github.event.inputs.environment }}" == "Prod" ]; then
             items=("item4" "item5" "item6")
-          else
-            echo "Invalid environment specified"
+            echo "Prod environment specified"
+          else [ "${{ github.event.inputs.environment }}" == "Prod1" ]; then
+            items=("item4" "item5" "item6")
+            echo "Prod1 environment specified"
             exit 1
           fi
 
