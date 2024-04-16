@@ -25,7 +25,7 @@ jobs:
             items=("item4" "item5" "item6")
             echo "Prod environment specified"
           else [ "${{ github.event.inputs.environment }}" == "Prod1" ]; then
-            items=("item4" "item5" "item6")
+            items=("item7" "item8" "item9")
             echo "Prod1 environment specified"
             exit 1
           fi
