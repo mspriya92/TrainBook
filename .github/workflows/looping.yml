@@ -16,16 +16,16 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Set up environment and filter JSON data
+        id: filter-json
         run: |
-          
           chosenEnvironment="${{ github.event.inputs.environment }}"
-          # Read the JSON data from the file
           jsonData=$(cat job_dependencies/job_dependencies.json)
-          
           filteredData=$(echo "$jsonData" | jq -r --arg chosenEnv "$chosenEnvironment" '.[$chosenEnv]')
+          echo "::set-output name=filteredData::$filteredData"
 
-          # Iterate over the filtered JSON data
-          echo "$filteredData" | jq -c '.[]' | while IFS= read -r item; do
+      - name: Iterate over filtered JSON data
+        run: |
+          parsedData="${{ steps.filter-json.outputs.filteredData }}"
+          for item in $(echo "$parsedData" | jq -c '.[]'); do
             echo "Processing item: $item"
-           
           done
