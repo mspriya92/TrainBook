@@ -31,7 +31,9 @@ jobs:
     steps:
       - name: Process environments sequentially
         run: |
-          jsonData=$(<./job_dependencies/job_dependencies.json)
+          cd ./job_dependencies  # Change working directory to where the JSON file is located
+          jsonData=$(<job_dependencies.json)
+          #jsonData=$(<./job_dependencies/job_dependencies.json)
           function ProcessEnvironment() {
             local env=$1
             echo "Processing environment: $env"
