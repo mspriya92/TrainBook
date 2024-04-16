@@ -1,5 +1,5 @@
 [
-  { "name": "Dev", "Version": "10" },
+  { "name": "Dev", "Version": [] },
   { "name": "Prod", "Version": "11" },
   { "name": "Prod1", "Version": "12" }
 ]
