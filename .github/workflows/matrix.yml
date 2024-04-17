@@ -2,11 +2,11 @@ name: matrixcheck Workflow
  
 on:
   workflow_dispatch:
-    #inputs:
-      #environment:
-        #description: 'Choose the env to deploy (Dev or Prod)?'
-        #required: true
-        #type: string
+    inputs:
+      environment:
+        description: 'Choose the env to deploy (Dev or Prod)?'
+        required: true
+        type: string
  
 jobs:
  
@@ -24,8 +24,10 @@ jobs:
         working-directory: ./job_dependencies
         run: |
           echo "backend-components=`perl -pe 's/\s+//g' job_dependencies.json`" >> $GITHUB_OUTPUT
-      #- name: Check env value
-        #run: echo $component
+      - name: Changed
+        if: false  # This condition ensures that this step is skipped
+        run: |
+          echo "Job is skipped"
     
   Comparison:
     runs-on: self-hosted
