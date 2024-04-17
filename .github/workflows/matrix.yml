@@ -7,7 +7,15 @@ on:
         description: 'Choose the env to deploy (Dev or Prod)?'
         required: true
         type: string
- 
+      components:
+        description: 'Choose the required component'
+        required: true
+        type: choice
+        options:
+          - com1
+          - com2
+          - com3
+             
 jobs:
  
   copy_files:
@@ -24,21 +32,7 @@ jobs:
         working-directory: ./job_dependencies
         run: |
           echo "backend-components=`perl -pe 's/\s+//g' job_dependencies.json`" >> $GITHUB_OUTPUT
-      - name: Changed
-        if: false  # This condition ensures that this step is skipped
-        run: |
-          echo "Job is skipped"
-      - name: Filter JSON based on input environment
-        id: filter-json
-        run: |
-          # Read the input environment value
-          inputEnv=${{ github.event.inputs.environment }}
-
-          # Filter the JSON based on the input environment
-          filteredJson=$(jq --arg inputEnv "$inputEnv" '.[] | select(.name == $inputEnv)' job_dependencies/job_dependencies.json)
-
-          # Set the filtered JSON as an environment variable for further use
-          echo "FILTERED_JSON=$filteredJson" >> $GITHUB_ENV 
+     
     
   Comparison:
     runs-on: self-hosted
