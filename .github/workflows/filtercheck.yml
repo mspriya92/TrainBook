@@ -1,4 +1,4 @@
-name: filtercheck Workflow
+name: matrixcheck Workflow
 
 on:
   workflow_dispatch:
@@ -7,42 +7,34 @@ on:
         description: 'Choose the env to deploy (Dev or Prod)?'
         required: true
         type: string
-      filters:
-        description: 'Choose the required Filter'
-        required: true
-        type: choice
-        options:
-          - com1
-          - com2
-          - com3
 
 jobs:
+
   copy_files:
     runs-on: ubuntu-latest
     outputs:
-      filteredData: ${{ steps.set-matrix.outputs.filteredData }}
+      components-info: ${{ steps.set-matrix.outputs.backend-components }}
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v3
-
+        uses: actions/checkout@v3  
+        
       - name: Set matrix data
         id: set-matrix
         working-directory: ./job_dependencies
         run: |
-          filteredData=$(perl -lne 'print $1 if /"${{ github.event.inputs.filters }}"\s*:\s*"([^"]+)"/' job_dependencies.json)
-          echo "filteredData=$filteredData" >> $GITHUB_ENV
-          echo "::set-output name=filteredData::$filteredData" 
-          echo "filteredData=$filteredData"  # Print the value of filteredData
+          # Filter the input using Perl command
+          perl -i -pe 's/\s+//g' job_dependencies.json
+          echo "backend-components=`cat job_dependencies.json`" >> $GITHUB_OUTPUT
 
   comparison:
     runs-on: self-hosted
     needs: copy_files
+    continue-on-error: true
     strategy:
       matrix:
-        components: ${{fromJson(needs.copy_files.outputs.filteredData)}}
+        components: ${{ fromJSON(needs.copy_files.outputs.components-info) }}
       fail-fast: false
       max-parallel: 1
-    steps:
-      - name: Checking matrix value
-        run: |
-          echo "Component: ${{ matrix.components }}"
+    env:
+      name: ${{ matrix.components.name }}
+      version: ${{ matrix.components.version }}
