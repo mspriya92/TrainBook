@@ -33,13 +33,14 @@ jobs:
         id: set-matrix
         working-directory: ./job_dependencies
         run: |
-          chosencomponents="${{ github.event.inputs.Filters }}"
-          filteredData=$(jq -r --arg chosenCom "$chosencomponents" '.[] | select(.name == $chosenCom)' job_dependencies.json)
-          for item in $filteredData; do
-            echo "Processing item: $item"
-            
-          done
-     
+         
+         
+         for chosenEnv in ${{ github.event.inputs.Filters }}; do
+         filteredData=$(echo "$jsonData" | jq -r --arg chosenEnv "$chosenEnv" '.[$chosenEnv]')
+         echo "Processing environment: $chosenEnv"
+         echo "Filtered data: $filteredData"
+   
+         done
     
   Comparison:
     runs-on: self-hosted
