@@ -31,6 +31,7 @@ jobs:
         run: |
           filteredData=$(perl -lne 'print $1 if /"${{ github.event.inputs.filters }}"\s*:\s*"([^"]+)"/' job_dependencies.json)
           echo "filteredData=$filteredData" >> $GITHUB_ENV
+          echo "::set-output name=filteredData::$filteredData" 
           echo "filteredData=$filteredData"  # Print the value of filteredData
 
   comparison:
