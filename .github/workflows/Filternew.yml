@@ -34,13 +34,11 @@ jobs:
         working-directory: ./job_dependencies
         run: |
          
-         jsonData=$(cat job_dependencies.json)
-         for chosenEnv in ${{ github.event.inputs.Filters }}; do
-         filteredData=$(echo "$jsonData" | jq -r --arg chosenEnv "$chosenEnv" '.[$chosenEnv]')
-         echo "Processing environment: $chosenEnv"
-         echo "Filtered data: $filteredData"
-   
-         done
+        
+          chosenComponent="${{ github.event.inputs.Filters }}"
+          filteredData=$(jq -r --arg chosenCom "$chosenComponent" '.[] | select(.name == $chosenCom)' job_dependencies.json)
+          echo "::set-output name=filteredData::$filteredData"
+
     
   Comparison:
     runs-on: self-hosted
