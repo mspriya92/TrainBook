@@ -8,9 +8,13 @@ on:
         required: true
         type: string
       filters:
-        description: 'Choose the required component'
+        description: 'Choose the required Filter'
         required: true
-        type: string
+        type: choice
+        options:
+          - com1
+          - com2
+          - com3
 
 jobs:
   copy_files:
@@ -28,3 +32,15 @@ jobs:
           chosenfilter="${{ github.event.inputs.filters }}"
           filteredData=$(perl -lne 'print $1 if /"$chosenFilter"\s*:\s*"([^"]+)"/' job_dependencies.json)
           echo "::set-output name=backend-components::$filteredData"
+  comparison:
+    runs-on: self-hosted
+    needs: copy_files
+    strategy:
+      matrix:
+        components: ${{ fromJson(needs.copy_files.outputs.backend-components) }}
+      fail-fast: false
+      max-parallel: 1
+    steps:
+      - name: Checking matrix value
+        run: |
+          echo "Component: ${{ matrix.components }}"
