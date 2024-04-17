@@ -34,7 +34,7 @@ jobs:
         working-directory: ./job_dependencies
         run: |
           chosencomponents="${{ github.event.inputs.Filters }}"
-          filteredData=$(jq -r --arg chosenCom "$chosencomponents" '.[] | select(.name == $chosenCom)' job_dependencies/job_dependencies.json)
+          filteredData=$(jq -r --arg chosenCom "$chosencomponents" '.[] | select(.name == $chosenCom)' job_dependencies.json)
           for item in $filteredData; do
             echo "Processing item: $item"
             
