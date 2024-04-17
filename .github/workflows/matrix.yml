@@ -42,7 +42,6 @@ jobs:
             echo "Processing item: $item"
           done
           echo "::set-output name=filteredData::$filteredData"
-
   Comparison:
     runs-on: self-hosted
     needs: copy_files
@@ -50,19 +49,11 @@ jobs:
     strategy:
       matrix:
         components: ${{ fromJSON(needs.copy_files.outputs.components-info) }}
-        filters: ${{ fromJSON(needs.copy_files.outputs.filter-info) }}
+        filteredData: ${{ fromJSON(needs.copy_files.outputs.filter-info) }}
       fail-fast: false
       max-parallel: 1
     env:
       name: ${{ matrix.components.name }}
       version: ${{ matrix.components.version }}
-      name1: ${{ matrix.filters.name }}
-      version1: ${{ matrix.filters.version }}
+      filteredData: ${{ matrix.filteredData }}
 
-    steps:
-      - name: checking matrix value
-        run: |
-          echo "$name"
-          echo "$version"
-          echo "$name1"
-          echo "$version1"
