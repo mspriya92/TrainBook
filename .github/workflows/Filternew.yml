@@ -34,7 +34,7 @@ jobs:
         working-directory: ./job_dependencies
         run: |
          
-         jsonData=$(cat job_dependencies/job_dependencies.json)
+         jsonData=$(cat job_dependencies.json)
          for chosenEnv in ${{ github.event.inputs.Filters }}; do
          filteredData=$(echo "$jsonData" | jq -r --arg chosenEnv "$chosenEnv" '.[$chosenEnv]')
          echo "Processing environment: $chosenEnv"
