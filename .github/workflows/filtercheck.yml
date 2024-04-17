@@ -23,6 +23,7 @@ jobs:
 
       - name: Set matrix data
         id: set-matrix
+        working-directory: ./job_dependencies
         run: |
           chosenfilter="${{ github.event.inputs.filters }}"
           filteredData=$(perl -lne 'print $1 if /"$chosenFilter"\s*:\s*"([^"]+)"/' job_dependencies.json)
