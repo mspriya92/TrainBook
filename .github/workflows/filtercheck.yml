@@ -1,0 +1,29 @@
+name: filtercheck Workflow
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Choose the env to deploy (Dev or Prod)?'
+        required: true
+        type: string
+      filters:
+        description: 'Choose the required component'
+        required: true
+        type: string
+
+jobs:
+  copy_files:
+    runs-on: ubuntu-latest
+    outputs:
+      backend-components: ${{ steps.set-matrix.outputs.backend-components }}
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Set matrix data
+        id: set-matrix
+        run: |
+          chosenfilter="${{ github.event.inputs.filters }}"
+          filteredData=$(perl -lne 'print $1 if /"$chosenFilter"\s*:\s*"([^"]+)"/' job_dependencies.json)
+          echo "::set-output name=backend-components::$filteredData"
