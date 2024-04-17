@@ -1,14 +1,14 @@
 [
   {
-   "name": "Dev",
+   "name": "com1",
    "version": "10"
   },
   {
-   "name": "Prod",
+   "name": "com2",
    "version": "11"
   },
   {
-   "name": "Prod1",
+   "name": "com3",
    "version": "12"
   }
 ]
