@@ -33,6 +33,10 @@ jobs:
           COMPONENT="$INPUT_component"
           VERSION=$(perl -ne '/"name":\s*"$COMPONENT"/ && /"version":\s*"([^"]+)"/ && print $1' job_dependencies.json)
           echo "::set-output name=filtered-components::{\"name\": \"$COMPONENT\", \"version\": \"$VERSION\"}"
+      - name: Print filtered components
+        run: |
+          echo "Filtered Component Name: ${{ steps.set-matrix.outputs.filtered-components.name }}"
+          echo "Filtered Component Version: ${{ steps.set-matrix.outputs.filtered-components.version }}"
  
   Comparison:
     runs-on: ubuntu-latest
