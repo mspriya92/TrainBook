@@ -1,4 +1,4 @@
-name: filtercheck Workflow
+name: matrixcheck Workflow
 
 on:
   workflow_dispatch:
@@ -9,22 +9,36 @@ on:
         type: string
 
 jobs:
-  filter_json:
+
+  copy_files:
     runs-on: ubuntu-latest
     outputs:
-      filtered-components: ${{ steps.filter-json.outputs.filtered-components }}
-
+      components-info: ${{ steps.set-matrix.outputs.backend-components }}
     steps:
-      - name: Filter JSON
-        id: filter-json
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Set matrix data
+        id: set-matrix
         working-directory: ./job_dependencies
         run: |
-          # Read the input filter value
-          FILTER_VALUE=${{ github.event.inputs.environment }}
+          echo "backend-components=$(perl -ne 'print if /$ENV{GITHUB_EVENT_NAME}: $ENV{environment}/' job_dependencies.json)" >> $GITHUB_ENV
+          echo "Filtered components: ${{ steps.set-matrix.outputs.backend-components }}"  # Echo the filtered components
 
-          # Filter the JSON based on the input filter using jq command
-          FILTERED_JSON=$(jq --arg filter "$FILTER_VALUE" 'to_entries | map(select(.key == $filter)) | from_entries' job_dependencies.json)
-
-          # Set the output
-          echo "::set-output name=filtered-components::$FILTERED_JSON"
-          echo "Filtered JSON: $FILTERED_JSON"  # Output the filtered JSON for checking
+  Comparison:
+    runs-on: self-hosted
+    needs: copy_files
+    continue-on-error: true
+    strategy:
+      matrix:
+        components: ${{ fromJSON(needs.copy_files.outputs.components-info) }}
+      fail-fast: false
+      max-parallel: 1
+    env:
+      name: ${{ matrix.components.name }}
+      version: ${{ matrix.components.version }}
+    steps:
+      - name: checking matrix value
+        run: |
+          echo "Name from filtered components: $name"  # Echo the name from filtered components
+          echo "Version from filtered components: $version"  # Echo the version from filtered components
