@@ -23,6 +23,7 @@ jobs:
 
       - name: Set matrix data
         id: set-matrix
+        working-directory: ./job_dependencies
         run: |
           # Read the JSON data from the file
           json_data=$(<job_dependencies.json)
