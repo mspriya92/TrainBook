@@ -1,5 +1,5 @@
 name: filtercheck
- 
+
 on:
   workflow_dispatch:
     inputs:
@@ -12,38 +12,22 @@ on:
         required: true
         type: choice
         options: [com1, com2, com3]
- 
+
 jobs:
   copy_files:
     runs-on: ubuntu-latest
     outputs:
-      components-info: ${{ steps.set-matrix.outputs.filtered-components }}
- 
+      components-info: ${{ steps.set-matrix.outputs.backend-components }}
+
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
- 
+
       - name: Set matrix data
         id: set-matrix
         working-directory: ./job_dependencies
         run: |
           FILTER=$INPUT_Filter
           BACKEND_COMPONENTS=$(perl -lne '/"name":\s*"$FILTER"/ && print' job_dependencies.json)
-		        echo "backend-components: $BACKEND_COMPONENTS"
+          echo "backend-components: $BACKEND_COMPONENTS"
           echo "::set-output name=backend-components::$BACKEND_COMPONENTS"
- 
-  Comparison:
-    runs-on: self-hosted
-    needs: copy_files
-    continue-on-error: true
-    strategy:
-      matrix:
-        components: ${{ fromJSON(needs.copy_files.outputs.components-info) }}
-      fail-fast: false
-      max-parallel: 1
- 
-    steps:
-      - name: checking matrix value
-        run: |
-          echo "${{ matrix.components.name }}"
-          echo "${{ matrix.components.version }}"
