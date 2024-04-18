@@ -1,4 +1,4 @@
-name: filtercheck Workflow
+name: matrixcheck Workflow
 
 on:
   workflow_dispatch:
@@ -7,42 +7,44 @@ on:
         description: 'Choose the env to deploy (Dev or Prod)?'
         required: true
         type: string
-      filters:
-        description: 'Choose the required Filter'
+      filter:
+        description: 'Choose the required component'
         required: true
-        type: string  # Change the type to string as the options are strings
+        type: choice
+        options:
+          - com1
+          - com2
+          - com3
 
 jobs:
+
   copy_files:
     runs-on: ubuntu-latest
     outputs:
-      filteredData: ${{ steps.set-matrix.outputs.filteredData }}
+      components-info: ${{ steps.set-matrix.outputs.filtered-components }}
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
 
-      - name: Set matrix data
+      - name: Set filtered components
         id: set-matrix
-        working-directory: ./job_dependencies
         run: |
-          # Read the JSON data from the file
-          json_data=$(<job_dependencies.json)
-          
-          # Decode the JSON data and filter based on the workflow_dispatch inputs
-          filteredData=$(perl -MJSON -E '$data = decode_json($ENV{json_data}); foreach $item (@$data) { if ($item->{name} eq $ENV{INPUT_FILTERS}) { push(@filtered, $item); } } say encode_json(\@filtered);')
-          
-          # Set the filtered data as an output
-          echo "::set-output name=filteredData::$filteredData"
+          echo "filtered-components=`perl -MJSON -lne 'BEGIN{open $fh, "<", "job_dependencies.json"; local $/; $json = <$fh>; close $fh;} $data = decode_json($json); foreach $component (@{$data}) { if ($component->{name} eq $ENV{INPUT_FILTER}) { push @filtered, $component; }} print encode_json(\@filtered);'`" >> $GITHUB_ENV
 
-  comparison:
-    runs-on: ubuntu-latest
+  Comparison:
+    runs-on: self-hosted
     needs: copy_files
+    continue-on-error: true
     strategy:
       matrix:
-        components: ${{fromJson(needs.copy_files.outputs.filteredData)}}
+        components: ${{ fromJSON(needs.copy_files.outputs.components-info) }}
       fail-fast: false
       max-parallel: 1
+    env:
+      name: ${{ matrix.components.name }}
+      version: ${{ matrix.components.version }}
     steps:
-      - name: Checking matrix value
+      - name: checking matrix value
         run: |
-          echo "Component: ${{ matrix.components }}"
+          echo "$name"
+          echo "$version"
