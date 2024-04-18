@@ -20,7 +20,7 @@ jobs:
   copy_files:
     runs-on: ubuntu-latest
     outputs:
-      filtered-components: ${{ steps.set-matrix.outputs.filtered-components }}
+      filtered-components: ${{ steps.filter-json.outputs.filtered-components }}
 
     steps:
       - name: Checkout Repository
@@ -28,6 +28,7 @@ jobs:
 
       - name: Filter JSON
         id: filter-json
+        working-directory: ./job_dependencies
         run: |
           # Read the input filter value
           FILTER_VALUE=${{ github.event.inputs.Filter }}
@@ -55,5 +56,4 @@ jobs:
     steps:
       - name: checking matrix value
         run: |
-          echo "${{ matrix.components.name }}"
-          echo "${{ matrix.components.version }}"
+          echo "Matrix Components: ${{ matrix.components }}"
