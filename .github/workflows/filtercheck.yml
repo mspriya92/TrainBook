@@ -23,6 +23,7 @@ jobs:
 
       - name: Set matrix data
         id: set-matrix
+        working-directory: ./job_dependencies
         run: |
           filteredData=$(perl -lne 'print $1 if /"${{ github.event.inputs.filters }}"\s*:\s*"([^"]+)"/' job_dependencies.json)
           echo "filteredData=$filteredData" >> $GITHUB_OUTPUT  # Use $GITHUB_OUTPUT to set the environment variable
