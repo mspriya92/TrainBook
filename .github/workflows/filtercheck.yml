@@ -1,4 +1,4 @@
-name: filtercheck
+name: matrixcheck
  
 on:
   workflow_dispatch:
@@ -7,20 +7,12 @@ on:
         description: 'Choose the env to deploy (Dev or Prod)?'
         required: true
         type: string
-      component:
-        description: 'Choose the required component'
-        required: true
-        type: choice
-        options:
-          - com1
-          - com2
-          - com3
  
 jobs:
   copy_files:
     runs-on: ubuntu-latest
     outputs:
-      components-info: ${{ steps.set-matrix.outputs.filtered-components }}
+      components-info: ${{ steps.set-matrix.outputs.backend-components }}
  
     steps:
       - name: Checkout Repository
@@ -30,16 +22,15 @@ jobs:
         id: set-matrix
         working-directory: ./job_dependencies
         run: |
-          COMPONENT="$INPUT_component"
-          VERSION=$(perl -ne '/"name":\s*"$COMPONENT"/ && /"version":\s*"([^"]+)"/ && print $1' job_dependencies.json)
-          echo "::set-output name=filtered-components::{\"name\": \"$COMPONENT\", \"version\": \"$VERSION\"}"
-      - name: Print filtered components
-        run: |
-          echo "Filtered Component Name: ${{ steps.set-matrix.outputs.filtered-components.name }}"
-          echo "Filtered Component Version: ${{ steps.set-matrix.outputs.filtered-components.version }}"
+          # Extract and clean up the backend-components value
+          BACKEND_COMPONENTS=$(perl -pe 's/\s+//g' job_dependencies.json)
+          echo "backend-components: $BACKEND_COMPONENTS"
+ 
+          # Set the output
+          echo "::set-output name=backend-components::$BACKEND_COMPONENTS"
  
   Comparison:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     needs: copy_files
     continue-on-error: true
     strategy:
