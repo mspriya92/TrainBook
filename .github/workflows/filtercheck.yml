@@ -17,12 +17,13 @@ jobs:
     steps:
       - name: Filter JSON
         id: filter-json
+        working-directory: ./job_dependencies
         run: |
           # Read the input filter value
           FILTER_VALUE=${{ github.event.inputs.environment }}
 
           # Filter the JSON based on the input filter using jq command
-          FILTERED_JSON=$(jq --arg filter "$FILTER_VALUE" 'to_entries | map(select(.key == $filter)) | from_entries' ./job_dependencies/job_dependencies.json)
+          FILTERED_JSON=$(jq --arg filter "$FILTER_VALUE" 'to_entries | map(select(.key == $filter)) | from_entries' job_dependencies.json)
 
           # Set the output
           echo "::set-output name=filtered-components::$FILTERED_JSON"
