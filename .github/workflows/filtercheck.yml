@@ -28,7 +28,7 @@ jobs:
           echo "filteredData=$filteredData" >> $GITHUB_OUTPUT  # Use $GITHUB_OUTPUT to set the environment variable
           echo "Filtered Data: $filteredData"  # Print the value of filteredData
   comparison:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     needs: copy_files
     strategy:
       matrix:
