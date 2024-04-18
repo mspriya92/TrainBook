@@ -16,24 +16,29 @@ jobs:
   copy_files:
     runs-on: ubuntu-latest
     outputs:
-      backend-components: ${{ steps.set-matrix.outputs.filteredData }}
+      filteredData: ${{ steps.set-matrix.outputs.filteredData }}
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
 
       - name: Set matrix data
         id: set-matrix
-        working-directory: ./job_dependencies
         run: |
-          filteredData=$(perl -lne 'print $1 if /"${{ github.event.inputs.filters }}"\s*:\s*"([^"]+)"/' job_dependencies.json)
-          echo "filteredData=$filteredData" >> $GITHUB_OUTPUT  # Use $GITHUB_OUTPUT to set the environment variable
-          echo "Filtered Data: $filteredData"  # Print the value of filteredData
+          # Read the JSON data from the file
+          json_data=$(<job_dependencies.json)
+          
+          # Decode the JSON data and filter based on the workflow_dispatch inputs
+          filteredData=$(perl -MJSON -E '$data = decode_json($ENV{json_data}); foreach $item (@$data) { if ($item->{name} eq $ENV{INPUT_FILTERS}) { push(@filtered, $item); } } say encode_json(\@filtered);')
+          
+          # Set the filtered data as an output
+          echo "::set-output name=filteredData::$filteredData"
+
   comparison:
     runs-on: ubuntu-latest
     needs: copy_files
     strategy:
       matrix:
-        components: ${{fromJson(needs.copy_files.outputs.backend-components)}}
+        components: ${{fromJson(needs.copy_files.outputs.filteredData)}}
       fail-fast: false
       max-parallel: 1
     steps:
