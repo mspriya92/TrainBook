@@ -26,16 +26,21 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
 
-      - name: Set matrix data
-        id: set-matrix
-        working-directory: ./job_dependencies
+      - name: Filter JSON
+        id: filter-json
         run: |
-          # Extract and clean up the backend-components value based on the Filter input
-          BACKEND_COMPONENTS=$(perl -pe 's/\s+//g' job_dependencies.json | jq --arg filter "${{ github.event.inputs.Filter }}" '.[] | select(.component == $filter)')
-          echo "backend-components: $BACKEND_COMPONENTS"
+          # Read the input filter value
+          FILTER_VALUE=${{ github.event.inputs.Filter }}
+
+          # Filter the JSON based on the input filter
+          FILTERED_JSON=$(perl -ne 'print if /"component":\s*"$FILTER_VALUE"/' job_dependencies.json)
 
           # Set the output
-          echo "::set-output name=filtered-components::$BACKEND_COMPONENTS"
+          echo "::set-output name=filtered-components::$FILTERED_JSON"
+
+      - name: Echo Filtered Components
+        run: |
+          echo "Filtered Components: ${{ steps.filter-json.outputs.filtered-components }}"
 
   comparison:
     runs-on: self-hosted
