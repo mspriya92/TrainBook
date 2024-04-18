@@ -25,12 +25,13 @@ jobs:
     steps:
       - name: Filter JSON
         id: filter-json
+        working-directory: ./job_dependencies
         run: |
           # Read the input filter value
           FILTER_VALUE=${{ github.event.inputs.Filter }}
 
           # Filter the JSON based on the input filter using Perl command
-          FILTERED_JSON=$(perl -ne 'print if /"$FILTER_VALUE":/' job_dependencies/job_dependencies.json)
+          FILTERED_JSON=$(perl -ne 'print if /"$FILTER_VALUE":/' job_dependencies.json)
 
           # Set the output
           echo "::set-output name=filtered-components::$FILTERED_JSON"
