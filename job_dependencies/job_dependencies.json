@@ -1,14 +1,14 @@
-[
-  {
-   "name": "com1",
-   "version": "10"
-  },
-  {
-   "name": "com2",
-   "version": "11"
-  },
-  {
-   "name": "com3",
-   "version": "12"
-  }
-]
+{
+    "Dev": {
+        "name": "com1",
+        "age": "20"
+    },
+    "Prod": {
+        "name": "com2",
+        "age": "31"
+    },
+    "Prod1": {
+        "name": "com3",
+        "age": "32"
+    }
+}
