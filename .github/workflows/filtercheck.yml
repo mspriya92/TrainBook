@@ -29,7 +29,8 @@ jobs:
         run: |
           FILTER=$INPUT_Filter
           BACKEND_COMPONENTS=$(perl -lne '/"name":\s*"$FILTER"/ && print' job_dependencies.json)
-          echo "::set-output name=filtered-components::$BACKEND_COMPONENTS"
+		        echo "backend-components: $BACKEND_COMPONENTS"
+          echo "::set-output name=backend-components::$BACKEND_COMPONENTS"
  
   Comparison:
     runs-on: self-hosted
