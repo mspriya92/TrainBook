@@ -30,6 +30,7 @@ jobs:
         id: set-matrix
         run: |
           echo "filtered-components=`perl -MJSON -lne 'BEGIN{open $fh, "<", "job_dependencies.json"; local $/; $json = <$fh>; close $fh;} $data = decode_json($json); foreach $component (@{$data}) { if ($component->{name} eq $ENV{INPUT_FILTER}) { push @filtered, $component; }} print encode_json(\@filtered);'`" >> $GITHUB_ENV
+          echo "Filtered Components: ${{ steps.set-matrix.outputs.filtered-components }}"  # Print the value of filtered-components
 
   Comparison:
     runs-on: self-hosted
@@ -46,5 +47,5 @@ jobs:
     steps:
       - name: checking matrix value
         run: |
-          echo "$name"
-          echo "$version"
+          echo "Component Name: $name"  # Print the value of name
+          echo "Component Version: $version"  # Print the value of version
