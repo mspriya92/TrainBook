@@ -26,8 +26,7 @@ jobs:
         working-directory: ./job_dependencies
         run: |
           backend_components=$(perl -pe 's/\s+//g' job_dependencies.json)
-          echo "::set-output name=backend-components::$backend_components"
-          echo "$backend_components"
+          
       - name: Filtering JSON data
         id: filter-step
         run: |
