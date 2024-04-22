@@ -40,7 +40,7 @@ jobs:
           echo "::set-output name=filteredData::$filteredData" # Set filteredData as output
  
   Comparison:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     needs: copy_files
     continue-on-error: true
     strategy:
@@ -56,3 +56,5 @@ jobs:
         run: |
           echo "$name"
           echo "$version"
+          echo "$name1"
+          echo "$version1"
