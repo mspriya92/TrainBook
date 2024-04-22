@@ -54,7 +54,7 @@ jobs:
           echo "Filtered Data: ${{ needs.copy_files.outputs.filteredData }}"  # Output the filtered data for verification
       - name: filtered data iteration
         run: |
-          filteredData=$(echo "${{ needs.copy_files.outputs.filteredData }}" | jq -c '.[]')
+          filteredData=$(echo "${{ needs.copy_files.outputs.filteredData }}" | jq -c '.')
           for data in $filteredData; do
             name=$(echo $data | jq -r '.name')
             version=$(echo $data | jq -r '.version')
