@@ -40,6 +40,8 @@ jobs:
           #chosencomponents="${{ github.event.inputs.Filters }}"
           echo "filteredData=`cat ./job_dependencies.json | grep ${{ inputs. Filters }} -m1 -A5 |  perl -pe 's/\s+//g'`"  >> $GITHUB_OUTPUT
           echo "$filteredData"
+          name=$(jq -r '.name' <<< "$filteredData")
+          version=$(jq -r '.version' <<< "$filteredData")
 
   Comparison:
     runs-on: self-hosted
@@ -56,7 +58,7 @@ jobs:
       version: ${{ matrix.components.version }}  # Access component version from matrix
       name1: ${{ matrix.filters.name }}  # Access name property from filtered data
       version1: ${{ matrix.filters.version }}  # Access version property from filtered data
-
+      
     steps:
       - name: Checking matrix value
         run: |
