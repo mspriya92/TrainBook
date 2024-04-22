@@ -50,6 +50,8 @@ jobs:
     strategy:
       matrix:
         components: ${{ fromJSON(needs.copy_files.outputs.components-info) }}
+      fail-fast: false
+      max-parallel: 1
     env:
       name: ${{ matrix.components.name }}
       version: ${{ matrix.components.version }}
