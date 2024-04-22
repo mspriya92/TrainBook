@@ -36,7 +36,7 @@ jobs:
         id: filter-step
         run: |
           chosencomponents="${{ github.event.inputs.Filters }}"
-          filteredData=$(jq -n --arg chosenCom "$chosencomponents" '$chosenCom')
+          filteredData=$(jq -r --arg chosenCom "$chosencomponents" '.[] | select(.name == $chosenCom)' job_dependencies/job_dependencies.json)
           echo "::set-output name=filteredData::$filteredData"
  
   Comparison:
@@ -46,13 +46,13 @@ jobs:
     strategy:
       matrix:
         components: ${{ fromJSON(needs.copy_files.outputs.components-info) }}
-    env:
-      name: ${{ matrix.components.name }}
-      version: ${{ matrix.components.version }}
-      name1: ${{ fromJSON(needs.copy_files.outputs.filteredData).name }}
-      version1: ${{ fromJSON(needs.copy_files.outputs.filteredData).version }}
     steps:
-      - name: checking matrix value
+      - name: Process filtered data
         run: |
-          echo "$name"
-          echo "$version"
+          filteredData=$(echo "${{ needs.copy_files.outputs.filteredData }}" | jq -c '.[]')
+          for data in $filteredData; do
+            name=$(echo $data | jq -r '.name')
+            version=$(echo $data | jq -r '.version')
+            echo "Name: $name, Version: $version"
+            # Add your comparison logic here
+          done
