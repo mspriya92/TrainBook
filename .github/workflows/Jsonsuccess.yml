@@ -24,6 +24,9 @@ jobs:
         working-directory: ./job_dependencies
         run: |
           echo "backend-components=`perl -pe 's/\s+//g' job_dependencies.json`" >> $GITHUB_OUTPUT
+          echo "Final Data: $backend-components"
+          echo "$backend-components"
+
       
     
   Comparison:
