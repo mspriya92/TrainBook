@@ -31,7 +31,7 @@ jobs:
 
       - name: Filtering JSON data
         id: filter-step
-        #working-directory: ./job_dependencies
+        working-directory: ./job_dependencies
         run: |
           #chosencomponents="${{ github.event.inputs.Filters }}"
           echo " filteredData=`cat ./job_dependencies.json | grep ${{ inputs. Filters }} -m1 -A5 |  perl -pe 's/\s+//g'`"  >> $GITHUB_OUTPUT
