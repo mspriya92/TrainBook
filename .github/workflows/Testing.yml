@@ -27,6 +27,9 @@ jobs:
         components: ${{ fromJSON(needs.copy_files.outputs.components-info) }}
       fail-fast: false
       max-parallel: 1
+    env:
+      name: ${{ matrix.components.name }}
+      version: ${{ matrix.components.version }}
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
