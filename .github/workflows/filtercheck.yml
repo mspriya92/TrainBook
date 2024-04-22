@@ -30,13 +30,13 @@ jobs:
         working-directory: ./job_dependencies
         run: |
           echo "backend-components=`perl -pe 's/\s+//g' job_dependencies.json`" >> $GITHUB_OUTPUT
- 
+          echo "$backend-components"
       - name: Filtering JSON data
         id: filter-step
         run: |
           chosencomponents="${{ github.event.inputs.Filters }}"
           filteredData=$(jq -r --arg chosenCom "$chosencomponents" '.[] | select(.name == $chosenCom)' job_dependencies/job_dependencies.json)  >> $GITHUB_OUTPUT
-          
+          echo "$filteredData"
   Comparison:
     runs-on: self-hosted
     needs: copy_files
