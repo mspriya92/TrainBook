@@ -36,8 +36,8 @@ jobs:
         run: |
           chosencomponents="${{ github.event.inputs.Filters }}"
           filteredData=$(jq -r --arg chosenCom "$chosencomponents" '.[] | select(.name == $chosenCom)' job_dependencies/job_dependencies.json)
-          echo "filteredData=$filteredData" >> $GITHUB_OUTPUT
-          echo "::set-output name=filteredData::$filteredData"
+         
+          
           echo "Final Data: $filteredData"
   Comparison:
     runs-on: self-hosted
