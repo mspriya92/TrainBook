@@ -1,4 +1,4 @@
-name: Testing
+name: testing
  
 on:
   workflow_dispatch:
@@ -22,7 +22,7 @@ jobs:
     environment: ${{ github.event.inputs.environment }}
     outputs:
       components-info: ${{ steps.set-matrix.outputs.backend-components }}
-      filteredData: ${{ steps.filter-step.outputs.filteredData }} # Define filteredData output
+      filteredData: ${{ steps.filter-step.outputs.filteredData }}
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
@@ -36,11 +36,11 @@ jobs:
         id: filter-step
         run: |
           chosencomponents="${{ github.event.inputs.Filters }}"
-          filteredData=$(jq -r --arg chosenCom "$chosencomponents" '.[] | select(.name == $chosenCom)' job_dependencies/job_dependencies.json)
-          echo "::set-output name=filteredData::$filteredData" # Set filteredData as output
+          filteredData=$(jq -n --arg chosenCom "$chosencomponents" '$chosenCom')
+          echo "::set-output name=filteredData::$filteredData"
  
   Comparison:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     needs: copy_files
     continue-on-error: true
     strategy:
@@ -49,12 +49,10 @@ jobs:
     env:
       name: ${{ matrix.components.name }}
       version: ${{ matrix.components.version }}
-      name1: ${{ fromJSON(needs.copy_files.outputs.filteredData).name }} # Access filteredData output
-      version1: ${{ fromJSON(needs.copy_files.outputs.filteredData).version }} # Access filteredData output
+      name1: ${{ fromJSON(needs.copy_files.outputs.filteredData).name }}
+      version1: ${{ fromJSON(needs.copy_files.outputs.filteredData).version }}
     steps:
       - name: checking matrix value
         run: |
           echo "$name"
           echo "$version"
-          echo "$name1"
-          echo "$version1"
