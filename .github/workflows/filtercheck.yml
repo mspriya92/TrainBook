@@ -56,7 +56,7 @@ jobs:
     env:
       name: ${{ matrix.components.name }}  # Access component name from matrix
       version: ${{ matrix.components.version }}  # Access component version from matrix
-      name1: ${{ fromJSON(needs.copy_files.outputs.filter-info)[0].name }}
+      #name1: ${{ fromJSON(needs.copy_files.outputs.filter-info)[0].name }}
       version1: ${{ fromJSON(needs.copy_files.outputs.filter-info)[0].version }}
       
     steps:
