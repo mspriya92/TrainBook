@@ -20,7 +20,7 @@ jobs:
     environment: ${{ github.event.inputs.environment }}
     outputs:
       components-info: ${{ steps.set-matrix.outputs.backend-components }}
-      filter-info: ${{ steps.filter-step.outputs.filteredData }}
+      filter-info: ${{ steps.filter-step.outputs.Final Data}}
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
