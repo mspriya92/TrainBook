@@ -38,16 +38,13 @@ jobs:
           chosencomponents="${{ github.event.inputs.Filters }}"
           filteredData=$(jq -r --arg chosenCom "$chosencomponents" '.[] | select(.name == $chosenCom)' job_dependencies/job_dependencies.json)
           echo "::set-output name=filteredData::$filteredData"
- 
   Comparison:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     needs: copy_files
     continue-on-error: true
-    strategy:
-      matrix:
-        components: ${{ fromJSON(needs.copy_files.outputs.components-info) }}
     steps:
       - name: Process filtered data
+        shell: bash
         run: |
           filteredData=$(echo "${{ needs.copy_files.outputs.filteredData }}" | jq -c '.[]')
           for data in $filteredData; do
@@ -56,3 +53,4 @@ jobs:
             echo "Name: $name, Version: $version"
             # Add your comparison logic here
           done
+  
