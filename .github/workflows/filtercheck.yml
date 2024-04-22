@@ -1,4 +1,4 @@
-name: matrixcheck
+name: filtercheck
 on:
   workflow_dispatch:
     inputs:
