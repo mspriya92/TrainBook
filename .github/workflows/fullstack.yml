@@ -61,6 +61,7 @@ jobs:
           echo "Filtered Data: ${{ needs.copy_files.outputs.filteredData }}" 
       - name: filtered_data_iteration
         run: |
+          
           filteredData=$(echo '${{ needs.copy_files.outputs.filteredData }}' | jq -c '.')
           for data in $filteredData; do
             name1=$(echo $data | jq -r '.name')
