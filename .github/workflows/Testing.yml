@@ -56,6 +56,9 @@ jobs:
       name: ${{ matrix.components.name }}
       version: ${{ matrix.components.version }}
     steps:
+      - name: Process filtered data
+        run: |
+          echo "Filtered Data: ${{ needs.copy_files.outputs.filteredData }}" 
       - name: filtered_data_iteration
         run: |
           filteredData=$(echo '${{ needs.copy_files.outputs.filteredData }}' | jq -c '.')
