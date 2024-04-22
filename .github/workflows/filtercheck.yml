@@ -34,7 +34,8 @@ jobs:
         #working-directory: ./job_dependencies
         run: |
           chosencomponents="${{ github.event.inputs.Filters }}"
-          filteredData=$(jq -r --arg chosenCom "$chosencomponents" '.[] | select(.name == $chosenCom)' job_dependencies/job_dependencies.json)
+          echo " filteredData=`cat ./job_dependencies.json | grep ${{ inputs.component }} -m1 -A5 |  perl -pe 's/\s+//g'`"  >> $GITHUB_OUTPUT
+          #filteredData=$(jq -r --arg chosenCom "$chosencomponents" '.[] | select(.name == $chosenCom)' job_dependencies/job_dependencies.json)
          
     
           echo "$filteredData"
