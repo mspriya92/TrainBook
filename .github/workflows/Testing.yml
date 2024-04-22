@@ -50,8 +50,6 @@ jobs:
     env:
       name: ${{ matrix.components.name }}
       version: ${{ matrix.components.version }}
-      name1: ${{ steps.filtered data iteration.name1 }}
-     
       
            
           
@@ -64,8 +62,8 @@ jobs:
           for data in $filteredData; do
             name1=$(echo $data | jq -r '.name')
             version1=$(echo $data | jq -r '.version')
-            echo "NewName: $name1" 
-            echo "NewVersion: $version1"
+            NewName: "$name1" 
+            NewVersion: "$version1"
             
            
           done
