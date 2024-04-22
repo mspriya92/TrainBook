@@ -1,3 +1,4 @@
+name: Filtercheck
 on:
   workflow_dispatch:
     inputs:
