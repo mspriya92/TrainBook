@@ -24,11 +24,7 @@ jobs:
       filteredData: ${{ steps.filter-step.outputs.filteredData }}  # Corrected output name
     strategy:
       matrix:
-        components: ${{ fromJSON(needs.copy_files.outputs.components-info) }}
-    env:
-      name: ${{ matrix.components.name }}
-      version: ${{ matrix.components.version }}
- 
+        components: ['fullstack']  # Define the matrix for the fullstack scenario
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
@@ -39,7 +35,6 @@ jobs:
         run: |
           echo "backend-components=`perl -pe 's/\s+//g' ./job_dependencies/job_dependencies.json`" >> $GITHUB_OUTPUT
         
-     
       - name: Filtering JSON data
         id: filter-step
         if: ${{ inputs.Filters != 'fullstack' }}
@@ -59,6 +54,13 @@ jobs:
             echo "Version1: $version1"
           done
      
-  
-      
-  
+  Comparison:
+    runs-on: ubuntu-latest
+    needs: copy_files
+    continue-on-error: true
+    strategy:
+      matrix:
+        components: ${{ fromJSON(needs.copy_files.outputs.components-info) }}
+    env:
+      name: ${{ matrix.components.name }}
+      version: ${{ matrix.components.version }}
