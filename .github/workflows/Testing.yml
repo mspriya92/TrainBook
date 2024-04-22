@@ -20,11 +20,10 @@ jobs:
     environment: ${{ github.event.inputs.environment }}
     outputs:
       components-info: ${{ steps.set-matrix.outputs.backend-components }}
-      #filter-info: ${{ steps.filter-step.outputs.filteredData }}
+      filteredData: ${{ steps.filter-step.outputs.filteredData }}  # Corrected output name
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
- 
       - name: Set matrix data
         id: set-matrix
         working-directory: ./job_dependencies
@@ -35,26 +34,30 @@ jobs:
         id: filter-step
         run: |
           chosencomponents="${{ github.event.inputs.Filters }}"
-          filteredData=$(jq -r --arg chosenCom "$chosencomponents" '.[] | select(.name == $chosenCom)' job_dependencies/job_dependencies.json)  >> $GITHUB_OUTPUT
-          echo "$filteredData"
+          filteredData=$(jq -c --arg chosenCom "$chosencomponents" '.[] | select(.name == $chosenCom)' job_dependencies/job_dependencies.json)
+          echo "::set-output name=filteredData::$filteredData"  # Corrected output name
+
   Comparison:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     needs: copy_files
     continue-on-error: true
     strategy:
       matrix:
         components: ${{ fromJSON(needs.copy_files.outputs.components-info) }}
-        #filters: ${{ (needs.copy_files.outputs.filter-info) }}
-        #fail-fast: false
-        # max-parallel: 1
+        
     env:
       name: ${{ matrix.components.name }}
       version: ${{ matrix.components.version }}
-      name1: ${{ (needs.copy_files.filter-step.filteredData.name ) }}
-      version1: ${{(needs.copy_files.filter-step.filteredData.version ) }}
     steps:
-      - name: checking matrix value
+      - name: Process filtered data
         run: |
-          echo "$name"
-          echo "$version"
-
+          echo "Filtered Data: ${{ needs.copy_files.outputs.filteredData }}"  # Output the filtered data for verification
+      - name: Process filtered data
+        run: |
+          filteredData=$(echo "${{ needs.copy_files.outputs.filteredData }}" | jq -c '.[]')
+          for data in $filteredData; do
+            name=$(echo $data | jq -r '.name')
+            version=$(echo $data | jq -r '.version')
+            echo "Name: $name, Version: $version"
+            # Add your comparison logic here
+          done
