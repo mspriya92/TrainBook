@@ -21,17 +21,13 @@ jobs:
     runs-on: ubuntu-latest
     environment: ${{ github.event.inputs.environment }}
     outputs:
-      components-info: ${{ steps.set-matrix.outputs.backend-components }}
+      #components-info: ${{ steps.set-matrix.outputs.backend-components }}
       filter-info: ${{ steps.filter-step.outputs.filteredData }}
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
 
-      - name: Set matrix data
-        id: set-matrix
-        working-directory: ./job_dependencies
-        run: |
-          echo "backend-components=`perl -pe 's/\s+//g' job_dependencies.json`" >> $GITHUB_OUTPUT
+      
 
       - name: Filtering JSON data
         id: filter-step
@@ -49,20 +45,20 @@ jobs:
     continue-on-error: true
     strategy:
       matrix:
-        components: ${{ fromJSON(needs.copy_files.outputs.components-info) }}
-        #filters: ${{ fromJSON(needs.copy_files.outputs.filter-info) }}
+        #components: ${{ fromJSON(needs.copy_files.outputs.components-info) }}
+        filters: ${{ fromJSON(needs.copy_files.outputs.filter-info) }}
         #fail-fast: false
         #max-parallel: 1
     env:
-      name: ${{ matrix.components.name }}  # Access component name from matrix
-      version: ${{ matrix.components.version }}  # Access component version from matrix
-      #name1: ${{ fromJSON(needs.copy_files.outputs.filter-info)[0].name }}
-      version1: ${{ fromJSON(needs.copy_files.outputs.filter-info)[0].version }}
+      #name: ${{ matrix.components.name }}  # Access component name from matrix
+      #version: ${{ matrix.components.version }}  # Access component version from matrix
+      name1: ${{ matrix.filters.name }}
+      version1: ${{ matrix.filters.version }}
       
     steps:
       - name: Checking matrix value
         run: |
-          echo "$name"
-          echo "$version"
+          #echo "$name"
+          #echo "$version"
           echo "$name1"
           echo "$version1"
