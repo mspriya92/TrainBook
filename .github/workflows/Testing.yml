@@ -36,6 +36,8 @@ jobs:
           chosencomponents="${{ github.event.inputs.Filters }}"
           filteredData=$(jq -c --arg chosenCom "$chosencomponents" '.[] | select(.name == $chosenCom)' job_dependencies/job_dependencies.json)
           echo "::set-output name=filteredData::$filteredData"  # Corrected output name
+      
+
 
   Comparison:
     runs-on: ubuntu-latest
@@ -48,20 +50,21 @@ jobs:
     env:
       name: ${{ matrix.components.name }}
       version: ${{ matrix.components.version }}
+     
+      
+           
+          
+        
     steps:
-      - name: checking matrix value
-        run: |
-          echo "$name"
-          echo "$version"
-      - name: Process filtered data
-        run: |
-          echo "Filtered Data: ${{ needs.copy_files.outputs.filteredData }}"  # Output the filtered data for verification
+      
       - name: filtered data iteration
         run: |
           filteredData=$(echo '${{ needs.copy_files.outputs.filteredData }}' | jq -c '.')
           for data in $filteredData; do
             name1=$(echo $data | jq -r '.name')
             version1=$(echo $data | jq -r '.version')
-            echo "NewName: $name1, NewVersion: $version1"
-            # Add your comparison logic here
+            echo "NewName: $name1" 
+            echo "NewVersion: $version1"
+            
+           
           done
