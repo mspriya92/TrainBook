@@ -62,7 +62,6 @@ jobs:
           for data in $filteredData; do
             name1=$(echo $data | jq -r '.name')
             version1=$(echo $data | jq -r '.version')
+            echo "Name1: $name1"
           done
-      - name: Print Name1 Value
-        run: |
-          name1: ${{ steps.filtered_data_iteration.name1 }}
+     
