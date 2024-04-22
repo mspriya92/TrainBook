@@ -49,7 +49,7 @@ jobs:
       name: ${{ matrix.components.name }}
       version: ${{ matrix.components.version }}
       
-      Name: ${{ steps.iteration.outputs.name1}}
+      Test: ${{ steps.iteration.outputs.name1}}
     steps:
       - name: checking matrix value
         run: |
