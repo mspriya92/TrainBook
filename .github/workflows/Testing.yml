@@ -44,7 +44,7 @@ jobs:
       
       - name: filtered_data_iteration
         run: |
-          filteredData=$(echo '${{ copy_files.outputs.filteredData }}' | jq -c '.')
+          filteredData=$(echo '${{ needs.copy_files.outputs.filteredData }}' | jq -c '.')
           for data in $filteredData; do
             name1=$(echo $data | jq -r '.name')
             version1=$(echo $data | jq -r '.version')
@@ -63,8 +63,4 @@ jobs:
       name: ${{ matrix.components.name }}
       version: ${{ matrix.components.version }}
       
-           
-          
-        
-    
-     
+  
