@@ -1,4 +1,4 @@
-name: fullstack
+name: testing
 on:
   workflow_dispatch:
     inputs:
@@ -59,7 +59,7 @@ jobs:
       - name: Process filtered data
         run: |
           echo "Filtered Data: ${{ needs.copy_files.outputs.filteredData }}" 
-      - name: filtered data iteration
+      - name: filtered_data_iteration
         run: |
           filteredData=$(echo '${{ needs.copy_files.outputs.filteredData }}' | jq -c '.')
           for data in $filteredData; do
