@@ -44,16 +44,16 @@ jobs:
     strategy:
       matrix:
         components: ${{ fromJSON(needs.copy_files.outputs.components-info) }}
-        filters: ${{ fromJSON(needs.copy_files.outputs.filter-info) }}
+        #filters: ${{ fromJSON(needs.copy_files.outputs.filter-info) }}
         #fail-fast: false
-        #max-parallel: 1
+        max-parallel: 1
     env:
       name: ${{ matrix.components.name }}
       version: ${{ matrix.components.version }}
-      name1: ${{ matrix.filters.name }}
-      version1: ${{ matrix.filters.version }}
+      #name1: ${{ matrix.filters.name }}
+      #version1: ${{ matrix.filters.version }}
     steps:
       - name: checking matrix value
         run: |
-          echo "$name1"
-          echo "$version1"
+          echo "$name"
+          echo "$version"
