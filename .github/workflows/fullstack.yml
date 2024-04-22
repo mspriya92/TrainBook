@@ -65,6 +65,5 @@ jobs:
           for data in $filteredData; do
             name1=$(echo $data | jq -r '.name')
             version1=$(echo $data | jq -r '.version')
-            echo "Name1: $name1"
-            echo "Version1: $version1"
+            echo "Name: $name1, Version: $version1"
           done
