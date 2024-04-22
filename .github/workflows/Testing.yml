@@ -52,7 +52,7 @@ jobs:
       - name: Process filtered data
         run: |
           echo "Filtered Data: ${{ needs.copy_files.outputs.filteredData }}"  # Output the filtered data for verification
-      - name: Process filtered data
+      - name: filtered data iteration
         run: |
           filteredData=$(echo "${{ needs.copy_files.outputs.filteredData }}" | jq -c '.[]')
           for data in $filteredData; do
