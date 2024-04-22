@@ -22,9 +22,7 @@ jobs:
     outputs:
       components-info: ${{ steps.fullstack.outputs.backend-components }}
       filteredData: ${{ steps.filter-step.outputs.filteredData }}  # Corrected output name
-    strategy:
-      matrix:
-        components: ['fullstack']  # Define the matrix for the fullstack scenario
+   
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
@@ -43,16 +41,7 @@ jobs:
           chosencomponents="${{ github.event.inputs.Filters }}"
           filteredData=$(jq -c --arg chosenCom "$chosencomponents" '.[] | select(.name == $chosenCom)' job_dependencies/job_dependencies.json)
           echo "::set-output name=filteredData::$filteredData"  # Corrected output name
-      
-      - name: filtered_data_iteration
-        run: |
-          filteredData=$(echo '${{ needs.copy_files.outputs.filteredData }}' | jq -c '.')
-          for data in $filteredData; do
-            name1=$(echo $data | jq -r '.name')
-            version1=$(echo $data | jq -r '.version')
-            echo "Name1: $name1"
-            echo "Version1: $version1"
-          done
+    
      
   Comparison:
     runs-on: ubuntu-latest
@@ -64,3 +53,13 @@ jobs:
     env:
       name: ${{ matrix.components.name }}
       version: ${{ matrix.components.version }}
+    steps:
+      - name: filtered_data_iteration
+        run: |
+          filteredData=$(echo '${{ needs.copy_files.outputs.filteredData }}' | jq -c '.')
+          for data in $filteredData; do
+            name1=$(echo $data | jq -r '.name')
+            version1=$(echo $data | jq -r '.version')
+            echo "Name1: $name1"
+            echo "Version1: $version1"
+          done
