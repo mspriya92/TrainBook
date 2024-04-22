@@ -50,8 +50,8 @@ jobs:
     env:
       name: ${{ matrix.components.name }}
       version: ${{ matrix.components.version }}
-      name1: ${{ (needs.copy_files.outputs. filteredData.name ) }}
-      version1: ${{(needs.copy_files.outputs. filteredData.version ) }}
+      name1: ${{ (needs.copy_files.filter-step.filteredData.name ) }}
+      version1: ${{(needs.copy_files.filter-step.filteredData.version ) }}
     steps:
       - name: checking matrix value
         run: |
