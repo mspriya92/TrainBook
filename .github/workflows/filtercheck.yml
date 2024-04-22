@@ -20,7 +20,7 @@ jobs:
     environment: ${{ github.event.inputs.environment }}
     outputs:
       components-info: ${{ steps.set-matrix.outputs.backend-components }}
-      filter-info: ${{ steps.filter-step.outputs.filteredData }}
+      #filter-info: ${{ steps.filter-step.outputs.filteredData }}
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
@@ -44,14 +44,14 @@ jobs:
     strategy:
       matrix:
         components: ${{ fromJSON(needs.copy_files.outputs.components-info) }}
-        filters: ${{ (needs.copy_files.outputs.filter-info) }}
+        #filters: ${{ (needs.copy_files.outputs.filter-info) }}
         #fail-fast: false
         # max-parallel: 1
     env:
       name: ${{ matrix.components.name }}
       version: ${{ matrix.components.version }}
-      #name1: ${{ matrix.filters.name }}
-      #version1: ${{ matrix.filters.version }}
+      name1: ${{ (needs.copy_files.outputs. filteredData.name ) }}
+      version1: ${{(needs.copy_files.outputs. filteredData.version ) }}
     steps:
       - name: checking matrix value
         run: |
