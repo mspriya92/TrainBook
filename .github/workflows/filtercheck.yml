@@ -39,6 +39,7 @@ jobs:
           echo "::set-output name=filtered_data::$filtered_data"
           echo "Filtered data: $filtered_data"
           echo "$filteredData"
+          echo "$filter-info"
          
   Comparison:
     runs-on: ubuntu-latest
@@ -53,8 +54,8 @@ jobs:
     env:
       #name: ${{ matrix.components.name }}  # Access component name from matrix
       #version: ${{ matrix.components.version }}  # Access component version from matrix
-      name1: ${{ matrix.filters.name }}
-      version1: ${{ matrix.filters.version }}
+      name1: ${{ json.filters.name }} 
+      version1:  ${{ json.filters.version }}
       
     steps:
       - name: Checking matrix value
