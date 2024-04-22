@@ -50,6 +50,7 @@ jobs:
     env:
       name: ${{ matrix.components.name }}
       version: ${{ matrix.components.version }}
+      name1: ${{ steps.filtered data iteration.name1 }}
      
       
            
