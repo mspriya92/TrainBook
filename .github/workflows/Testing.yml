@@ -24,7 +24,7 @@ jobs:
       filteredData: ${{ steps.filter-step.outputs.filteredData }}  # Corrected output name
     strategy:
       matrix:
-        components: ${{ fromJSON(needs.copy_files.outputs.components-info) }}
+        components: ${{ fromJSON(copy_files.outputs.components-info) }}
       fail-fast: false
       max-parallel: 1
     env:
@@ -51,11 +51,11 @@ jobs:
           
       - name: Process filtered data
         run: |
-          echo "Filtered Data: ${{ needs.copy_files.outputs.filteredData }}"
+          echo "Filtered Data: ${{ copy_files.outputs.filteredData }}"
           
       - name: filtered_data_iteration
         run: |
-          filteredData=$(echo '${{ needs.copy_files.outputs.filteredData }}' | jq -c '.')
+          filteredData=$(echo '${{ copy_files.outputs.filteredData }}' | jq -c '.')
           for data in $filteredData; do
             name1=$(echo $data | jq -r '.name')
             version1=$(echo $data | jq -r '.version')
