@@ -56,14 +56,13 @@ jobs:
         
     steps:
       
-      - name: filtered data iteration
+      - name: filtered_data_iteration
         run: |
           filteredData=$(echo '${{ needs.copy_files.outputs.filteredData }}' | jq -c '.')
           for data in $filteredData; do
             name1=$(echo $data | jq -r '.name')
             version1=$(echo $data | jq -r '.version')
-            NewName: ${{ name1 }} 
-            NewVersion: ${{ version1 }}
-            
-           
           done
+      - name: Print Name1 Value
+        run: |
+          name1: ${{ steps.filtered_data_iteration.name1 }}
