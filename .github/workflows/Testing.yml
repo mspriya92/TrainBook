@@ -5,33 +5,38 @@ on:
       environment:
         description: 'Choose the env to deploy (Dev or Prod)?'
         required: true
-        type: string
+        type: choice
+        options:
+          - Dev
+          - Prod
+          - Prod1
       Filters:
         description: 'Choose the required component'
         required: true
-        type: choice
-        options:
-          - com1
-          - com2
-          - com3
+        type: string
+        
 jobs:
   copy_files:
     runs-on: ubuntu-latest
     environment: ${{ github.event.inputs.environment }}
     outputs:
-      components-info: ${{ steps.set-matrix.outputs.backend-components }}
+      components-info: ${{ steps.fullstack.outputs.backend-components }}
       filteredData: ${{ steps.filter-step.outputs.filteredData }}  # Corrected output name
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
-      - name: Set matrix data
-        id: set-matrix
-        working-directory: ./job_dependencies
+      - name: set full stack
+        id: fullstack
+        if: ${{ inputs.Filters == 'fullstack' }}
+        shell: bash
         run: |
-          echo "backend-components=`perl -pe 's/\s+//g' job_dependencies.json`" >> $GITHUB_OUTPUT
-          echo "$backend-components"
+          echo "backend-components=`perl -pe 's/\s+//g' ./job_dependencies/job_dependencies.json`" >> $GITHUB_OUTPUT
+        
+     
       - name: Filtering JSON data
         id: filter-step
+        if: ${{ inputs.Filters != 'fullstack' }}
+        shell: bash
         run: |
           chosencomponents="${{ github.event.inputs.Filters }}"
           filteredData=$(jq -c --arg chosenCom "$chosencomponents" '.[] | select(.name == $chosenCom)' job_dependencies/job_dependencies.json)
@@ -63,5 +68,6 @@ jobs:
             name1=$(echo $data | jq -r '.name')
             version1=$(echo $data | jq -r '.version')
             echo "Name1: $name1"
+            echo "Version1: $version1"
           done
      
