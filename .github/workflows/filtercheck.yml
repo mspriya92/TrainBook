@@ -9,18 +9,14 @@ on:
       Filters:
         description: 'Choose the required component'
         required: true
-        type: choice
-        options:
-          - com1
-          - com2
-          - com3
+        type: string
 jobs:
   copy_files:
     runs-on: ubuntu-latest
     environment: ${{ github.event.inputs.environment }}
     outputs:
       components-info: ${{ steps.set-matrix.outputs.backend-components }}
-      #filter-info: ${{ steps.filter-step.outputs.filteredData }}
+    
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
@@ -29,8 +25,9 @@ jobs:
         id: set-matrix
         working-directory: ./job_dependencies
         run: |
-          echo "backend-components=`perl -pe 's/\s+//g' job_dependencies.json`" >> $GITHUB_OUTPUT
-          echo "$backend-components"
+          backend_components=$(perl -pe 's/\s+//g' job_dependencies.json)
+          echo "::set-output name=backend-components::$backend_components"
+          echo "$backend_components"
       - name: Filtering JSON data
         id: filter-step
         run: |
@@ -46,16 +43,16 @@ jobs:
     strategy:
       matrix:
         components: ${{ fromJSON(needs.copy_files.outputs.components-info) }}
-        #filters: ${{ (needs.copy_files.outputs.filter-info) }}
-        #fail-fast: false
-        # max-parallel: 1
+       
     env:
       name: ${{ matrix.components.name }}
       version: ${{ matrix.components.version }}
-      name1: ${{ (needs.copy_files.outputs. filteredData.name ) }}
-      version1: ${{(needs.copy_files.outputs. filteredData.version ) }}
+      name1: ${{ steps.filter-step.outputs.filteredData.name }}
+      version1: ${{ steps.filter-step.outputs.filteredData.version }}
     steps:
       - name: checking matrix value
         run: |
           echo "$name"
           echo "$version"
+          echo "$name1"
+          echo "$version1"
