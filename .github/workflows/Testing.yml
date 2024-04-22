@@ -1,5 +1,4 @@
-name: testing
- 
+name: filtercheck
 on:
   workflow_dispatch:
     inputs:
@@ -15,17 +14,17 @@ on:
           - com1
           - com2
           - com3
- 
 jobs:
   copy_files:
     runs-on: ubuntu-latest
     environment: ${{ github.event.inputs.environment }}
     outputs:
       components-info: ${{ steps.set-matrix.outputs.backend-components }}
-      filteredData: ${{ steps.filter-step.outputs.filteredData }}  # Corrected output name
+      #filter-info: ${{ steps.filter-step.outputs.filteredData }}
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
+ 
       - name: Set matrix data
         id: set-matrix
         working-directory: ./job_dependencies
@@ -36,21 +35,26 @@ jobs:
         id: filter-step
         run: |
           chosencomponents="${{ github.event.inputs.Filters }}"
-          filteredData=$(jq -r --arg chosenCom "$chosencomponents" '.[] | select(.name == $chosenCom)' job_dependencies/job_dependencies.json)
-          echo "::set-output name=filteredData::$filteredData"  # Corrected output name
- 
+          filteredData=$(jq -r --arg chosenCom "$chosencomponents" '.[] | select(.name == $chosenCom)' job_dependencies/job_dependencies.json)  >> $GITHUB_OUTPUT
+          echo "$filteredData"
   Comparison:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     needs: copy_files
     continue-on-error: true
+    strategy:
+      matrix:
+        components: ${{ fromJSON(needs.copy_files.outputs.components-info) }}
+        #filters: ${{ (needs.copy_files.outputs.filter-info) }}
+        #fail-fast: false
+        # max-parallel: 1
+    env:
+      name: ${{ matrix.components.name }}
+      version: ${{ matrix.components.version }}
+      name1: ${{ (needs.copy_files.outputs. filteredData.name ) }}
+      version1: ${{(needs.copy_files.outputs. filteredData.version ) }}
     steps:
-      - name: Process filtered data
-        shell: bash
+      - name: checking matrix value
         run: |
-          filteredData=$(echo "${{ needs.copy_files.outputs.filteredData }}" | jq -c '.[]')
-          for data in $filteredData; do
-            name=$(echo $data | jq -r '.name')
-            version=$(echo $data | jq -r '.version')
-            echo "Name: $name, Version: $version"
-            # Add your comparison logic here
-          done
+          echo "$name"
+          echo "$version"
+
