@@ -53,8 +53,8 @@ jobs:
     env:
       name: ${{ matrix.components.name }}  # Access component name from matrix
       version: ${{ matrix.components.version }}  # Access component version from matrix
-      name1: ${{ matrix.filters.name1 }}  # Access name property from filtered data
-      version1: ${{(matrix.filters.version1 }}  # Access version property from filtered data
+      name1: ${{ matrix.filters.name }}  # Access name property from filtered data
+      version1: ${{(matrix.filters.version }}  # Access version property from filtered data
 
     steps:
       - name: Checking matrix value
