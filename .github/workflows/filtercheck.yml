@@ -20,7 +20,7 @@ jobs:
     environment: ${{ github.event.inputs.environment }}
     outputs:
       components-info: ${{ steps.set-matrix.outputs.backend-components }}
-      filter-info: ${{ steps.filter-step.outputs.Final Data}}
+      filter-info: ${{ steps.filter-step.outputs.filteredData}}
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
@@ -38,7 +38,7 @@ jobs:
           filteredData=$(jq -r --arg chosenCom "$chosencomponents" '.[] | select(.name == $chosenCom)' job_dependencies/job_dependencies.json)
          
           
-          echo "Final Data: $filteredData"
+          echo "$filteredData"
   Comparison:
     runs-on: self-hosted
     needs: copy_files
@@ -46,12 +46,13 @@ jobs:
     strategy:
       matrix:
         components: ${{ fromJSON(needs.copy_files.outputs.components-info) }}
+        filter: ${{ (needs.copy_files.outputs.filter-info }}
        
     env:
       name: ${{ matrix.components.name }}
       version: ${{ matrix.components.version }}
-      name1: ${{ needs.copy_files.outputs.filter-info.name }}
-      version1: ${{ needs.copy_files.outputs.filter-info.version }}
+      name1: ${{ matrix.filter.name1}}
+      version1: ${{ matrix.filter.version1 }}
     steps:
       - name: checking matrix value
         run: |
