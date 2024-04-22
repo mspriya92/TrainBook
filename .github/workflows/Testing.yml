@@ -49,6 +49,10 @@ jobs:
       name: ${{ matrix.components.name }}
       version: ${{ matrix.components.version }}
     steps:
+      - name: checking matrix value
+        run: |
+          echo "$name"
+          echo "$version"
       - name: Process filtered data
         run: |
           echo "Filtered Data: ${{ needs.copy_files.outputs.filteredData }}"  # Output the filtered data for verification
