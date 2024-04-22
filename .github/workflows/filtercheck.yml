@@ -36,8 +36,8 @@ jobs:
           chosencomponents="${{ github.event.inputs.Filters }}"
           #echo " filteredData=`cat ./job_dependencies.json | grep ${{ inputs. Filters }} -m1 -A5 |  perl -pe 's/\s+//g'`"  >> $GITHUB_OUTPUT
           filteredData=$(jq -r --arg chosenCom "$chosencomponents" '.[] | select(.name == $chosenCom)' job_dependencies/job_dependencies.json)
-         
-    
+          echo "::set-output name=filtered_data::$filtered_data"
+          echo "Filtered data: $filtered_data"
           echo "$filteredData"
          
   Comparison:
@@ -46,8 +46,8 @@ jobs:
     continue-on-error: true
     strategy:
       matrix:
-        #components: ${{ fromJSON(needs.copy_files.outputs.components-info) }}
-        filters: ${{ needs.copy_files.outputs.filter-info }}
+        components: ${{ fromJSON(needs.copy_files.outputs.components-info) }}
+        #filters: ${{ needs.copy_files.outputs.filter-info }}
         #fail-fast: false
         #max-parallel: 1
     env:
