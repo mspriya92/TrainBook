@@ -1,14 +1,14 @@
-{
-    "Dev": {
-        "name": "Divya",
-        "age": "20"
-    },
-    "Prod": {
-        "name": "Priya",
-        "age": "31"
-    },
-    "Prod1": {
-        "name": "Santhosh",
-        "age": "32"
-    }
-}
+[
+  {
+   "name": "com1",
+   "version": "10"
+  },
+  {
+   "name": "com2",
+   "version": "11"
+  },
+  {
+   "name": "com3",
+   "version": "12"
+  }
+]
