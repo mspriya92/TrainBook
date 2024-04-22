@@ -25,7 +25,7 @@ jobs:
         run: |
           #echo "backend-components=`perl -pe 's/\s+//g' job_dependencies.json`" >> $GITHUB_OUTPUT
           backend-components=$(perl -pe 's/\s+//g' job_dependencies.json)
-          echo "::set-output name=Data::$backend-component"
+          echo "::set-output name=Data::$backend-components"
           echo "Final Data: $backend-components"
           
     
