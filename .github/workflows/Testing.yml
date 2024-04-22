@@ -56,8 +56,8 @@ jobs:
         run: |
           filteredData=$(echo '${{ needs.copy_files.outputs.filteredData }}' | jq -c '.')
           for data in $filteredData; do
-            name=$(echo $data | jq -r '.name')
-            version=$(echo $data | jq -r '.version')
-            echo "Name: $name, Version: $version"
+            name1=$(echo $data | jq -r '.name')
+            version1=$(echo $data | jq -r '.version')
+            echo "NewName: $name1, NewVersion: $version1"
             # Add your comparison logic here
           done
