@@ -20,7 +20,7 @@ jobs:
     environment: ${{ github.event.inputs.environment }}
     outputs:
       components-info: ${{ steps.set-matrix.outputs.backend-components }}
-      #filtered-info: ${{ steps.filter-step.outputs.filteredData }}  # Corrected output name
+      filtered-info: ${{ steps.filter-step.outputs.matrix }}  # Corrected output name
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
@@ -34,11 +34,14 @@ jobs:
         id: filter-step
         run: |
           chosencomponents="${{ github.event.inputs.Filters }}"
-          filteredData= $(cat job_dependencies/job_dependencies.json | jq -c '.[] | select( .name | contains("$chosencomponents"))')
-          echo "$filteredData"
+          matrix=$(jq -c 'map(select(.name = "chosencomponents"))' "base_infra/${{ github.run_id }}/${{ github.run_id }}job_dependencies/job_dependencies.json)
+          printf "matrix=%s" "$matrix" >> $GITHUB_OUTPUT
+          echo $matrix
+          #filteredData= $(cat job_dependencies/job_dependencies.json | jq -c '.[] | select( .name | contains("$chosencomponents"))')
+          #echo "$filteredData"
           #filteredData=$(jq -c --arg chosenCom "$chosencomponents" '.[] | select(.name == $chosenCom)' job_dependencies/job_dependencies.json)
           #echo "::set-output name=filteredData::$filteredData"  # Corrected output name
-          echo "filtered-info=$filteredData" >> "$GITHUB_OUTPUT"
+          #echo "filtered-info=$filteredData" >> "$GITHUB_OUTPUT"
 
   Comparison:
     runs-on: ubuntu-latest
@@ -53,8 +56,8 @@ jobs:
     env:
       name: ${{ matrix.components.name }}
       version: ${{ matrix.components.version }}
-      name1: ${{ matrix.components.name }}
-      version1: ${{ matrix.components.version }}
+      name1: ${{ matrix.filters.name }}
+      version1: ${{ matrix.filters.version }}
       
     steps:
       - name: checking matrix value
