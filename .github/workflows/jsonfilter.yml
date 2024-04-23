@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: ${{ github.event.inputs.environment }}
     outputs:
-      components-info: ${{ steps.set-matrix.outputs.backend-components }}
+      #components-info: ${{ steps.set-matrix.outputs.backend-components }}
       filtered-info: ${{ steps.filter-step.outputs.matrix }}  # Corrected output name
     steps:
       - name: Checkout Repository
@@ -28,13 +28,13 @@ jobs:
         id: set-matrix
         working-directory: ./job_dependencies
         run: |
-          echo "backend-components=`perl -pe 's/\s+//g' job_dependencies.json`" >> $GITHUB_OUTPUT
-          echo "$backend-components"
+          #echo "backend-components=`perl -pe 's/\s+//g' job_dependencies.json`" >> $GITHUB_OUTPUT
+          #echo "$backend-components"
       - name: Filtering JSON data
         id: filter-step
         run: |
           chosencomponents="${{ github.event.inputs.Filters }}"
-          matrix=$(jq -c 'map(select(.name = "chosencomponents")[0])' job_dependencies/job_dependencies.json)
+          matrix=$(jq -c 'map(select(.name = "chosencomponents"))' job_dependencies/job_dependencies.json)
           printf "matrix=%s" "$matrix" >> $GITHUB_OUTPUT
           echo $matrix
           #filteredData= $(cat job_dependencies/job_dependencies.json | jq -c '.[] | select( .name | contains("$chosencomponents"))')
@@ -49,19 +49,19 @@ jobs:
     continue-on-error: true
     strategy:
       matrix:
-        components: ${{ fromJSON(needs.copy_files.outputs.components-info) }}
+        #components: ${{ fromJSON(needs.copy_files.outputs.components-info) }}
         filters: ${{ fromJSON(needs.copy_files.outputs.filtered-info) }}
       fail-fast: false
       max-parallel: 1   
     env:
-      name: ${{ matrix.components.name }}
-      version: ${{ matrix.components.version }}
+      #name: ${{ matrix.components.name }}
+      #version: ${{ matrix.components.version }}
       name1: ${{ matrix.filters.name }}
       version1: ${{ matrix.filters.version }}
       
     steps:
       - name: checking matrix value
         run: |
-          echo "$name"
-          echo "$version"
+          echo "$name1"
+          echo "$version1"
       
