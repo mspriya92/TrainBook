@@ -41,13 +41,13 @@ jobs:
           chosencomponents="${{ github.event.inputs.Filters }}"
           filteredData=$(jq -c --arg chosenCom "$chosencomponents" '.[] | select(.name == $chosenCom)' job_dependencies/job_dependencies.json)
           echo "::set-output name=filteredData::$filteredData"  # Corrected output name
-      - name: Process filtered data
+      - name: Use Filtered Data
         run: |
-          echo "Filtered Data: ${{ filteredData }}" 
+          echo "Filtered Data: ${{ steps.filter-step.outputs.filteredData }}"
       - name: filtered_data_iteration
         run: |
           
-          filteredData=$(echo '${{ filteredData }}' | jq -c '.')
+          filteredData=$(echo '${{ steps.filter-step.outputs.filteredData }}' | jq -c '.')
           for data in $filteredData; do
             name1=$(echo $data | jq -r '.name')
             version1=$(echo $data | jq -r '.version')
