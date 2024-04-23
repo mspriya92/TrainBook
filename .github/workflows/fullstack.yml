@@ -21,7 +21,7 @@ jobs:
     environment: ${{ github.event.inputs.environment }}
     outputs:
       components-info: ${{ steps.fullstack.outputs.backend-components }}
-      filteredData: ${{ steps.filter-step.outputs.filteredData }}  # Corrected output name
+      filtered-info: ${{ steps.filter-step.outputs.filteredData }}  # Corrected output name
    
     steps:
       - name: Checkout Repository
