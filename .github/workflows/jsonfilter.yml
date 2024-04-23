@@ -35,6 +35,7 @@ jobs:
         run: |
           chosencomponents="${{ github.event.inputs.Filters }}"
           filteredData= $(cat job_dependencies/job_dependencies.json | jq -c '.[] | select( .name | contains("$chosencomponents"))')
+          echo "$filteredData"
           #filteredData=$(jq -c --arg chosenCom "$chosencomponents" '.[] | select(.name == $chosenCom)' job_dependencies/job_dependencies.json)
           #echo "::set-output name=filteredData::$filteredData"  # Corrected output name
           echo "filtered-info=$filteredData" >> "$GITHUB_OUTPUT"
