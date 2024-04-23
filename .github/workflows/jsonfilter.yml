@@ -34,7 +34,7 @@ jobs:
         id: filter-step
         run: |
           chosencomponents="${{ github.event.inputs.Filters }}"
-          matrix=$(jq -c 'map(select(.name = "chosencomponents"))' job_dependencies/job_dependencies.json)
+          matrix=$(jq -c 'map(select(.name = "chosencomponents")[0])' job_dependencies/job_dependencies.json)
           printf "matrix=%s" "$matrix" >> $GITHUB_OUTPUT
           echo $matrix
           #filteredData= $(cat job_dependencies/job_dependencies.json | jq -c '.[] | select( .name | contains("$chosencomponents"))')
