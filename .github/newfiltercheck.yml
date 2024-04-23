@@ -1,4 +1,4 @@
-name: filtercheck
+name: filterchecknew
 on:
   workflow_dispatch:
     inputs:
