@@ -1,4 +1,4 @@
-name: newfiltercheck
+name: jsonfilter
 on:
   workflow_dispatch:
     inputs:
