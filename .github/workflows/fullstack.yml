@@ -67,5 +67,9 @@ jobs:
     env:
       name: ${{ matrix.components.name }}
       version: ${{ matrix.components.version }}
-    
+    steps:
+      - name: Printing full stack
+        run: |
+          echo "$name"
+          echo "$version"
       
