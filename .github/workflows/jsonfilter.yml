@@ -20,7 +20,7 @@ jobs:
     environment: ${{ github.event.inputs.environment }}
     outputs:
       components-info: ${{ steps.set-matrix.outputs.backend-components }}
-      filtered-info: ${{ steps.filter-step.outputs.  filteredData }}  # Corrected output name
+      filtered-info: ${{ steps.filter-step.outputs.filteredData }}  # Corrected output name
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
@@ -34,12 +34,12 @@ jobs:
         id: filter-step
         run: |
           chosencomponents="${{ github.event.inputs.Filters }}"
+          
+          filteredData=$(jq -c --arg chosenCom "$chosencomponents" '.[] | select(.name == $chosenCom)' job_dependencies/job_dependencies.json)
+          #echo "::set-output name=filteredData::$filteredData"  # Corrected output name
+          echo $filteredData
         
-          filteredData=$(jq -r --arg chosenCom "$chosencomponents" '.[] | select(.name == $chosenCom)' job_dependencies/job_dependencies.json)
-          echo "::group::Filtering Job Dependencies"
-          echo "Filtered data for component: $chosenCom"
-          echo "::endgroup::"
-          echo "filteredData=$filteredData"  # Store data in environment variable
+         
   Comparison:
     runs-on: ubuntu-latest
     needs: copy_files
