@@ -39,6 +39,7 @@ jobs:
           echo "filteredData (JSON): $filteredData" 
           echo "::set-output name=filteredData::$filteredData"  # Corrected output name
           echo $filteredData
+        
       
          
   Comparison:
