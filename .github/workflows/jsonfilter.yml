@@ -20,7 +20,7 @@ jobs:
     environment: ${{ github.event.inputs.environment }}
     outputs:
       components-info: ${{ steps.set-matrix.outputs.backend-components }}
-      filtered-info: ${{ steps.filter-step.outputs.filteredData }}  # Corrected output name
+      filteredData: ${{ steps.filter-step.outputs.filteredData }}  # Corrected output name
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
@@ -35,7 +35,7 @@ jobs:
         run: |
           chosencomponents="${{ github.event.inputs.Filters }}"
           
-          filteredData=$(jq -c --arg chosenCom "$chosencomponents" '.[] | select(.name == $chosenCom) | .name, .version' job_dependencies/job_dependencies.json) >> $GITHUB_OUTPUT
+          filteredData=$(jq -c --arg chosenCom "$chosencomponents" '.[] | select(.name == $chosenCom) | tojson' job_dependencies/job_dependencies.json) >> $GITHUB_OUTPUT
           echo "filteredData (JSON): $filteredData" 
           filteredString=$(echo "$filteredData" | tr -d '\r\n')
           echo "::set-output name=filteredData::$filteredString"  # Corrected output name
