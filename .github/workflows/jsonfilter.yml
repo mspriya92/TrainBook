@@ -50,7 +50,8 @@ jobs:
     strategy:
       matrix:
         components: ${{ fromJSON(needs.copy_files.outputs.components-info) }}
-        filters: ${{ fromJSON(needs.copy_files.outputs.filtered-info) }}  
+        filterName: ${{ fromJSON(needs.copy_files.outputs.filteredData).name }}
+        filterVersion: ${{ fromJSON(needs.copy_files.outputs.filteredData).version }}
       fail-fast: false
       max-parallel: 1   
     env:
