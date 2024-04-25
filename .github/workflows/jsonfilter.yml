@@ -34,8 +34,9 @@ jobs:
         id: filter-step
         run: |
           chosencomponents="${{ github.event.inputs.Filters }}"
-          
-          filteredData=$(jq -c --arg chosenCom "$chosencomponents" '.[] | select(.name == $chosenCom)' job_dependencies/job_dependencies.json) >> $GITHUB_OUTPUT
+          filteredData= `cat ./job_dependencies/job_dependencies.json | grep ${{ chosencomponents }} -m1 -B1 -A6 | perl -pe 's/\s+//g'`
+          filteredData=`echo "[${filteredData%?}]"`
+          #filteredData=$(jq -c --arg chosenCom "$chosencomponents" '.[] | select(.name == $chosenCom)' job_dependencies/job_dependencies.json) >> $GITHUB_OUTPUT
           #echo "::set-output name=filteredData::$filteredData"  # Corrected output name
           echo $filteredData
         
