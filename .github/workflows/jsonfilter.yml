@@ -37,7 +37,8 @@ jobs:
           
           filteredData=$(jq -c --arg chosenCom "$chosencomponents" '.[] | select(.name == $chosenCom) | tojson' job_dependencies/job_dependencies.json) >> $GITHUB_OUTPUT
           echo "filteredData (JSON): $filteredData" 
-          echo "::set-output name=filteredData::$filteredData"  # Corrected output name
+          filteredString=$(echo "$filteredData" | tr -d '\r\n')
+          echo "::set-output name=filteredData::$filteredString"  # Corrected output name
           echo $filteredData
         
       
