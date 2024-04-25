@@ -41,8 +41,8 @@ jobs:
           echo $filteredData
       - name: Run Job
         env:
-          COMPONENT_NAME: ${{ fromJSON(needs.filter-step.outputs.filtered-data).name }}
-          COMPONENT_VERSION: ${{ fromJSON(needs.filter-step.outputs.filtered-data).version }}
+          COMPONENT_NAME: ${{ fromJSON(needs.filter-step.outputs.filteredData).name }}
+          COMPONENT_VERSION: ${{ fromJSON(needs.filter-step.outputs.filteredData).version }}
         
          
   Comparison:
