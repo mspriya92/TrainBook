@@ -40,9 +40,9 @@ jobs:
           echo "::set-output name=filteredData::$filteredData"  # Corrected output name
           echo $filteredData
       - name: Run Job
-        env1:
-          COMPONENT_NAME: ${{ fromJSON(needs.filter.outputs.filtered-data).name }}
-          COMPONENT_VERSION: ${{ fromJSON(needs.filter.outputs.filtered-data).version }}
+        env:
+          COMPONENT_NAME: ${{ fromJSON(needs.filter-step.outputs.filtered-data).name }}
+          COMPONENT_VERSION: ${{ fromJSON(needs.filter-step.outputs.filtered-data).version }}
         
          
   Comparison:
