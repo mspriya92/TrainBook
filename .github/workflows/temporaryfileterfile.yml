@@ -48,7 +48,7 @@ jobs:
       matrix:
         components: ${{ fromJSON(needs.copy_files.outputs.components-info) }}
       # Access the temporary file and parse its content
-      filters: ${{ fromJSON(files.filtered_data.content) }}  # Assuming content is JSON
+        filters: ${{ fromJSON(files.filtered_data.content) }}  # Assuming content is JSON
     # ... (rest of your Comparison job)
 
     steps:
