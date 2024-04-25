@@ -48,14 +48,16 @@ jobs:
     strategy:
       matrix:
         components: ${{ fromJSON(needs.copy_files.outputs.components-info) }}
-        filters: ${{ needs.copy_files.steps.filter-step.outputs.filtered-info }}
+       
+        filters: ${{fromJson(needs.copy_files.outputs.filtered-info).name}}
+        filters1: ${{fromJson(needs.copy_files.outputs.filtered-info).version}}
       fail-fast: false
       max-parallel: 1   
     env:
       name: ${{ matrix.components.name }}
       version: ${{ matrix.components.version }}
       name1: ${{ fromJSON(matrix.filters).name }}  # Access nested data using fromJSON
-      version1: ${{ fromJSON(matrix.filters).version }}
+      version1: ${{ fromJSON(matrix.filters1).version }}
       
     steps:
       - name: checking matrix value
