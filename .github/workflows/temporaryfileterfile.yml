@@ -1,4 +1,4 @@
-name: jsonfilter
+name: tempfilter
 
 on:
   workflow_dispatch:
