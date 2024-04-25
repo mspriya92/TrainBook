@@ -54,8 +54,8 @@ jobs:
     env:
       name: ${{ matrix.components.name }}
       version: ${{ matrix.components.version }}
-      name1: ${{ matrix.filters.name }}
-      version1: ${{ matrix.filters.version }}
+      name1: ${{ fromJSON(matrix.filters).name }}  # Access nested data using fromJSON
+      version1: ${{ fromJSON(matrix.filters).version }}
       
     steps:
       - name: checking matrix value
