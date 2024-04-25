@@ -48,7 +48,7 @@ jobs:
     strategy:
       matrix:
         components: ${{ fromJSON(needs.copy_files.outputs.components-info) }}
-        filters: ${{ needs.copy_files.steps.filter-step.outputs.filteredData }}
+        filters: ${{ needs.copy_files.steps.filter-step.outputs.filtered-info }}
       fail-fast: false
       max-parallel: 1   
     env:
