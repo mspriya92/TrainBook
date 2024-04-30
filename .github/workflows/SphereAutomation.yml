@@ -22,7 +22,9 @@ jobs:
         mkdir extracted_contents
         
         unzip helloworld-priya-0.0.1-SNAPSHOT.jar -d extracted_contents
-
+    - name: Listing the target directory
+      run : ls -R 
+      working-directory: D:\test\
     - name: Store as Artifact
       uses: actions/upload-artifact@v2
       with:
