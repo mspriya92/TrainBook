@@ -1,4 +1,4 @@
-name: Visualize Jar Outputs
+name: Sphere Automation
 
 on: 
  workflow_dispatch
