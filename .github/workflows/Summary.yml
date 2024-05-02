@@ -1,1 +1,20 @@
+name: Job Action Summary
+on:
+  workflow_dispatch:
+
+jobs:
+  summary:
+    name: Summary
+    runs-on: ubuntu-latest
+    steps:
+    - name: Simple job summary
+      run: echo '### Hello Woprld! :rocket:' >> $GITHUB_STEP_SUMMARY
+      
+    - name: Generate a table of test results
+      run: |
+        echo "| Test Result :test_tube: | Passed :green_circle: | Failed :X: | Skipped | Time Duration :alarm_clocak: |" >> $GITHUB_STEP_SUMMARY
+        echo "| ----------- | --------- | ----- | ------ | ------------- |" >> $GITHUB_STEP_SUMMARY
+        echo "| :green_circle: Pass | 122 | 0 | 3 | 12m 3s |" >> $GITHUB_STEP_SUMMARY
+        echo "| :x: Failed | 121 | 2 | 3 | 10m 3s |" >> $GITHUB_STEP_SUMMARY
+        echo "| :green_circle: Pass | 4 | 22 | 3 |9m 4s |" >> $GITHUB_STEP_SUMMARY
 
