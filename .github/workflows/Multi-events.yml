@@ -1,0 +1,6 @@
+Name: Multi-events
+on: 
+  push:
+  branches: 
+     main
+     dev
