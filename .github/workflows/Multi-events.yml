@@ -4,9 +4,7 @@ on:
     branches: 
       - main
       - dev
-  pull_request:
-    branches:
-      - main
+  
 jobs:
   hello_world:
     runs-on: ubantu-latest
