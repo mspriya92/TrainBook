@@ -1,6 +1,15 @@
-Name: Multi-events
+name: Multi-events
 on: 
   push:
-  branches: 
-     main
-     dev
+    branches: 
+      - main
+      - dev
+  pull_request:
+    branches:
+      - main
+jobs:
+  hello_world:
+    runs-on: ubantu-latest
+    steps:
+      - name: basic echo info
+        run: ehco "The events are triggered successfully"
