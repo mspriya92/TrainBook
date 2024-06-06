@@ -7,11 +7,19 @@ on:
         default: 'World'
         required: true
         type: string
-
+      greeting:
+        description: 'Type of Greeting'
+        required: true
+        type: string
+      data:
+        description: 'Encoded content of the file'
+        required: false
+        type: string
 
 jobs:
   greet:
     runs-on: ubuntu-latest
     steps:
-    - name: Send greeting`````````````
-      run: echo "Hello ${{ inputs.name }}"
+    - name: decode file content
+      run: |
+         echo "${{ inputs.name }}" | base64 --encode > ./decoded_file.txt
