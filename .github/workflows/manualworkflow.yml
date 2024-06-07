@@ -23,3 +23,10 @@ jobs:
     - name: decode file content
       run: |
          echo "${{ inputs.name }}" | base64 --encode > ./decoded_file.txt
+    - name: display greeting
+      run: |
+         echo "${{ inputs.greeting }}", ${{ inputs.name }}|"
+    - name: Display File content 
+      run: | 
+         echo "contents of the file"
+         cat ./decoded_file.txt
