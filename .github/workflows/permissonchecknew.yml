@@ -1,27 +1,26 @@
-name: Permission Workflow
-
+name: Permissionchecknew Workflow
+ 
 on:
-  workflow_dispatch
-
+  workflow_dispatch:  # Triggered manually
+ 
 jobs:
   build:
-    if: contains(github.actor, steps.check_user.outputs.allowed_users)
     runs-on: ubuntu-latest
-
     steps:
-      #- name: Debug github.actor
-       # run: echo "GitHub Actor: ${{ github.actor }}"
-
       - name: Read Allowed Users
         id: check_user
         run: |
-          allowed_users=$(cat .github/allowed_users.txt)
-          echo "::set-output name=allowed_users::$allowed_users"
-
+          allowed_users=$(cat TrainBook/.github/allowed_users.txt)
+          if [[ $allowed_users == *"${{ github.actor }}"* ]]; then
+            echo "::set-output name=allowed::true"
+          else
+            echo "::set-output name=allowed::false"
+          fi
+ 
       - name: Checkout code
-        if: steps.check_user.outcome == 'success'
+        if: steps.check_user.outputs.allowed == 'true'
         uses: actions/checkout@v2
-
+ 
       - name: Execute only if triggered by specific user
-        if: steps.check_user.outcome == 'success'
+        if: steps.check_user.outputs.allowed == 'true'
         run: echo "Workflow executed by the specific user"
