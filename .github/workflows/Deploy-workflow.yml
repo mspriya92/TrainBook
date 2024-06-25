@@ -12,7 +12,7 @@ jobs:
     outputs:
       component: ${{ steps.set-matrix.outputs.env }}
     steps:
-      - name: Checkout Repository
+      - name: Checkouts Repository
         uses: actions/checkout@v3  
       - name: Copy Job Dependencies
         run: |
