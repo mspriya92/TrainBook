@@ -6,11 +6,16 @@ on:
 
 jobs:
   build:
-    if: github.actor == 'username1' || github.actor == 'username2' || contains(github.actor, 'team-name/')
+    if: github.actor == 'DivyaPrabhavathi' 
+    #|| github.actor == 'mspriya92' 
+    #|| contains(github.actor, 'team-name/')
     runs-on: ubuntu-latest
 
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
+
+    - name: execute only if triggered by specific user
+      run: echo "Workflow executed by the specific user"
 
     # Add your build steps here
