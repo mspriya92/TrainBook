@@ -1,7 +1,7 @@
 name: pullrequest Workflow
 
 on:
-  workflow_dispatch:
+  pull_request_target:
 
     
 
