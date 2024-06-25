@@ -19,7 +19,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: check the branch
+      
+      - name: check the merge pull request
         run:  echo "Workflow executed by the main"
       - name: Checkout code
         uses: actions/checkout@v2
