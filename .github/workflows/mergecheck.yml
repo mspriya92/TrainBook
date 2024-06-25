@@ -20,7 +20,7 @@ jobs:
 
     steps:
       
-      - name: check the merge pull request
+      - name: check the merge2 pull request
         run:  echo "Workflow executed by the main"
       - name: Checkout code
         uses: actions/checkout@v2
