@@ -1,5 +1,5 @@
 
-name: pullrequest Workflow
+name: inputs environment Workflow
 
 on:
   workflow_dispatch:
