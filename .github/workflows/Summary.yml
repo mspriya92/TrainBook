@@ -4,7 +4,7 @@ on:
 
 jobs:
   summary:
-    name: Summary
+    name: Summarys
     runs-on: ubuntu-latest
     steps:
     - name: Simple job summary
