@@ -6,8 +6,8 @@ on:
 
 jobs:
   build:
-    if: github.actor == 'DivyaPrabhavathi' || github.actor == 'mspriya92' 
-    #|| contains(github.actor, 'team-name/')
+    if: contains(github.actor, 'DevopsTeam/')
+    #github.actor == 'DivyaPrabhavathi' || github.actor == 'mspriya92' ||
     runs-on: ubuntu-latest
 
     steps:
