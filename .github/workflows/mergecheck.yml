@@ -3,6 +3,7 @@ name: pullrequest Workflow
 on:
   pull_request:
     branches:
+      - testpullrequest
       - main
     
     
@@ -20,4 +21,4 @@ jobs:
         uses: actions/checkout@v2
      
       - name: execute only if triggered by specific user
-        run: echo "Workflow executed by the specific user"
+        run: echo "Workflow executed by the specifi user"
