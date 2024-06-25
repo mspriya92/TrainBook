@@ -1,10 +1,7 @@
 name: pullrequest Workflow
 
 on:
-  pull_request_target:
-  
-     types:
-       - closed
+workflow_dispatch:
 
     
 
