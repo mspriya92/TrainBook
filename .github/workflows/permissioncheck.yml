@@ -7,10 +7,10 @@ on:
 jobs:
   build:
     
-    if: github.actor == 'DivyaPrabhavathi' || github.actor == 'mspriya92'
+    #if: github.actor == 'DivyaPrabhavathi' || github.actor == 'mspriya92'
     #if: contains(github.actor, 'devopsteam/')
     
-    #if: contains(github.actor, 'DivyaPrabhavathi/') || contains(github.actor, 'mspriya92/')
+    if: contains(github.actor, 'DivyaPrabhavathi/') || contains(github.actor, 'mspriya92/')
     runs-on: ubuntu-latest
 
     steps:
