@@ -9,14 +9,18 @@ jobs:
     
     if: github.actor == 'DivyaPrabhavathi' || github.actor == 'mspriya92'
     #if: contains(github.actor, 'devopsteam/')
+    
     #if: contains(github.actor, 'DivyaPrabhavathi/') || contains(github.actor, 'mspriya92/')
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
-
-    - name: execute only if triggered by specific user
-      run: echo "Workflow executed by the specific user"
+      - name: Debug github.actor
+        run: echo "GitHub Actor:${{ github.actor }}"
+      
+      - name: Checkout code
+        uses: actions/checkout@v2
+     
+      - name: execute only if triggered by specific user
+        run: echo "Workflow executed by the specific user"
 
     # Add your build steps here
