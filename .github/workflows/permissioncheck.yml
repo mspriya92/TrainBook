@@ -1,36 +1,23 @@
 name: Restricted Workflow
 
 on:
-  workflow_dispatch:  # Triggered manually
+  workflow_dispatch:
+    
 
 jobs:
   build:
-    if: contains(github.event.inputs.user, steps.read_users.outputs.users)
+    
+    if: github.actor == 'DivyaPrabhavathi' || github.actor == 'santhosh-158'
+    #|| github.actor == 'mspriya92' 
+ 
     runs-on: ubuntu-latest
 
     steps:
+      - name: Debug github.actor
+        run: echo "GitHub Actor:${{ github.actor }}"
+      
       - name: Checkout code
         uses: actions/checkout@v2
-
-      - name: Read Allowed Users
-        id: read_users
-        run: echo "::set-output name=users::$(cat .github/allowed_users.txt)"
-
-      - name: Check User
-        run: |
-          allowed_users="${{ steps.read_users.outputs.users }}"
-          if [[ $allowed_users == *"${{ github.actor }}"* ]]; then
-            echo "User is allowed to run the workflow."
-          else
-            echo "User is not allowed to run the workflow. Skipping the workflow."
-            exit 0  # Exit with a zero code to indicate successful skip
-          fi
-
-      - name: Your Build Steps
-        if: success()  # Only run if the Check User step was successful
-        run: |
-          # Add your build steps here
-      - name: Your Build Steps
-        if: success()  # Only run if the Check User step was successful
-        run: |
-          # Add your build steps here
+     
+      - name: execute only if triggered by specific user
+        run: echo "Workflow executed by the specific user"
