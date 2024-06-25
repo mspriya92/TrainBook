@@ -23,5 +23,5 @@ jobs:
             echo "Processing environment: $chosenEnv"
             echo "Filtered data: $filteredData"
             # Perform actions specific to each environment based on the filtered data
-            # For example, run a command or call another action based on the filtered data
+            # For example, run a command or call another action based on filtered data
           done
