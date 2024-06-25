@@ -6,7 +6,7 @@ on:
       - main
       - merge2
     types:
-       - closed
+       - Synchronize
   
 
     
