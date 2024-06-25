@@ -1,0 +1,30 @@
+
+name: inputs environment Workflow
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Choose the env to deploy (Dev and Prod)?'
+        required: true
+        type: string
+
+  pull_request_target:
+    branches:
+      - main
+      - merge2
+    types:
+      - closed
+
+jobs:
+  deploy_job:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Assign value
+        if: github.event_name == 'pull_request_target'
+        run: echo "::set-env name=selected_environment::${{ github.event.inputs.environment }}"
+
+      - name: Display User Input
+        run: |
+          echo "Environment selected: ${{ env.selected_environment }}"          
