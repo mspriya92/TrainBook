@@ -1,28 +1,26 @@
 name: Restricted Workflow
-
+ 
 on:
-  workflow_dispatch:
-
+  workflow_dispatch:  # Triggered manually
+ 
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
-
-    - name: Read Allowed Users
-      id: read_users
-      run: echo "::set-output name=users::$(cat .github/allowed_users.txt)"
-
-    - name: Check User
-      run: |
-        allowed_users=$(echo "${{ steps.read_users.outputs.users }}")
-        if [[ $allowed_users == *"${{ github.actor }}"* ]]; then
-          echo "User is allowed to run the workflow."
-        else
-          echo "User is not allowed to run the workflow."
-          exit 1
-        }
-
-    # Add your build steps here
+      - name: Checkout code
+        uses: actions/checkout@v2
+ 
+      - name: Read Allowed Users
+        id: read_users
+        run: echo "::set-output name=users::$(cat .github/allowed_users.txt)"
+ 
+      - name: Check User
+        run: |
+          allowed_users="${{ steps.read_users.outputs.users }}"
+          if [[ $allowed_users == *"${{ github.actor }}"* ]]; then
+            echo "User is allowed to run the workflow."
+          else
+            echo "User is not allowed to run the workflow."
+            exit 1  # Exit with a non-zero code to indicate failure
+          fi
+      # Add your build steps here
