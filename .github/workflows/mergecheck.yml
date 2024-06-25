@@ -11,15 +11,10 @@ jobs:
   build:
     if: github.event.pull_request.merged == true
     
-#if: github.actor == 'DivyaPrabhavathi' || github.actor == 'mspriya92'
-    #if: contains(github.actor, 'devopsteam/')
-    
-    #if: contains(file('.github/allowed_users.txt'), github.actor)
+
     runs-on: ubuntu-latest
 
     steps:
-      - name: Debug github.actor
-        run: echo "GitHub Actor:${{ github.actor }}"
       
       - name: Checkout code
         uses: actions/checkout@v2
