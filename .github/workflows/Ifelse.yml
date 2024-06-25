@@ -19,5 +19,5 @@ jobs:
           elif [ ${{ github.event_name }} == 'workflow_call' ]; then
             echo "This is triggered by workflow_call"
           else
-            echo "This is an unknown event"
+            echo "This is an known event"
           fi
