@@ -7,10 +7,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: List files in Repo
-        run: ls -R
-      - name: Debug .github directory
-        run: ls -R .github
       - name: Read Allowed Users
         id: check_user
         run: |
