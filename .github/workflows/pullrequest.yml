@@ -19,6 +19,9 @@ jobs:
   deploy_job:
     runs-on: ubuntu-latest
     steps:
+      - name: Assign value
+        if: github.event_name == 'pull_request_target' 
+        echo "Environment selected: ${{ github.event.inputs.environment }}"
       - name: Display User Input
         run: |
           echo "Environment selected: ${{ github.event.inputs.environment }}"
