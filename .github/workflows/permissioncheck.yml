@@ -5,6 +5,7 @@ on:
 
 jobs:
   build:
+    if: contains(github.event.inputs.user, steps.read_users.outputs.users)
     runs-on: ubuntu-latest
 
     steps:
@@ -25,6 +26,10 @@ jobs:
             exit 0  # Exit with a zero code to indicate successful skip
           fi
 
+      - name: Your Build Steps
+        if: success()  # Only run if the Check User step was successful
+        run: |
+          # Add your build steps here
       - name: Your Build Steps
         if: success()  # Only run if the Check User step was successful
         run: |
