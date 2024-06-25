@@ -1,11 +1,8 @@
 name: pullrequest Workflow
 
 on:
-  pull_request:
-    branches:
-      - testpullrequest
-      - main
-    
+  pull_request_target:
+
     
 
 jobs:

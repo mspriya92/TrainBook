@@ -7,7 +7,7 @@ on:
         required: true
         type: string
       Filters:
-        description: 'Choose the required component'
+        description: 'Choose  required component'
         required: true
         type: choice
         options:

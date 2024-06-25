@@ -13,9 +13,9 @@ jobs:
           java-version: '18'
           distribution: 'temurin'
           cache: maven
-      - name: Build with Maven
+      - name: Build with thev Maven
         run: mvn -B package --file pom.xml
-      - name: Creates staging directory and copy .war
+      - name: Creates stagin directory and copy .war
         run: |
           mkdir staging
           cp target/*.war staging/

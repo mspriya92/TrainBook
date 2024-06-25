@@ -15,7 +15,7 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
 
-      - name: Set up environment and loop through JSON keys
+      - name: Set up environment and loop through JSON key
         run: |
           jsonData=$(cat job_dependencies/job_dependencies.json)
           for chosenEnv in Dev Prod Prod1; do
