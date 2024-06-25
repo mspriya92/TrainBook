@@ -9,7 +9,7 @@ on:
 
 jobs:
   build:
-    if: github.event.pull_request.merged == false
+    if: github.event.pull_request.merged == true
     
 #if: github.actor == 'DivyaPrabhavathi' || github.actor == 'mspriya92'
     #if: contains(github.actor, 'devopsteam/')
