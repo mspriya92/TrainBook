@@ -6,7 +6,7 @@ on:
       environment:
         description: 'Choose the env to deploy (Dev, Prod, or Prod1)?'
         required: true
-        type: string
+        type: object
 
 jobs:
   iterate-over-json-file:
