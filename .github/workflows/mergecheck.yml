@@ -1,13 +1,17 @@
 name: pullrequest Workflow
 
 on:
-  workflow_dispatch:
+  pull_request:
+    branches:
+      - mergingcheck
+    types: [closed]
     
 
 jobs:
   build:
+    if: github.event.pull_request.merged == true
     
-    if: github.actor == 'DivyaPrabhavathi' || github.actor == 'mspriya92'
+    #if: github.actor == 'DivyaPrabhavathi' || github.actor == 'mspriya92'
     #if: contains(github.actor, 'devopsteam/')
     
     #if: contains(file('.github/allowed_users.txt'), github.actor)
