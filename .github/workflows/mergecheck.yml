@@ -4,6 +4,7 @@ on:
   pull_request_target:
     branches:
       - main
+      - merge2
     types:
        - closed
   
@@ -18,7 +19,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: check the branch
+      
+      - name: check the merge2 pull request
         run:  echo "Workflow executed by the main"
       - name: Checkout code
         uses: actions/checkout@v2
