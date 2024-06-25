@@ -6,7 +6,7 @@ on:
 
 jobs:
   build:
-   #if: contains(github.actor, 'DevopsTeam/')
+   #if: contains(github.actor, 'devopsteam/')
     if: github.actor == 'DivyaPrabhavathi' || github.actor == 'mspriya92'
     runs-on: ubuntu-latest
 
