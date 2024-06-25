@@ -1,0 +1,19 @@
+name: Deploy to main
+
+on:
+  pull_request:
+    types:
+      - closed
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Deploy to main
+        if: github.event.pull_request.merged == true && github.base_ref == 'refs/heads/testrequest'
+        run: |
+          # Add your deployment commands here
+          echo "Deploying to main branch"
