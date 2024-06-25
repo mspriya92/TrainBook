@@ -1,0 +1,24 @@
+name: pullrequest Workflow
+
+on:
+  workflow_dispatch:
+    
+
+jobs:
+  build:
+    
+    if: github.actor == 'DivyaPrabhavathi' || github.actor == 'mspriya92'
+    #if: contains(github.actor, 'devopsteam/')
+    
+    #if: contains(file('.github/allowed_users.txt'), github.actor)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Debug github.actor
+        run: echo "GitHub Actor:${{ github.actor }}"
+      
+      - name: Checkout code
+        uses: actions/checkout@v2
+     
+      - name: execute only if triggered by specific user
+        run: echo "Workflow executed by the specific user"
