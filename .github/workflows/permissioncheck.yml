@@ -7,7 +7,8 @@ on:
 jobs:
   build:
     
-    if: github.actor == 'DivyaPrabhavathi' || github.actor == 'mspriya92' || github.actor == 'santhosh-158'
+    if: github.actor == 'DivyaPrabhavathi' || github.actor == 'santhosh-158'
+    #|| github.actor == 'mspriya92' 
  
     runs-on: ubuntu-latest
 
