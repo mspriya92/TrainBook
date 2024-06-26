@@ -10,7 +10,7 @@ on:
  
   pull_request_target:
     branches:
-     - main
+     - merge1
      - merge2
     types:
      - closed
@@ -20,6 +20,5 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Display User Input
-        run: |
-          echo "Environment selected: ${{ github.event.inputs.environment }}"
-          echo "Name input: ${{ github.event.inputs.name }}"
+        run: echo "Environment selected:${{ github.event.inputs.environment }}"
+          
