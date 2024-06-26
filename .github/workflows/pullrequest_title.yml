@@ -15,7 +15,7 @@ jobs:
          env:
           TITLE: ${{ github.event.pull_request.title }}
          run: |
-          if [[ "$TITLE" =~ merge2 ]]; then
+          if [[ "$TITLE" =~ ^merge2 ]]; then
           echo "PR title starts with 'octocat'"
           exit 0
           else
