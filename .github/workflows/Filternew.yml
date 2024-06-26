@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       environment:
-        description: 'Choose the env to deploy (Dev or Prod)?'
+        description: 'Choose  env to deploy (Dev or Prod)?'
         required: true
         type: string
       Filters:
