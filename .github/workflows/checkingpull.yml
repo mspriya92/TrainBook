@@ -7,18 +7,26 @@ on:
         description: 'Choose the env to deploy (Dev and Prod)?'
         required: true
         type: string
- 
   pull_request_target:
     branches:
-     - merge1
-     - merge2
+      - merge1
+      - merge2
     types:
-     - closed
+      - closed
  
 jobs:
   deploy_job:
     runs-on: ubuntu-latest
     steps:
       - name: Display User Input
-        run: echo "Environment selected:${{ github.event.inputs.environment }}"
+        id: check_environment
+        run: |
+          if [ -z "${{ github.event.inputs.environment }}" ]; then
+            echo "::set-output name=env::Dev"
+          else
+            echo "::set-output name=env::${{ github.event.inputs.environment }}"
+          fi
+ 
+      - name: Use Environment
+        run: echo "Environment selected:${{ steps.check_environment.outputs.env }}"
           
