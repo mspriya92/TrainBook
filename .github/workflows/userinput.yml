@@ -4,8 +4,8 @@ on:
   pull_request_target:
     branches:
       - main
-      - merge2
-    types: [opened]
+      - merge1
+    types: closed
 
 jobs:
   check_pull_request_title:
