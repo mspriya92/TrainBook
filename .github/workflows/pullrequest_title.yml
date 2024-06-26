@@ -12,9 +12,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
        - name: Check PR title
-         uses: fakeaction/checktitle@v3
+         uses: fakeaction/checktitle@v2
          with:
            title: ${{ github.event.pull_request.title }}
        - name: check the value of the title
-         run: echo " the title of PR:$title"
+         run: echo "the title of PR:$title"
  
