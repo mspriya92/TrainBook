@@ -38,6 +38,6 @@ jobs:
     environment: ${{ needs.job1.outputs.filter-info }}
     steps:
       - name: check the env name
-        run: echo "getting the evirontment details :$environment"
+        run: echo "getting the evirontment details :${{ needs.job1.outputs.filter-info }}"
           
      
