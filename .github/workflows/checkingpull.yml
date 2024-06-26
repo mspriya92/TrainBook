@@ -7,7 +7,7 @@ on:
         description: 'Choose the env to deploy (Dev and Prod)?'
         required: true
         type: string
-  pull_request_target:
+  #pull_request_target:
     branches:
       - merge1
       - merge2
