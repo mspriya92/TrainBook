@@ -1,0 +1,36 @@
+name: Example Workflow
+ 
+on:
+  workflow_dispatch:
+    inputs:
+      my_input:
+        description: 'Input value'
+        required: false
+  pull_request_target:
+    branches:
+      - merge1
+      - merge2
+    types:
+      - closed
+ 
+jobs:
+  example-job:
+    runs-on: ubuntu-latest
+ 
+    steps:
+    - name: Set default value if input is empty
+      id: set-default
+      run: |
+        if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+          input_value="${{ github.event.inputs.my_input }}"
+        elif [[ "${{ github.event_name }}" == "pull_request_target" ]]; then
+          input_value="${{ secrets.MY_INPUT }}"
+        fi
+        if [ -z "$input_value" ]; then
+          input_value="default_value"
+        fi
+ 
+        echo "input_value=$input_value" >> $GITHUB_ENV
+ 
+    - name: Use the input value
+      run: echo "Using my_input value:${{ env.input_value }}"
