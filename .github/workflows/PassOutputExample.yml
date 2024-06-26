@@ -1,13 +1,7 @@
-name: priyaworkflowcheck
+name: PassOutputExample
 
-on: 
-  workflow_dispatch:
-  #pull_request_target:
-    #branches:
-      #- merge1
-      #- merge2
-    #types:
-      #- closed
+on:
+  workflow_dispatch
 
 jobs:
   job1:
