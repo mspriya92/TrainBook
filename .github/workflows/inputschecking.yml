@@ -1,4 +1,4 @@
-name: inputchecking worklfow
+name: devops workflow
  
 on:
   workflow_dispatch:
