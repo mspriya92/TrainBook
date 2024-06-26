@@ -1,25 +1,35 @@
 name: Userinput
-
+ 
 on:
   pull_request_target:
     branches:
       - main
       - merge1
-    types: closed
-
+    types:
+      - closed
+ 
 jobs:
   check_pull_request_title:
     runs-on: ubuntu-latest
     steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+ 
       - name: Check if Pull Request Title is Empty
         id: check_title
-        run: echo "::set-output name=is_empty::${{ github.event.pull_request.title == null || github.event.pull_request.title == '' }}"
-
+        run: |
+          if [[ -z "${{ github.event.pull_request.title }}" ]]; then
+            echo "::set-output name=is_empty::true"
+          else
+            echo "::set-output name=is_empty::false"
+            echo "::set-output name=pr_title::${{ github.event.pull_request.title }}"
+          fi
+ 
       - name: Assign Default Value if Pull Request Title is Empty
         if: steps.check_title.outputs.is_empty == 'true'
-        run: echo "Pull Request Title is empty. Assigning default value."
-        env:
-          DEFAULT_TITLE: 'Dev'
-
+        run: |
+          echo "::set-output name=pr_title::Dev"
+ 
       - name: Use Pull Request Title
-        run: echo "Pull Request Title:${{ steps.check_title.outputs.is_empty == 'true' && env.DEFAULT_TITLE || github.event.pull_request.title }}"
+        run: |
+          echo "Pull Request Title: ${{ steps.check_title.outputs.pr_title }}"
