@@ -1,0 +1,27 @@
+name: PassOutputExample
+
+on: 
+  workflow_dispatch:
+  #pull_request_target:
+    #branches:
+      #- merge1
+      #- merge2
+    #types:
+      #- closed
+
+jobs:
+  job1:
+    runs-on: ubuntu-latest
+    outputs:
+      my_output: ${{ steps.step1.outputs.my_output }}
+    steps:
+      - name: Step 1
+        id: step1
+        run: echo "::set-output name=my_output::Hello from Job 1"
+
+  job2:
+    needs: job1
+    runs-on: ubuntu-latest
+    steps:
+      - name: Step 2
+        run: echo "Output from Job 1:${{ needs.job1.outputs.my_output }}"
