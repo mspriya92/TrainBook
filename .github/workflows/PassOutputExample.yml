@@ -15,7 +15,7 @@ jobs:
     outputs:
       my_output: ${{ steps.step1.outputs.my_output }}
     steps:
-      - name: Step 1
+      - name: Step 1 check
         id: step1
         run: echo "::set-output name=my_output::Hello from Job 1"
 
