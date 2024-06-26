@@ -1,4 +1,4 @@
-name: PassOutputExample
+name: priyaworkflowcheck
 
 on: 
   workflow_dispatch:
