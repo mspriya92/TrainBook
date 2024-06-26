@@ -24,7 +24,7 @@ jobs:
         if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
           input_value="${{ github.event.inputs.my_input }}"
         elif [[ "${{ github.event_name }}" == "pull_request_target" ]]; then
-          input_value="${{ secrets.MY_INPUT }}"
+          input_value="Dev"
         fi
         if [ -z "$input_value" ]; then
           input_value="default_value"
