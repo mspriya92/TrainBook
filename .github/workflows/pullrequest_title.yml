@@ -1,0 +1,25 @@
+name: Userinput 
+
+on:
+  pull_request_target:
+    branches:
+      - main
+      - merge1
+    types: closed
+
+jobs:
+  check_pull_request_title:
+    runs-on: ubuntu-latest
+    steps:
+       - name: Check PR title
+         env:
+          TITLE: ${{ github.event.pull_request.title }}
+         run: |
+          if [[ "$TITLE" =~ merge2 ]]; then
+          echo "PR title starts with 'octocat'"
+          exit 0
+          else
+          echo "PR title did not start with 'octocat'"
+          exit 1
+          fi
+ 
