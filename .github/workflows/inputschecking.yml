@@ -27,10 +27,10 @@ jobs:
         elif [[ "${{ github.event_name }}" == "pull_request_target" ]]; then
           input_value="Dev"
         fi
-        echo "input_value=$input_value" >> $GITHUB_ENV
+       #echo "input_value=$input_value" >> $GITHUB_ENV
  
-    - name: Use the input value
-      run: echo "Using my_input value:${{ env.input_value }}"
+    #- name: Use the input value
+      #run: echo "Using my_input value:${{ env.input_value }}"
 
  job2:
     runs-on: ubuntu-latest
