@@ -1,4 +1,4 @@
-name: Userinput 
+name: Userinput
 
 on:
   pull_request_target:
@@ -13,7 +13,7 @@ jobs:
     steps:
       - name: Check if Pull Request Title is Empty
         id: check_title
-        run: echo "::set-output name=is_empty::${{ github.event.pull_request.title == '' }}"
+        run: echo "::set-output name=is_empty::${{ github.event.pull_request.title == null || github.event.pull_request.title == '' }}"
 
       - name: Assign Default Value if Pull Request Title is Empty
         if: steps.check_title.outputs.is_empty == 'true'
