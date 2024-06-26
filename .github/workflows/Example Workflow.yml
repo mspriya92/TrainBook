@@ -26,9 +26,9 @@ jobs:
         elif [[ "${{ github.event_name }}" == "pull_request_target" ]]; then
           input_value="Dev"
         fi
-        if [ -z "$input_value" ]; then
-          input_value="default_value"
-        fi
+        #if [ -z "$input_value" ]; then
+         # input_value="default_value"
+        #fi
  
         echo "input_value=$input_value" >> $GITHUB_ENV
  
