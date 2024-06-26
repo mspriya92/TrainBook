@@ -17,7 +17,7 @@ jobs:
       - name: Build with new Maven
 
         run: mvn -B package --file pom.xml
-      - name: Creates staging directory and copy .war
+      - name: Creating staging directory and copy .war
         run: |
           mkdir staging
           cp target/*.war staging/
