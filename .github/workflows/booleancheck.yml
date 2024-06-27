@@ -3,14 +3,18 @@ name: Boolean Input Example
 on:
   workflow_dispatch:
     inputs:
-      my_boolean_input:
+      initial:
         description: 'A boolean input'
         required: true
-        #default: 'false'  # Use string 'false' instead of boolean false
+        type: boolean
  
 jobs:
   print-boolean:
     runs-on: ubuntu-latest
     steps:
+      - name: run the boolean
+        id: my_action
+        with:
+          initial: ${{ inputs.initial}}
       - name: Print boolean input
-        run: echo "Boolean input value:${{ github.event.inputs.my_boolean_input }}"
+        run: echo "Boolean input value:${{ toJson(steps.my_action.outputs.initial }}"
