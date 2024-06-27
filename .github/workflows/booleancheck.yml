@@ -17,4 +17,4 @@ jobs:
         with:
           initial: ${{ inputs.initial}}
       - name: Print boolean input
-        run: echo "Boolean input value:${{ toJson(steps.my_action.outputs.initial) }}"
+        run: echo "Boolean input value:${{ toJson(steps.my_action.initial) }}"
