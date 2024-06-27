@@ -6,7 +6,7 @@ on:
       my_boolean_input:
         description: 'A boolean input'
         required: true
-        default: 'false'  # Use string 'false' instead of boolean false
+        #default: 'false'  # Use string 'false' instead of boolean false
  
 jobs:
   print-boolean:
