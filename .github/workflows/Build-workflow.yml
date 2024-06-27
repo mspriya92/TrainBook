@@ -14,7 +14,7 @@ jobs:
           java-version: '18'
           distribution: 'temurin'
           cache: maven
-      - name: Builds with new Maven
+      - name: Builds with the new Maven
 
         run: mvn -B package --file pom.xml
       - name: Creating staging directory and copy .war
