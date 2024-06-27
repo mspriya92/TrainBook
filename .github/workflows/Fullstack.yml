@@ -1,4 +1,4 @@
-name: fullstack workflow
+name: check fullstack workflow
  
 on:
   workflow_dispatch:
