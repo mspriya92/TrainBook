@@ -28,7 +28,8 @@ jobs:
             input_value="Dev"
           fi
           echo "::set-output name=input_value::${input_value}"
-          echo Initial-value: "{{ github.event.inputs.initial }}"
+      - name: checking the initial value
+        run: echo Initial-value:"{{ github.event.inputs.initial }}"
  
       - name: Set component output
         id: set-component
