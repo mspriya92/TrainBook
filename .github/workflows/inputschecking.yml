@@ -1,5 +1,5 @@
 name: devops workflow
- 
+
 on:
   workflow_dispatch:
     inputs:
@@ -12,33 +12,30 @@ on:
       - merge2
     types:
       - closed
- 
+
 jobs:
- job1:
+  job1:
     runs-on: ubuntu-latest
     outputs:
-       filter-info: ${{ steps.set-default.outputs.input_value }}
+      filter-info: ${{ steps.set-default.outputs.input_value }}
     steps:
-    - name: Set default value if input is empty
-      id: set-default
-      run: |
-        if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
-          input_value="${{ github.event.inputs.my_input }}"
-        elif [[ "${{ github.event_name }}" == "pull_request_target" ]]; then
-          input_value="Dev"
-        fi
-       #echo "input_value=$input_value" >> $GITHUB_ENV
- 
-    #- name: Use the input value
-      #run: echo "Using my_input value:${{ env.input_value }}"
+      - name: Set default value if input is empty
+        id: set-default
+        run: |
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            input_value="${{ github.event.inputs.my_input }}"
+          elif [[ "${{ github.event_name }}" == "pull_request_target" ]]; then
+            input_value="Dev"
+          fi
+          echo "::set-output name=input_value::${input_value}"
 
- job2:
+  job2:
     runs-on: ubuntu-latest
     needs: job1
     env:
-     environment: ${{ needs.job1.outputs.filter-info }}
+      environment: ${{ needs.job1.outputs.filter-info }}
     steps:
       - name: check the env name
-        run: echo "getting the evirontment details :${{ needs.job1.outputs.filter-info }}"
-          
-     
+        run: echo "getting the environment details:${{ needs.job1.outputs.filter-info }}"
+
+
