@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       environment: dev
-  
+      component: fullstack
     outputs:
       filter-info: ${{ steps.set-default.outputs.input_value }}
     steps:
@@ -23,10 +23,21 @@ jobs:
         id: set-default
         run: |
           if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
-            input_value="${{ env.environment }}"
+            input_value="${{ env.component }}"
           elif [[ "${{ github.event_name }}" == "pull_request_target" ]]; then
             input_value="Dev"
           fi
           echo "::set-output name=input_value::${input_value}"
  
-  
+  job2:
+    runs-on: ubuntu-latest
+    needs: job1
+    env:
+      environment: ${{ needs.job1.outputs.filter-info }}
+   # if: ${{ github.event_name == 'workflow_dispatch' && needs.job1.outputs.filter-info == 'Dev' }}
+    steps:
+      - name: Printing message
+        run: echo "Deployed in workflow call Dev"
+      - name: Check the environment name
+        run: echo "Getting the environment details:${{ needs.job1.env.component }}"
+
