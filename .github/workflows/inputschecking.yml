@@ -3,15 +3,15 @@ name: inputschecking workflow
 on:
   workflow_dispatch:
     inputs:
-      my_input:
-        description: 'Input value'
-        required: false
-  pull_request_target:
-    branches:
-      - merge1
-      - merge2
-    types:
-      - closed
+      environment:
+        description: 'choose prod or Dev'
+        required: true
+  #pull_request_target:
+    #branches:
+      #- merge1
+      #- merge2
+    #types:
+     #- closed
  
 jobs:
   job1:
@@ -23,7 +23,7 @@ jobs:
         id: set-default
         run: |
           if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
-            input_value="${{ github.event.inputs.my_input }}"
+            input_value="${{ github.event.inputs.environment }}"
           elif [[ "${{ github.event_name }}" == "pull_request_target" ]]; then
             input_value="Dev"
           fi
@@ -34,7 +34,7 @@ jobs:
     needs: job1
     env:
       environment: ${{ needs.job1.outputs.filter-info }}
-    if: ${{ github.event_name == 'pull_request_target' && needs.job1.outputs.filter-info == 'Dev' }}
+    if: ${{ github.event_name == 'workflow_dispatch' && needs.job1.outputs.filter-info == 'Dev' }}
     steps:
       - name: Printing message
         run: echo "Deployed in workflow call Dev"
