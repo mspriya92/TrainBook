@@ -1,0 +1,42 @@
+name: spherefullstack workflow
+ 
+on:
+  workflow_dispatch:
+ 
+jobs:
+  job1:
+    runs-on: ubuntu-latest
+    env:
+      environment: dev
+      component: fullstack
+    outputs:
+      filter-info: ${{ steps.set-default.outputs.input_value }}
+      component: ${{ steps.set-component.outputs.component }}
+    steps:
+      - name: Set default value if input is empty
+        id: set-default
+        run: |
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            input_value="${{ env.environment }}"
+          elif [[ "${{ github.event_name }}" == "pull_request_target" ]]; then
+            input_value="Dev"
+          fi
+          echo "::set-output name=input_value::${input_value}"
+ 
+      - name: Set component output
+        id: set-component
+        run: echo "::set-output name=component::${{ env.component }}"
+ 
+  job2:
+    runs-on: ubuntu-latest
+    needs: job1
+    env:
+      environment: ${{ needs.job1.outputs.filter-info }}
+      component: ${{ needs.job1.outputs.component }}
+    steps:
+      - name: Printing message
+        run: echo "Deployed in workflow call Dev"
+      - name: Check the environment name
+        run: echo "Getting the environment details:${{ env.environment }}"
+      - name: Check the component name
+        run: echo "Getting the component details:${{ env.component }}"
