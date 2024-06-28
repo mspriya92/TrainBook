@@ -13,13 +13,13 @@ jobs:
   deploy_job:
     runs-on: ubuntu-latest
     outputs: 
-       env: ${{ steps.set-value.outputs.Name }}
+       env: ${{ steps.set-value.outputs.Environment }}
     steps:
     
       - name: Display User Input
         id: set-value
         run: |
-          echo "Environment selected: ${{ github.event.inputs.environment }}" >> $GITHUB_OUTPUT
+          echo "Environment selected= ${{ github.event.inputs.environment }}" >> $GITHUB_OUTPUT
           #echo "Name = ${{ github.event.inputs.name }}" >> $GITHUB_OUTPUT
  
   job2:
