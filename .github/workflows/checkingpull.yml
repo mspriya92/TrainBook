@@ -28,5 +28,5 @@ jobs:
    needs: deploy_job
    steps:
     - name: check the ouput value
-      run: echo "environment:${{ needs.deploy_job.outputs.env}}"
+      run: echo "environment:${{ needs.deploy_job.outputs.env }}"
      
