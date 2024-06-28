@@ -23,10 +23,10 @@ jobs:
           echo "Name = ${{ github.event.inputs.name }}" >> $GITHUB_OUTPUT
  
   job2:
-   environment: ${{ needs.deploy_job.outputs.env}}
+   #environment: ${{ needs.deploy_job.outputs.env}}
    runs-on: ubuntu-latest
    needs: deploy_job
    steps:
     - name: check the ouput value
-      run: echo "ouputs:$environment"
+      run: echo "environment:${{ needs.deploy_job.outputs.env}}"
      
