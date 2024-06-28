@@ -15,13 +15,15 @@ jobs:
       environment: ${{ steps.set-component.outputs.env }}
       component: ${{ steps.set-component.outputs.comp }}
       initial: ${{ steps.set-component.outputs.init }}
+      
     steps:
       - name: Set component
+        
         id: set-component
         run: |
           echo "env=dev" >> $GITHUB_OUTPUT
           echo "comp=fullstack" >> $GITHUB_OUTPUT
-          echo "init=${{ github.event.inputs.initial }}" >> $GITHUB_OUTPUT
+          echo "init=true" >> $GITHUB_OUTPUT
  
   job2:
     environment: ${{ needs.job1.outputs.environment }}
