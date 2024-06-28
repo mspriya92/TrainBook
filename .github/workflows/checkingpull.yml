@@ -19,7 +19,7 @@ jobs:
       - name: Display User Input
         id: set-value
         run: |
-          echo "Environment selected= ${{ github.event.inputs.environment }}" >> $GITHUB_OUTPUT
+          echo "Environment= ${{ github.event.inputs.environment }}" >> $GITHUB_OUTPUT
           #echo "Name = ${{ github.event.inputs.name }}" >> $GITHUB_OUTPUT
  
   job2:
