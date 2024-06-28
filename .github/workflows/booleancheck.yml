@@ -1,4 +1,4 @@
-name: Boolean Input Example
+name: Booleancheck 
  
 on:
   workflow_dispatch:
