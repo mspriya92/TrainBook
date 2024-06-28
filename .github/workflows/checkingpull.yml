@@ -7,19 +7,26 @@ on:
         description: 'Choose the env to deploy (Dev and Prod)?'
         required: true
         type: string
- 
-  pull_request_target:
-    branches:
-     - main
-     - merge2
-    types:
-     - closed
+
  
 jobs:
   deploy_job:
     runs-on: ubuntu-latest
+    outputs: 
+       env: ${{ steps.set-value.outputs.Name }}
     steps:
+    
       - name: Display User Input
+        id: set-value
         run: |
           echo "Environment selected: ${{ github.event.inputs.environment }}"
-          echo "Name input: ${{ github.event.inputs.name }}"
+          echo "Name = ${{ github.event.inputs.name }}" >> $GITHUB_OUTPUT
+ 
+  job2:
+   environment: ${{ needs.deploy_job.outputs.env}}
+   runs-on: ubuntu-latest
+   needs: deploy_job
+   steps:
+    - name: check the ouput value
+      run: echo "ouputs:$environment"
+     
