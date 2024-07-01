@@ -3,7 +3,7 @@ name: Booleancheck
 on:
   workflow_dispatch:
     inputs:
-      initial:
+      runTests:
         description: 'A boolean input'
         required: true
         type: boolean
@@ -17,13 +17,17 @@ jobs:
       initial: ${{ steps.set-component.outputs.init }}
 
     steps:
+      
+      - name: Checking input (might be string initially)
+        run: echo " runTests (string representation):${{ (github.event.inputs.runTests) }}"
+     
       - name: Set component
-
         id: set-component
         run: |
+          working_value=${{ fromJSON(github.event.inputs.runTests) }}
           echo "env=dev" >> $GITHUB_OUTPUT
           echo "comp=fullstack" >> $GITHUB_OUTPUT
-          echo "init=true" >> $GITHUB_OUTPUT
+          echo "init=$working_value" >> $GITHUB_OUTPUT
 
   job2:
     environment: ${{ needs.job1.outputs.environment }}
@@ -44,4 +48,4 @@ jobs:
     uses: ./.github/workflows/deploy-phase.yml
     with:
       #component: ${{ steps.set-component.outputs.comp }}
-      initial: ${{ inputs.initial }}  # Access workflow input
+      initial: $working_value  # Access workflow input
