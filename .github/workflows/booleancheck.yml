@@ -38,3 +38,13 @@ jobs:
           echo "Environment is: ${{ needs.job1.outputs.environment }}"
           echo "Component is: ${{ needs.job1.outputs.component }}"
           echo "Initial is: ${{ needs.job1.outputs.initial }}"
+
+  job3:
+     needs: [job1, job2]
+     uses: ./.github/workflows/deploy-phase.yml
+     with:  
+        component:  ${{ steps.set-component.outputs.comp }}
+        initial1: ${{ inputs.initial }}
+        
+    
+  
