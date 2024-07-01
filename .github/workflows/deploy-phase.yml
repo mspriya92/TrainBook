@@ -1,16 +1,29 @@
-name: Caller-workflow
+name: Reusable Workflow
 on:
-  workflow_call:
-   
-        
+  workflow_dispatch:
+   inputs:
+    runTests:
+    description: 'Run unit tests?'
+    required: true
+    type: boolean
+
 jobs:
-  Call-workflow-for-deploy:
-   runs-on: ubuntu-latest
-   steps:
-     - name: checking the value 
-       run: echo "Initial value:${{ inputs.initial }}"
-    
-   
-    
+  test_job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checking input (might be string initially)
+        run: |
+          echo "runTests (string representation): ${{ github.event.inputs.runTests }}"
+
+      - name: Checking input (converted to boolean)
+        run: |
+          working_value=${{ fromJSON(github.event.inputs.runTests) }}
+          echo "runTests (boolean value): $working_value"
+          if [[ $working_value == true ]]; then
+            echo "Running tests"
+          else
+            echo "Skipping tests"
+          fi
+
  
   
