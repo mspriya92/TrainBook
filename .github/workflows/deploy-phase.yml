@@ -9,6 +9,8 @@ on:
         
 jobs:
   Call-workflow-for-deploy:
+   runs-on: ubuntu-latest
+   if [[ "${{ inputs.initial }}"  == "true" ]];
     
    
     
