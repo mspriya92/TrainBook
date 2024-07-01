@@ -8,7 +8,7 @@ jobs:
    runs-on: ubuntu-latest
    steps:
      - name: checking the value 
-       run: echo "Initial value:${{ github.workflow.inputs.initial }}"
+       run: echo "Initial value:${{ inputs.initial }}"
     
    
     
