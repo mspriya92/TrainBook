@@ -1,11 +1,11 @@
 name: inputscheck Workflow
 on:
   workflow_dispatch:
-   inputs:
-    runTests:
-    description: 'Run unit tests?'
-    required: true
-    type: boolean
+    inputs:
+      runTests:
+        description: 'Run unit tests?'
+        required: true
+        type: boolean
 
 jobs:
   test_job:
@@ -18,12 +18,8 @@ jobs:
       - name: Checking input (converted to boolean)
         run: |
           working_value=${{ fromJSON(github.event.inputs.runTests) }}
-          echo "runTests (boolean value): $working_value"
-          if [[ "$working_value" == "true" ]]; then
-            echo "Running tests"
+          if [[ $working_value == true ]]; then
+            echo "Running tests"  # Simplified using boolean value directly
           else
             echo "Skipping tests"
           fi
-
- 
-  
