@@ -1,4 +1,4 @@
-name: Deployphase Workflow
+name: inputscheck Workflow
 on:
   workflow_dispatch:
    inputs:
