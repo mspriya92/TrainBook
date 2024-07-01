@@ -43,5 +43,5 @@ jobs:
     needs: [job1, job2]
     uses: ./.github/workflows/deploy-phase.yml
     with:
-      component: ${{ steps.set-component.outputs.comp }}
+      #component: ${{ steps.set-component.outputs.comp }}
       initial: ${{ github.workflow.inputs.initial }}  # Access workflow input
