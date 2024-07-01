@@ -19,7 +19,7 @@ jobs:
         run: |
           working_value=${{ fromJSON(github.event.inputs.runTests) }}
           echo "runTests (boolean value): $working_value"
-          if [[ $working_value == true ]]; then
+          if [[ "$working_value" == "true" ]]; then
             echo "Running tests"
           else
             echo "Skipping tests"
