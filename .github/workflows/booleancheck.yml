@@ -44,4 +44,4 @@ jobs:
     uses: ./.github/workflows/deploy-phase.yml
     with:
       #component: ${{ steps.set-component.outputs.comp }}
-      initial1: ${{ inputs.initial }}  # Access workflow input
+      initial: ${{ inputs.initial }}  # Access workflow input
