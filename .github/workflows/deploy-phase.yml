@@ -1,16 +1,14 @@
 name: Caller-workflow
 on:
   workflow_call:
-   inputs:
-      initial:
-        description: 'Choose the env to deploy (Dev and Prod)?'
-        required: true
-        type: boolean
+   
         
 jobs:
   Call-workflow-for-deploy:
    runs-on: ubuntu-latest
-   if [[ "${{ inputs.initial }}"  == "true" ]];
+   steps:
+     - name: checking the value 
+       run: echo "Initial value:${{ github.workflow.inputs.initial }}"
     
    
     
