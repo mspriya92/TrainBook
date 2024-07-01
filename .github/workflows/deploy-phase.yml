@@ -1,0 +1,16 @@
+name: Caller-workflow
+on:
+  workflow_call:
+   inputs:
+      initial:
+        description: 'Choose the env to deploy (Dev and Prod)?'
+        required: true
+        type: boolean
+        
+jobs:
+  Call-workflow-for-deploy:
+    
+   
+    
+ 
+  
