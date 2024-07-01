@@ -1,4 +1,4 @@
-name: Reusable Workflow
+name: Deployphase Workflow
 on:
   workflow_dispatch:
    inputs:
