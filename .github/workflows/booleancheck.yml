@@ -19,12 +19,12 @@ jobs:
     steps:
       
       - name: Checking input (might be string initially)
-        run: echo " runTests (string representation):${{ (github.event.inputs.runTests) }}"
+        run: echo " runTests (string representation):true"
      
       - name: Set component
         id: set-component
         run: |
-          working_value=${{ fromJSON(github.event.inputs.runTests) }}
+          working_value=${{ fromJSON(true) }}
           echo "env=dev" >> $GITHUB_OUTPUT
           echo "comp=fullstack" >> $GITHUB_OUTPUT
           echo "init=$working_value" >> $GITHUB_OUTPUT
