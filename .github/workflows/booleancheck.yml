@@ -43,9 +43,4 @@ jobs:
           echo "Component is: ${{ needs.job1.outputs.component }}"
           echo "Initial is: ${{ needs.job1.outputs.initial }}"
 
-  job3:
-    needs: [job1, job2]
-    uses: ./.github/workflows/deploy-phase.yml
-    with:
-      #component: ${{ steps.set-component.outputs.comp }}
-      initial: $working_value  # Access workflow input
+ 
